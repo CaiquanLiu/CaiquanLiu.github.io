@@ -1,0 +1,793 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="机器学习/深度学习," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="应用场景假设你有一个商品的数据库，比如：    商品名称 价格      椅子 200元/个   香蕉 6元/斤   冰箱 2000元/台    现在通过用户的输入来检索商品的价格，最简单的方法就是通过字符串进行匹配，比如，用户输入“椅子”，就用“椅子”作为关键字进行搜索，很容易找到椅子的价格就是200元/个。但有时用户输入的是“凳子”，如果按照字符串匹配的方法，只能返回给用户，没有此商品。但实际">
+<meta name="keywords" content="机器学习&#x2F;深度学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于word2vec的词语相似度计算">
+<meta property="og:url" content="http://yoursite.com/2017/09/30/基于word2vec的词语相似度计算/index.html">
+<meta property="og:site_name" content="才权的博客">
+<meta property="og:description" content="应用场景假设你有一个商品的数据库，比如：    商品名称 价格      椅子 200元/个   香蕉 6元/斤   冰箱 2000元/台    现在通过用户的输入来检索商品的价格，最简单的方法就是通过字符串进行匹配，比如，用户输入“椅子”，就用“椅子”作为关键字进行搜索，很容易找到椅子的价格就是200元/个。但有时用户输入的是“凳子”，如果按照字符串匹配的方法，只能返回给用户，没有此商品。但实际">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-29T15:20:52.626Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于word2vec的词语相似度计算">
+<meta name="twitter:description" content="应用场景假设你有一个商品的数据库，比如：    商品名称 价格      椅子 200元/个   香蕉 6元/斤   冰箱 2000元/台    现在通过用户的输入来检索商品的价格，最简单的方法就是通过字符串进行匹配，比如，用户输入“椅子”，就用“椅子”作为关键字进行搜索，很容易找到椅子的价格就是200元/个。但有时用户输入的是“凳子”，如果按照字符串匹配的方法，只能返回给用户，没有此商品。但实际">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/30/基于word2vec的词语相似度计算/"/>
+
+
+
+
+
+  <title> 基于word2vec的词语相似度计算 | 才权的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4e94c4c1ded5d320541370545af638ea";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">才权的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/30/基于word2vec的词语相似度计算/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liu Caiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="才权的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                基于word2vec的词语相似度计算
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-30T16:37:28+08:00">
+                2017-09-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h1><p>假设你有一个商品的数据库，比如：</p>
+<table>
+<thead>
+<tr>
+<th>商品名称</th>
+<th>价格 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>椅子</td>
+<td>200元/个</td>
+</tr>
+<tr>
+<td>香蕉</td>
+<td>6元/斤</td>
+</tr>
+<tr>
+<td>冰箱</td>
+<td>2000元/台</td>
+</tr>
+</tbody>
+</table>
+<p>现在通过用户的输入来检索商品的价格，最简单的方法就是通过字符串进行匹配，比如，<br>用户输入“椅子”，就用“椅子”作为关键字进行搜索，很容易找到椅子的价格就是200元/个。<br>但有时用户输入的是“凳子”，如果按照字符串匹配的方法，只能返回给用户，没有此商品。但实际上可以把“椅子”的结果返回给用户参考。这种泛化的能力，通过简单的字符串匹配是显然不能实现的。</p>
+<h1 id="词语相似度计算"><a href="#词语相似度计算" class="headerlink" title="词语相似度计算"></a>词语相似度计算</h1><p>在上面的例子中，“凳子”跟“椅子”的语意更相近，跟“香蕉”或“冰箱”的语意相对较远。在商品搜索的过程中，可以计算用户输入的关键字与数据库中商品名间的相似度，在商品数据库中找出相似度最大的商品，推荐给用户。这种相近的程度就是词语的相似度。在实际的工程开发中可以通过word2vec实现词语相似度的计算。</p>
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><pre><code>from sklearn.datasets import fetch_20newsgroups
+
+news = fetch_20newsgroups(subset=&apos;all&apos;)
+X, y = news.data, news.target
+
+from bs4 import BeautifulSoup
+import nltk, re
+
+
+# 把段落分解成由句子组成的list（每个句子又被分解成词语）
+def news_to_sentences(news):
+    news_text = BeautifulSoup(news, &apos;lxml&apos;).get_text()
+    tokenizer = nltk.data.load(&apos;tokenizers/punkt/english.pickle&apos;)
+    raw_sentences = tokenizer.tokenize(news_text)
+
+    # 对每个句子进行处理，分解成词语
+    sentences = []
+    for sent in raw_sentences:
+        sentences.append(re.sub(&apos;[^a-zA-Z]&apos;, &apos; &apos;, sent.lower().strip()).split())
+    return sentences
+
+
+sentences = []
+
+for x in X:
+    sentences += news_to_sentences(x)
+
+# import numpy
+# # 将预处理过的&quot;词库&quot;保存到文件中，便于调试
+# numpy_array = numpy.array(sentences)
+# numpy.save(&apos;sentences.npy&apos;, numpy_array)
+#
+# # 将预处理后的&quot;词库&quot;从文件中读出，便于调试
+# numpy_array = numpy.load(&apos;sentences.npy&apos;)
+# sentences = numpy_array.tolist()
+
+num_features = 300
+min_word_count = 20
+num_workers = 2
+context = 5
+downsampling = 1e-3
+
+from gensim.models import word2vec
+
+model = word2vec.Word2Vec(sentences, workers=num_workers,         size=num_features, min_count=min_word_count, window=context,
+                      sample=downsampling)
+
+model.init_sims(replace=True)
+
+# 保存word2vec训练参数便于调试
+# model.wv.save_word2vec_format(&apos;word2vec_model.bin&apos;, binary=True)
+# model.wv.load_word2vec_format(&apos;word2vec_model.bin&apos;, binary=True)
+
+print &apos;词语相似度计算：&apos;
+print &apos;morning vs morning:&apos;
+print model.n_similarity(&apos;morning&apos;, &apos;morning&apos;)
+print &apos;morning vs afternoon:&apos;
+print model.n_similarity(&apos;morning&apos;, &apos;afternoon&apos;)
+print &apos;morning vs hello:&apos;
+print model.n_similarity(&apos;morning&apos;, &apos;hellow&apos;)
+print &apos;morning vs shell:&apos;
+print model.n_similarity(&apos;morning&apos;, &apos;shell&apos;)
+</code></pre><h1 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h1><pre><code>/Users/liucaiquan/anaconda/bin/python /Users/liucaiquan/PycharmProjects/WordSimilarityCalculation/src/test.py
+词语相似度计算：
+morning vs morning:
+1.0
+morning vs afternoon:
+0.871482091583
+morning vs hello:
+0.731609166442
+morning vs shell:
+0.709714434122
+</code></pre><h1 id="调试技巧"><a href="#调试技巧" class="headerlink" title="调试技巧"></a>调试技巧</h1><p>在开发调试的过程中，会出现错误，需要重新运行程序。如果每次修改后，都从头开始执行，肯定会消耗很多无用的时间。比如，预处理后的文本结果和word2vec的训练参数，这些中间结果可以保持下来，当遇到问题时，就可以从文件中读取结果，而不需要每次都从头开始。</p>
+<h1 id="源码下载地址"><a href="#源码下载地址" class="headerlink" title="源码下载地址"></a>源码下载地址</h1><p><a href="https://github.com/CaiquanLiu/MachineLearning" target="_blank" rel="external">https://github.com/CaiquanLiu/MachineLearning</a></p>
+<h1 id="代码参考"><a href="#代码参考" class="headerlink" title="代码参考"></a>代码参考</h1><p>《Python机器学习及实践：从零开始通往Kaggle竞赛之路》</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习-深度学习/" rel="tag"># 机器学习/深度学习</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/21/基于Python-Hyper实现Http2的multipart-form-data数据上传/" rel="next" title="基于Python Hyper实现Http2的multipart/form-data数据上传">
+                <i class="fa fa-chevron-left"></i> 基于Python Hyper实现Http2的multipart/form-data数据上传
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/30/Step-by-Step带你玩转DuerOS-写在最前面（0）/" rel="prev" title="Step-by-Step带你玩转DuerOS-写在最前面（0）">
+                Step-by-Step带你玩转DuerOS-写在最前面（0） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Liu Caiquan" />
+          <p class="site-author-name" itemprop="name">Liu Caiquan</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#应用场景"><span class="nav-number">1.</span> <span class="nav-text">应用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#词语相似度计算"><span class="nav-number">2.</span> <span class="nav-text">词语相似度计算</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码实现"><span class="nav-number">3.</span> <span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#运行结果"><span class="nav-number">4.</span> <span class="nav-text">运行结果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#调试技巧"><span class="nav-number">5.</span> <span class="nav-text">调试技巧</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#源码下载地址"><span class="nav-number">6.</span> <span class="nav-text">源码下载地址</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码参考"><span class="nav-number">7.</span> <span class="nav-text">代码参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liu Caiquan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,786 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="物联网(IOT)," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="开箱清单正常情况下，树莓派开箱只有一块主控板，显然是无法正常运行的。 开机必要配件 tf卡：最好是已安装了raspbain系统（系统从tf卡启动）； micro USB线（树莓派通过micro USB进行供电）； 5V电源（可选，可以通过USB线从电脑取电）； 交互模式添加了上面的配件树莓派就可以正常工作了，但没有输入和输出配件，对应使用者和开发者都是毫无意义的。 1屏幕+键盘+鼠标最简单的交互方">
+<meta name="keywords" content="物联网(IOT)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="树莓派平台开发-开箱使用">
+<meta property="og:url" content="http://yoursite.com/2017/07/06/树莓派平台开发-开箱使用/index.html">
+<meta property="og:site_name" content="才权的博客">
+<meta property="og:description" content="开箱清单正常情况下，树莓派开箱只有一块主控板，显然是无法正常运行的。 开机必要配件 tf卡：最好是已安装了raspbain系统（系统从tf卡启动）； micro USB线（树莓派通过micro USB进行供电）； 5V电源（可选，可以通过USB线从电脑取电）； 交互模式添加了上面的配件树莓派就可以正常工作了，但没有输入和输出配件，对应使用者和开发者都是毫无意义的。 1屏幕+键盘+鼠标最简单的交互方">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2017/07/06/树莓派平台开发-开箱使用/IP嗅探器扫描.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/06/树莓派平台开发-开箱使用/interfaces文件修改.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/06/树莓派平台开发-开箱使用/etcwpa.conf文件修改.png">
+<meta property="og:updated_time" content="2019-03-29T15:20:52.627Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="树莓派平台开发-开箱使用">
+<meta name="twitter:description" content="开箱清单正常情况下，树莓派开箱只有一块主控板，显然是无法正常运行的。 开机必要配件 tf卡：最好是已安装了raspbain系统（系统从tf卡启动）； micro USB线（树莓派通过micro USB进行供电）； 5V电源（可选，可以通过USB线从电脑取电）； 交互模式添加了上面的配件树莓派就可以正常工作了，但没有输入和输出配件，对应使用者和开发者都是毫无意义的。 1屏幕+键盘+鼠标最简单的交互方">
+<meta name="twitter:image" content="http://yoursite.com/2017/07/06/树莓派平台开发-开箱使用/IP嗅探器扫描.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/06/树莓派平台开发-开箱使用/"/>
+
+
+
+
+
+  <title> 树莓派平台开发-开箱使用 | 才权的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4e94c4c1ded5d320541370545af638ea";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">才权的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/06/树莓派平台开发-开箱使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liu Caiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="才权的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                树莓派平台开发-开箱使用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-06T23:31:56+08:00">
+                2017-07-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="开箱清单"><a href="#开箱清单" class="headerlink" title="开箱清单"></a>开箱清单</h2><p>正常情况下，树莓派开箱只有一块主控板，显然是无法正常运行的。</p>
+<h2 id="开机必要配件"><a href="#开机必要配件" class="headerlink" title="开机必要配件"></a>开机必要配件</h2><ul>
+<li>tf卡：最好是已安装了raspbain系统（系统从tf卡启动）；</li>
+<li>micro USB线（树莓派通过micro USB进行供电）；</li>
+<li><p>5V电源（可选，可以通过USB线从电脑取电）；</p>
+<h2 id="交互模式"><a href="#交互模式" class="headerlink" title="交互模式"></a>交互模式</h2><p>添加了上面的配件树莓派就可以正常工作了，但没有输入和输出配件，对应使用者和开发者都是毫无意义的。</p>
+<h3 id="1屏幕-键盘-鼠标"><a href="#1屏幕-键盘-鼠标" class="headerlink" title="1屏幕+键盘+鼠标"></a>1屏幕+键盘+鼠标</h3><p>最简单的交互方式就是和台式机一样通过屏幕、鼠标、键盘进行交互。必要配件：</p>
+</li>
+<li><p>HDMI线（树莓派只提供了HDMI接口）；</p>
+</li>
+<li>键盘；</li>
+<li>鼠标；</li>
+</ul>
+<p>这样上电开机就和使用普通的Linux主机一样了。<br>很多时候显示器只有VGA接口，这时候需要添加配件：</p>
+<ul>
+<li>HDMI转VGA接口（要求使用有源接口，无源接口可能会损坏树莓派主板）；</li>
+</ul>
+<p>同时，需要修改tf卡中的配置文件（config.txt文件），如：</p>
+<pre><code># For more options and information see
+# http://rpf.io/configtxtreadme
+# Some settings may impact device functionality. See link above for details
+
+# uncomment if you get no picture on HDMI for a default &quot;safe&quot; mode
+#hdmi_safe=1
+
+# uncomment this if your display has a black border of unused pixels visible
+# and your display can output without overscan
+disable_overscan=1
+
+# uncomment the following to adjust overscan. Use positive numbers if console
+# goes off screen, and negative if there is too much border
+#overscan_left=16
+#overscan_right=16
+#overscan_top=16
+#overscan_bottom=16
+
+# uncomment to force a console size. By default it will be display&apos;s size minus
+# overscan.
+#framebuffer_width=1280
+#framebuffer_height=720
+
+# uncomment if hdmi display is not detected and composite is being output
+hdmi_force_hotplug=1
+
+# uncomment to force a specific HDMI mode (this will force VGA)
+hdmi_group=2
+hdmi_mode=9
+
+# uncomment to force a HDMI mode rather than DVI. This can make audio work in
+# DMT (computer monitor) modes
+hdmi_drive=2
+
+# uncomment to increase signal to HDMI, if you have interference, blanking, or
+# no display
+config_hdmi_boost=4
+
+# uncomment for composite PAL
+#sdtv_mode=2
+
+#uncomment to overclock the arm. 700 MHz is the default.
+#arm_freq=800
+
+# Uncomment some or all of these to enable the optional hardware interfaces
+#dtparam=i2c_arm=on
+#dtparam=i2s=on
+#dtparam=spi=on
+
+# Uncomment this to enable the lirc-rpi module
+#dtoverlay=lirc-rpi
+
+# Additional overlays and parameters are documented /boot/overlays/README
+
+# Enable audio (loads snd_bcm2835)
+dtparam=audio=on
+
+#dtoverlay=hifiberry-dacplus
+</code></pre><p>参考：<a href="http://www.jianshu.com/p/1b5f21fbb928" target="_blank" rel="external">http://www.jianshu.com/p/1b5f21fbb928</a></p>
+<h3 id="2-SSH远程登录"><a href="#2-SSH远程登录" class="headerlink" title="2 SSH远程登录"></a>2 SSH远程登录</h3><p>raspbain系统默认开启了ssh服务，可以通过终端进行登录，这里终端推荐Putty；<br>ssh登录需要知道树莓派的IP地址、用户名和密码；<br>其中，树莓派的默认用户名和密码为：</p>
+<ul>
+<li>用户名：pi；</li>
+<li>密码：raspberry</li>
+</ul>
+<p>IP的获取，可以通过IP嗅探器来获取，比如Advanced IP Scanner。将树莓派同扫描器的宿主主机置于同一网段（比如连接到同一路由器）。</p>
+<p><img src="/2017/07/06/树莓派平台开发-开箱使用/IP嗅探器扫描.png" alt="IP嗅探器扫描"></p>
+<p>扫描到IP后，就可以通过SSH进行登录。</p>
+<h2 id="上网"><a href="#上网" class="headerlink" title="上网"></a>上网</h2><p>通过修改/etc/network/interfaces配置文件实现上网配置，如：<br><img src="/2017/07/06/树莓派平台开发-开箱使用/interfaces文件修改.png" alt="interfaces文件修改"></p>
+<p><img src="/2017/07/06/树莓派平台开发-开箱使用/etcwpa.conf文件修改.png" alt="/etc/wpa.conf文件修改"></p>
+<p>参考：<a href="http://shumeipai.nxez.com/2016/09/17/raspberry-pi-set-up-a-wireless-internet-access.html" target="_blank" rel="external">http://shumeipai.nxez.com/2016/09/17/raspberry-pi-set-up-a-wireless-internet-access.html</a></p>
+<p>至此，树莓派就基本满足使用和开发需求了。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/物联网-IOT/" rel="tag"># 物联网(IOT)</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/06/从嵌入式到互联网-非典型程序员的个人书单/" rel="next" title="从嵌入式到互联网-非典型程序员的个人书单">
+                <i class="fa fa-chevron-left"></i> 从嵌入式到互联网-非典型程序员的个人书单
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/06/嵌入式开发环境搭建（包括Android-NDK开发）/" rel="prev" title="嵌入式开发环境搭建（包括Android NDK开发）">
+                嵌入式开发环境搭建（包括Android NDK开发） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Liu Caiquan" />
+          <p class="site-author-name" itemprop="name">Liu Caiquan</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开箱清单"><span class="nav-number">1.</span> <span class="nav-text">开箱清单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开机必要配件"><span class="nav-number">2.</span> <span class="nav-text">开机必要配件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#交互模式"><span class="nav-number">3.</span> <span class="nav-text">交互模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1屏幕-键盘-鼠标"><span class="nav-number">3.1.</span> <span class="nav-text">1屏幕+键盘+鼠标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-SSH远程登录"><span class="nav-number">3.2.</span> <span class="nav-text">2 SSH远程登录</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上网"><span class="nav-number">4.</span> <span class="nav-text">上网</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liu Caiquan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,753 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="DuerOS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="在前一个帖子中，给大家带来了Python版本的DuerOS SDK。但DuerOS的测试环境却声明为Ubuntu，相信很多同学会疑惑：Python不是跨平台的吗？为什么要限制测试平台呢？真实的情况呢是这样的：首先，Python跨平台这个没毛病。但问题在于DuerOS运行所需要的依赖环境确实跟平台相关的。比如DuerOS是基于Http2 ALPN的，但树莓派官方镜像的OpenSSL并不支持，而对应的">
+<meta name="keywords" content="DuerOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Step by Step带你玩转DuerOS - Python DuerOS SDK[树莓派平台] (3)">
+<meta property="og:url" content="http://yoursite.com/2017/11/11/Step-by-Step带你玩转DuerOS-Python-DuerOS-SDK-树莓派平台-3/index.html">
+<meta property="og:site_name" content="才权的博客">
+<meta property="og:description" content="在前一个帖子中，给大家带来了Python版本的DuerOS SDK。但DuerOS的测试环境却声明为Ubuntu，相信很多同学会疑惑：Python不是跨平台的吗？为什么要限制测试平台呢？真实的情况呢是这样的：首先，Python跨平台这个没毛病。但问题在于DuerOS运行所需要的依赖环境确实跟平台相关的。比如DuerOS是基于Http2 ALPN的，但树莓派官方镜像的OpenSSL并不支持，而对应的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-b8e7c555be24d4fb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-caca627041b10380.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-03-29T15:20:52.614Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Step by Step带你玩转DuerOS - Python DuerOS SDK[树莓派平台] (3)">
+<meta name="twitter:description" content="在前一个帖子中，给大家带来了Python版本的DuerOS SDK。但DuerOS的测试环境却声明为Ubuntu，相信很多同学会疑惑：Python不是跨平台的吗？为什么要限制测试平台呢？真实的情况呢是这样的：首先，Python跨平台这个没毛病。但问题在于DuerOS运行所需要的依赖环境确实跟平台相关的。比如DuerOS是基于Http2 ALPN的，但树莓派官方镜像的OpenSSL并不支持，而对应的">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4905018-b8e7c555be24d4fb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/11/Step-by-Step带你玩转DuerOS-Python-DuerOS-SDK-树莓派平台-3/"/>
+
+
+
+
+
+  <title> Step by Step带你玩转DuerOS - Python DuerOS SDK[树莓派平台] (3) | 才权的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4e94c4c1ded5d320541370545af638ea";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">才权的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/11/Step-by-Step带你玩转DuerOS-Python-DuerOS-SDK-树莓派平台-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liu Caiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="才权的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Step by Step带你玩转DuerOS - Python DuerOS SDK[树莓派平台] (3)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-11T21:41:26+08:00">
+                2017-11-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在前一个帖子中，给大家带来了Python版本的DuerOS SDK。但DuerOS的测试环境却声明为Ubuntu，相信很多同学会疑惑：Python不是跨平台的吗？为什么要限制测试平台呢？真实的情况呢是这样的：<br>首先，Python跨平台这个没毛病。但问题在于DuerOS运行所需要的依赖环境确实跟平台相关的。比如DuerOS是基于Http2 ALPN的，但树莓派官方镜像的OpenSSL并不支持，而对应的Python库依赖于OpenSSL。为了在树莓派平台上支持Python的DuerOS SDK，专门交叉编译了OpenSSL和Python。<br>所以，这里限制了平台主要是方便同学能将DuerOS快速的Run起来。当然，如果想在MacOS、Windows平台运行DuerOS Python SDK也是没问题的，只是在依赖配置方面可能要多花些时间。<br>好了，废话不多说，直接上干货：</p>
+<h1 id="树莓派DuerOS-Python-版本支持"><a href="#树莓派DuerOS-Python-版本支持" class="headerlink" title="树莓派DuerOS Python 版本支持"></a>树莓派DuerOS Python 版本支持</h1><p>##准备<br>按照个人版使用说明完成如下3步（<a href="http://open.duer.baidu.com/doc/device-devkit/intro_markdown" target="_blank" rel="external">http://open.duer.baidu.com/doc/device-devkit/intro_markdown</a>）</p>
+<ul>
+<li>镜像下载，烧录安装</li>
+<li>配网</li>
+<li>验证“小度小度”</li>
+</ul>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><ol>
+<li><p>停止现有小度功能，因为会占用MIC资源</p>
+<pre><code>sudo systemctl disable duer
+sudo systemctl stop duer
+</code></pre></li>
+<li><p>安装依赖包</p>
+<pre><code>sudo apt-get update
+sudo apt-get install python-dateutil
+sudo apt-get install gir1.2-gstreamer-1.0
+sudo apt-get install python-pyaudio
+sudo apt-get install libatlas-base-dev
+sudo apt-get install python-dev        
+sudo pip install tornado
+sudo pip install hyper
+</code></pre><p>hyper库用来支持http2.0 client, pyaudio用来支持录音，tornado用来完成oauth认证。</p>
+</li>
+<li><p>下载编译好的openssl和Python安装包，并进行安装, <strong>需要更新openssl才能支持python sdk的使用</strong>。</p>
+<pre><code>*从如下地址下载openssl安装包*(链接: https://pan.baidu.com/s/1skAP6WH 密码: wknz)
+*从如下地址下载python2.7.14安装包*(链接: https://pan.baidu.com/s/1o8MHkzK 密码: ngx4)
+
+ tar -zxvf openssl1.1.tar.gz -C /usr
+ tar -zxvf python2.7.14.tar.gz -C /usr/local/
+ sudo rm -rf /usr/bin/python
+ sudo ln -s /usr/local/python2.7.14/bin/python /usr/bin/python
+</code></pre></li>
+<li><p>下载Python SDK和参考示例代码</p>
+<pre><code>git clone https://github.com/MyDuerOS/DuerOS-Python-Client.git
+cd DuerOS-Python-Client
+git checkout raspberry-dev
+</code></pre></li>
+</ol>
+<p>##运行和测试</p>
+<ol>
+<li><p>授权</p>
+<pre><code>./auth.py
+</code></pre><p>直接运行使用默认的client_id和client_secret，开发者可以替换成自己在DuerOS开放平台申请的client_id和client_secret，进而实现在控制台自定义的配置属性。</p>
+</li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/4905018-b8e7c555be24d4fb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="app/auth.py"></p>
+<p>其中，<br>需要在开放平台中“安全设置”的“授权回调页”，设置成  </p>
+<pre><code>http://127.0.0.1:3000/authresponse
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/4905018-caca627041b10380.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="授权回调页设置"></p>
+<ol>
+<li><p>唤醒加识别</p>
+<pre><code>./wakeup_trigger_start.sh
+</code></pre></li>
+<li><p>enter按键触发识别</p>
+<pre><code>./enter_trigger_start.sh
+</code></pre></li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/DuerOS/" rel="tag"># DuerOS</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/11/Step-by-Step带你玩转DuerOS-DuerOS能力初体验-2/" rel="next" title="Step by Step带你玩转DuerOS - DuerOS能力初体验(2)">
+                <i class="fa fa-chevron-left"></i> Step by Step带你玩转DuerOS - DuerOS能力初体验(2)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/11/Step-by-Step带你玩转DuerOS-OAuth2-0全面解析-4/" rel="prev" title="Step by Step带你玩转DuerOS - OAuth2.0全面解析 (4)">
+                Step by Step带你玩转DuerOS - OAuth2.0全面解析 (4) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Liu Caiquan" />
+          <p class="site-author-name" itemprop="name">Liu Caiquan</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#树莓派DuerOS-Python-版本支持"><span class="nav-number">1.</span> <span class="nav-text">树莓派DuerOS Python 版本支持</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#开始"><span class="nav-number">1.1.</span> <span class="nav-text">开始</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liu Caiquan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

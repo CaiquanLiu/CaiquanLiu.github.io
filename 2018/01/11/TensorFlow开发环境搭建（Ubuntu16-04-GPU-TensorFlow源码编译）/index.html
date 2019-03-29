@@ -1,0 +1,794 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="机器学习/深度学习," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="1 安装选择1.1 平台目前TensorFlow已支持Mac、Ubuntu和Windows三个主流平台（64位平台）， 1.2 GPU vs CPU在安装时可以选择安装版本是否支持GPU， 1.3 二进制安装 vs 源码安装同时，安装时可以考虑采用二进制安装，还是源码安装， 1.4 二进制安装选择二进制安装可以有多种选择， 1.5 实际使用选择手头上有两台电脑，  MacBook Pro (Ret">
+<meta name="keywords" content="机器学习&#x2F;深度学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TensorFlow开发环境搭建（Ubuntu16.04+GPU+TensorFlow源码编译）">
+<meta property="og:url" content="http://yoursite.com/2018/01/11/TensorFlow开发环境搭建（Ubuntu16-04-GPU-TensorFlow源码编译）/index.html">
+<meta property="og:site_name" content="才权的博客">
+<meta property="og:description" content="1 安装选择1.1 平台目前TensorFlow已支持Mac、Ubuntu和Windows三个主流平台（64位平台）， 1.2 GPU vs CPU在安装时可以选择安装版本是否支持GPU， 1.3 二进制安装 vs 源码安装同时，安装时可以考虑采用二进制安装，还是源码安装， 1.4 二进制安装选择二进制安装可以有多种选择， 1.5 实际使用选择手头上有两台电脑，  MacBook Pro (Ret">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-d562d05d81808e9b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-63dce636960a5e42.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-caff1336d1dd1238.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-6d617b3d2e736011.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-d71f88879413fe85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-1c28d7c5a2928ca9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-aee83a196d31033d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-f5576ff594245afb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-01725f875ea14762.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-03-29T15:20:52.620Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TensorFlow开发环境搭建（Ubuntu16.04+GPU+TensorFlow源码编译）">
+<meta name="twitter:description" content="1 安装选择1.1 平台目前TensorFlow已支持Mac、Ubuntu和Windows三个主流平台（64位平台）， 1.2 GPU vs CPU在安装时可以选择安装版本是否支持GPU， 1.3 二进制安装 vs 源码安装同时，安装时可以考虑采用二进制安装，还是源码安装， 1.4 二进制安装选择二进制安装可以有多种选择， 1.5 实际使用选择手头上有两台电脑，  MacBook Pro (Ret">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4905018-d562d05d81808e9b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/11/TensorFlow开发环境搭建（Ubuntu16-04-GPU-TensorFlow源码编译）/"/>
+
+
+
+
+
+  <title> TensorFlow开发环境搭建（Ubuntu16.04+GPU+TensorFlow源码编译） | 才权的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4e94c4c1ded5d320541370545af638ea";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">才权的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/11/TensorFlow开发环境搭建（Ubuntu16-04-GPU-TensorFlow源码编译）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liu Caiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="才权的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                TensorFlow开发环境搭建（Ubuntu16.04+GPU+TensorFlow源码编译）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-11T20:47:36+08:00">
+                2018-01-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-安装选择"><a href="#1-安装选择" class="headerlink" title="1 安装选择"></a>1 安装选择</h1><h2 id="1-1-平台"><a href="#1-1-平台" class="headerlink" title="1.1 平台"></a>1.1 平台</h2><p>目前TensorFlow已支持Mac、Ubuntu和Windows三个主流平台（64位平台），<br><img src="http://upload-images.jianshu.io/upload_images/4905018-d562d05d81808e9b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="https://www.tensorflow.org/install/"></p>
+<h2 id="1-2-GPU-vs-CPU"><a href="#1-2-GPU-vs-CPU" class="headerlink" title="1.2 GPU vs CPU"></a>1.2 GPU vs CPU</h2><p>在安装时可以选择安装版本是否支持GPU，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-63dce636960a5e42.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="https://www.tensorflow.org/install/install_linux"></p>
+<h2 id="1-3-二进制安装-vs-源码安装"><a href="#1-3-二进制安装-vs-源码安装" class="headerlink" title="1.3 二进制安装 vs 源码安装"></a>1.3 二进制安装 vs 源码安装</h2><p>同时，安装时可以考虑采用二进制安装，还是源码安装，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-caff1336d1dd1238.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="https://www.tensorflow.org/install/"></p>
+<h2 id="1-4-二进制安装选择"><a href="#1-4-二进制安装选择" class="headerlink" title="1.4 二进制安装选择"></a>1.4 二进制安装选择</h2><p>二进制安装可以有多种选择，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-6d617b3d2e736011.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="https://www.tensorflow.org/install/install_linux"></p>
+<h2 id="1-5-实际使用选择"><a href="#1-5-实际使用选择" class="headerlink" title="1.5 实际使用选择"></a>1.5 实际使用选择</h2><p>手头上有两台电脑，</p>
+<ul>
+<li>MacBook Pro (Retina, 13-inch, Early 2015)<br>处理器：2.7 GHz Intel Core i5<br>内存：8GB 1867MHz DDR3<br>显卡：Intel Iris Graphics 6100 1536MB</li>
+<li>攀升兄弟组装台式机<br>处理器：英特尔 Core i7-6700 @3.40GHz 四核<br>主板：华硕 B150M-ET M2 SERIES<br>内存：8G（威刚DDR4 2801MHz）<br>硬盘：三星 MZ7TE256HMHP-00000（256GB/固态硬盘）<br>显卡：Nvidia GeForce GTX 950(2GB)</li>
+</ul>
+<p>其中，<br>MacBook Pro采用基于Anaconda的二进制安装方式（仅支持CPU）。Anaconda是一个集成平台，包含大多数机器学习的常用工具，</p>
+<ul>
+<li>NumPy：科学运算包</li>
+<li>SciPy：在NumPy的基础上构建，功能更加强大的科学计算包</li>
+<li>Matplotlib：类似Matlab的绘图工具包</li>
+<li>Scikit-learn：经典机器学习工具包</li>
+<li>Pandas：数据处理和分析工具包（可用于数据读写、清洗、填充和分析等场景）<br>采用Anaconda安装方案，一方面MacBook Pro的开发环境很容易搭建（几句命令即可完成），另一方面，基于Anaconda的环境，也可以方便验证简单的机器学习算法。</li>
+</ul>
+<p>对于台式机则采用了Ubuntu+GPU+TensorFlow源码编译的方式，进行TensorFlow环境搭建，下面我们着重介绍下这种安装方式。</p>
+<h1 id="2-Ubuntu16-04-TensorFlow-GPU-源码编译"><a href="#2-Ubuntu16-04-TensorFlow-GPU-源码编译" class="headerlink" title="2 Ubuntu16.04+TensorFlow(GPU)源码编译"></a>2 Ubuntu16.04+TensorFlow(GPU)源码编译</h1><h2 id="2-1-Ubuntu系统安装"><a href="#2-1-Ubuntu系统安装" class="headerlink" title="2.1 Ubuntu系统安装"></a>2.1 Ubuntu系统安装</h2><p>目前，大多数计算机，包括台式机已没有了光驱，同时，Ubuntu的系统安装盘也不易获得。针对这种情况，我们可以采用U盘来进行安装。具体步骤可以参考：<a href="http://www.linuxidc.com/Linux/2016-04/130520.htm" target="_blank" rel="external">《Ubuntu 16.04 U盘安装图文教程》</a></p>
+<h2 id="2-2-禁用UEFI安全启动"><a href="#2-2-禁用UEFI安全启动" class="headerlink" title="2.2 禁用UEFI安全启动"></a>2.2 禁用UEFI安全启动</h2><p>对于华硕 B150M-ET主板，UEFI默认是开启的。而UEFI开启会导致第三方驱动安装失败（如显卡驱动，这是源码编译安装GPU支持的TensorFlow，遇到的第一个坑）。具体步骤可以参考：<a href="https://www.cnblogs.com/zhaofenqiang/p/6071385.html?utm_source=itdadao&amp;utm_medium=referral" target="_blank" rel="external">《华硕主板禁用UEFI安全启动》</a></p>
+<h2 id="2-3-安装NVIDIA驱动"><a href="#2-3-安装NVIDIA驱动" class="headerlink" title="2.3 安装NVIDIA驱动"></a>2.3 安装NVIDIA驱动</h2><h3 id="2-3-1-安装方式"><a href="#2-3-1-安装方式" class="headerlink" title="2.3.1 安装方式"></a>2.3.1 安装方式</h3><p>英伟达的显卡驱动有三种方式：</p>
+<ul>
+<li>apt-get+系统设置安装</li>
+<li>安装CUDA时顺便安装</li>
+<li><p>官方下载最新驱动并安装<br>参考：<a href="http://blog.csdn.net/cosmoshua/article/details/76644029" target="_blank" rel="external">《Ubuntu 16.04安装NVIDIA驱动》</a></p>
+<h3 id="2-3-2-安装步骤"><a href="#2-3-2-安装步骤" class="headerlink" title="2.3.2 安装步骤"></a>2.3.2 安装步骤</h3><p>本文采用第一种方案：</p>
+<pre><code>sudo apt-get install nvidia-367
+</code></pre></li>
+</ul>
+<p>然后进入：System Settings-&gt;Software&amp;Updates-&gt;Additional Drivers-&gt;，选择NVIDIA Corporation[Using NVIDIA binary driver]</p>
+<h3 id="2-3-3-验证测试"><a href="#2-3-3-验证测试" class="headerlink" title="2.3.3 验证测试"></a>2.3.3 验证测试</h3><pre><code>nvidia-smi #若列出GPU的信息列表，表示驱动安装成功
+nvidia-settings #若弹出设置对话框，亦表示驱动安装成功
+</code></pre><h2 id="2-4-安装CUDA"><a href="#2-4-安装CUDA" class="headerlink" title="2.4 安装CUDA"></a>2.4 安装CUDA</h2><p>CUDA(Compute Unified Device Architecture)，是显卡厂商NVIDIA推出的运算平台。可以理解成基于GPU并行计算的应用层接口。<br><a href="https://developer.nvidia.com/cuda-80-download-archive" target="_blank" rel="external">CUDA8.0下载地址</a><br><img src="http://upload-images.jianshu.io/upload_images/4905018-d71f88879413fe85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="https://developer.nvidia.com/cuda-80-download-archive"><br>安装Cuda的时候，需要关闭X服务。</p>
+<pre><code>sudo service lightdm stop
+</code></pre><p>这时，系统会出现黑屏。此时，同时按住[CTRL + ALT + F1]三个键进入命令行模式（如果不能进入命令行模式，可以参考<a href="http://blog.csdn.net/u010733679/article/details/52022094" target="_blank" rel="external">《alt+ctrl+F1黑屏 ，解决方案》</a>），<br>然后输入[账号]，[密码]后登陆。<br>在CUDA的下载目录运行，</p>
+<pre><code>sudo sh cuda_xxx.run
+</code></pre><p>需要注意的是，在询问是否安装“NVIDIA Accelerated Graphics Driver”可以选择“是”，</p>
+<pre><code>Install NVIDIA Accelerated Graphics Driver for Linux-x86_64 361.62?
+(y)es/(n)o/(q)uit: y
+</code></pre><p>但在后续出现询问是否安装“X configuration”时，则需要选择“否”，否则之前安装的显卡驱动就白安装了。<br>CUDA安装结束后，则可以恢复到图形界面模式，</p>
+<pre><code>sudo service lightdm start
+</code></pre><p>到这里，CUDA的安装还不算结束，需要将CUDA相关的内容添加到系统环境变量中。安装过程中Summary提示，</p>
+<pre><code>Please make sure that
+– PATH includes /usr/local/cuda-8.0/bin
+– LD_LIBRARY_PATH includes /usr/local/cuda-8.0/lib64, or, add /usr/local/cuda-8.0/lib64 to /etc/ld.so.conf and run ldconfig as root
+</code></pre><p>CUDA相关的环境变量可以放在~/.bashrc中，</p>
+<pre><code>vi ~/.bash_profile
+</code></pre><p>在其中，增加如下两行，</p>
+<pre><code>export LD_LIBRARY_PATH=&quot;$LD_LIBRARY_PATH:/usr/local/cuda-  8.0/lib64:/usr/local/cuda-8.0/extras/CUPTI/lib64&quot;
+export CUDA_HOME=/usr/local/cuda-8.0
+</code></pre><h2 id="2-5-安装cuDNN"><a href="#2-5-安装cuDNN" class="headerlink" title="2.5 安装cuDNN"></a>2.5 安装cuDNN</h2><p>cuDNN（CUDA Deep Neural Network）相比标准的cuda，它在一些常用的神经网络操作上进行了性能的优化，比如卷积，pooling，归一化，以及激活层等等。<br>下载地址：<a href="https://developer.nvidia.com/rdp/cudnn-download" target="_blank" rel="external">https://developer.nvidia.com/rdp/cudnn-download</a><br><img src="http://upload-images.jianshu.io/upload_images/4905018-1c28d7c5a2928ca9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="https://developer.nvidia.com/rdp/cudnn-download"></p>
+<p>下载cuDNN后进行解压，并执行如下命令：</p>
+<pre><code>sudo cp cuda/include/cudnn.h /usr/local/cuda-8.0/include
+sudo cp -d cuda/lib64/libcudnn* /usr/local/cuda-8.0/lib64
+sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda-8.0/lib64/libcudnn*
+</code></pre><h2 id="2-6-gcc降低版本"><a href="#2-6-gcc降低版本" class="headerlink" title="2.6 gcc降低版本"></a>2.6 gcc降低版本</h2><p>网上说cuda8.0不支持5.0以上的编译器，因此需要降级，把编译器版本降到4.9，但我看了CUDA8.0的安装手册《NVIDIA CUDA INSTALLATION GUIDE FOR<br>LINUX》，并没有发现这一条，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-aee83a196d31033d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="《NVIDIA CUDA INSTALLATION GUIDE FOR
+LINUX》"><br>在实际使用中，还是将GCC做了降级（PS，在安装时可以先不降级，看看是否会出问题），GCC降级方法如下，</p>
+<pre><code>sudo apt-get install g++-4.9
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 20
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 10
+sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 20
+sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 10
+sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
+sudo update-alternatives --set cc /usr/bin/gcc
+sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
+sudo update-alternatives --set c++ /usr/bin/g++
+</code></pre><h2 id="2-7-安装Bazel"><a href="#2-7-安装Bazel" class="headerlink" title="2.7 安装Bazel"></a>2.7 安装Bazel</h2><p>Bazel是一个构建工具，即一个可以运行编译和测试来组装软件的工具，跟Make、Ant、Gradle、Buck、Pants和Maven一样。TensorFlow的编译是基于Bazel完成的。<br>Bazel官方地址：<a href="https://docs.bazel.build/versions/master/install.html" target="_blank" rel="external">https://docs.bazel.build/versions/master/install.html</a><br><img src="http://upload-images.jianshu.io/upload_images/4905018-f5576ff594245afb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="https://docs.bazel.build/versions/master/install.html"></p>
+<h3 id="2-7-1-安装准备"><a href="#2-7-1-安装准备" class="headerlink" title="2.7.1 安装准备"></a>2.7.1 安装准备</h3><p><img src="http://upload-images.jianshu.io/upload_images/4905018-01725f875ea14762.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="https://docs.bazel.build/versions/master/install-ubuntu.html"></p>
+<h3 id="2-7-2-安装"><a href="#2-7-2-安装" class="headerlink" title="2.7.2 安装"></a>2.7.2 安装</h3><p>Bazel可以通过apt-get和下载安装两种方式完成，本文中，采用下载安装的方式实现，</p>
+<pre><code>chmod +x PATH_TO_INSTALL.SH 
+./PATH_TO_INSTALL.SH --user 
+</code></pre><h2 id="2-8-第三方库安装"><a href="#2-8-第三方库安装" class="headerlink" title="2.8 第三方库安装"></a>2.8 第三方库安装</h2><pre><code>sudo apt-get install python-numpy swig python-dev python-wheel
+sudo apt-get install libcupti-dev
+sudo apt-get install git
+</code></pre><h2 id="2-9-TensorFlow源码编译"><a href="#2-9-TensorFlow源码编译" class="headerlink" title="2.9 TensorFlow源码编译"></a>2.9 TensorFlow源码编译</h2><h3 id="2-9-1-下载"><a href="#2-9-1-下载" class="headerlink" title="2.9.1 下载"></a>2.9.1 下载</h3><pre><code>git clone https://github.com/tensorflow/tensorflow
+</code></pre><h3 id="2-9-2-编译配置"><a href="#2-9-2-编译配置" class="headerlink" title="2.9.2 编译配置"></a>2.9.2 编译配置</h3><pre><code>cd ~/tensorflow
+./configure
+</code></pre><h3 id="2-9-3-编译安装"><a href="#2-9-3-编译安装" class="headerlink" title="2.9.3 编译安装"></a>2.9.3 编译安装</h3><pre><code>bazel build -c opt //tensorflow/tools/pip_package:build_pip_package
+bazel build -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_package
+bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
+sudo pip install /tmp/tensorflow_pkg/tensorflow-0.10.0-cp2-none-any.whl
+</code></pre><p>至此，便完成了支持GPU的TensorFlow源码编译。</p>
+<h2 id="2-10-环境测试"><a href="#2-10-环境测试" class="headerlink" title="2.10 环境测试"></a>2.10 环境测试</h2><p>可以通过如下代码进行测试，</p>
+<pre><code># Python
+import tensorflow as tf
+hello = tf.constant(&apos;Hello, TensorFlow!&apos;)
+sess = tf.Session()
+print(sess.run(hello))
+</code></pre><p>正常测试输出，</p>
+<pre><code>Hello, TensorFlow!
+</code></pre><h1 id="3-资料参考"><a href="#3-资料参考" class="headerlink" title="3 资料参考"></a>3 资料参考</h1><p><a href="http://www.linuxidc.com/Linux/2016-04/130520.htm" target="_blank" rel="external">《Ubuntu 16.04 U盘安装图文教程》</a><br><a href="https://www.cnblogs.com/zhaofenqiang/p/6071385.html?utm_source=itdadao&amp;utm_medium=referral" target="_blank" rel="external">《华硕主板禁用UEFI安全启动》</a><br><a href="http://blog.csdn.net/cosmoshua/article/details/76644029" target="_blank" rel="external">《Ubuntu 16.04安装NVIDIA驱动》</a><br><a href="http://blog.csdn.net/u010733679/article/details/52022094" target="_blank" rel="external">《alt+ctrl+F1黑屏 ，解决方案》</a><br><a href="https://segmentfault.com/a/1190000008234390" target="_blank" rel="external">《Ubuntu16.04 下安装GPU版TensorFlow（包括Cuda和Cudnn）》</a><br><a href="http://blog.csdn.net/zhaoyu106/article/details/52793183" target="_blank" rel="external">《ubuntu16.04下安装TensorFlow(GPU加速)》</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习-深度学习/" rel="tag"># 机器学习/深度学习</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/12/机器学习-深度学习入门资料汇总/" rel="next" title="机器学习/深度学习入门资料汇总">
+                <i class="fa fa-chevron-left"></i> 机器学习/深度学习入门资料汇总
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/19/《机器学习》笔记-绪论（1）/" rel="prev" title="《机器学习》笔记-绪论（1）">
+                《机器学习》笔记-绪论（1） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Liu Caiquan" />
+          <p class="site-author-name" itemprop="name">Liu Caiquan</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-安装选择"><span class="nav-number">1.</span> <span class="nav-text">1 安装选择</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-平台"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 平台</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-GPU-vs-CPU"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 GPU vs CPU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-二进制安装-vs-源码安装"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 二进制安装 vs 源码安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-二进制安装选择"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 二进制安装选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-实际使用选择"><span class="nav-number">1.5.</span> <span class="nav-text">1.5 实际使用选择</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Ubuntu16-04-TensorFlow-GPU-源码编译"><span class="nav-number">2.</span> <span class="nav-text">2 Ubuntu16.04+TensorFlow(GPU)源码编译</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Ubuntu系统安装"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 Ubuntu系统安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-禁用UEFI安全启动"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 禁用UEFI安全启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-安装NVIDIA驱动"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 安装NVIDIA驱动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-1-安装方式"><span class="nav-number">2.3.1.</span> <span class="nav-text">2.3.1 安装方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-2-安装步骤"><span class="nav-number">2.3.2.</span> <span class="nav-text">2.3.2 安装步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-3-验证测试"><span class="nav-number">2.3.3.</span> <span class="nav-text">2.3.3 验证测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-安装CUDA"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 安装CUDA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-安装cuDNN"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 安装cuDNN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-gcc降低版本"><span class="nav-number">2.6.</span> <span class="nav-text">2.6 gcc降低版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-7-安装Bazel"><span class="nav-number">2.7.</span> <span class="nav-text">2.7 安装Bazel</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-1-安装准备"><span class="nav-number">2.7.1.</span> <span class="nav-text">2.7.1 安装准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-2-安装"><span class="nav-number">2.7.2.</span> <span class="nav-text">2.7.2 安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-8-第三方库安装"><span class="nav-number">2.8.</span> <span class="nav-text">2.8 第三方库安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-9-TensorFlow源码编译"><span class="nav-number">2.9.</span> <span class="nav-text">2.9 TensorFlow源码编译</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-9-1-下载"><span class="nav-number">2.9.1.</span> <span class="nav-text">2.9.1 下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-9-2-编译配置"><span class="nav-number">2.9.2.</span> <span class="nav-text">2.9.2 编译配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-9-3-编译安装"><span class="nav-number">2.9.3.</span> <span class="nav-text">2.9.3 编译安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-10-环境测试"><span class="nav-number">2.10.</span> <span class="nav-text">2.10 环境测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-资料参考"><span class="nav-number">3.</span> <span class="nav-text">3 资料参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liu Caiquan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

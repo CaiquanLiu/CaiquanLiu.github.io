@@ -1,0 +1,724 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="coredump是linux中定位程序异常退出的机制（Android基于Linux内核，所以coredump机制在Android环境中同样适用，使用方法稍有不同）。在CarLife项目中可以使用coredump机制，并借助GDB工具来定位Native层的异常退出，比如bdsc和bdcl的异常退出问题定位。 Android coredump生成步骤如下: 增大ulimit空间限制默认情况下cored">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android环境中借助GDB和coredump定位Native层程序异常退出问题">
+<meta property="og:url" content="http://yoursite.com/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/index.html">
+<meta property="og:site_name" content="才权的博客">
+<meta property="og:description" content="coredump是linux中定位程序异常退出的机制（Android基于Linux内核，所以coredump机制在Android环境中同样适用，使用方法稍有不同）。在CarLife项目中可以使用coredump机制，并借助GDB工具来定位Native层的异常退出，比如bdsc和bdcl的异常退出问题定位。 Android coredump生成步骤如下: 增大ulimit空间限制默认情况下cored">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/默认coredump空间.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/ulimit%20–c%20unlimited命令.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/代码设置.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/Android.mk.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/hello.cpp.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/Android.m.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/Android源码环境下编译.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/NDK环境下编译.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/coredump文件产生.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/GDB工具位置.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/测试目录.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/拷贝coredump文件.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/运行GDB.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/执行file命令.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/定位异常.png">
+<meta property="og:updated_time" content="2019-03-29T15:20:52.582Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android环境中借助GDB和coredump定位Native层程序异常退出问题">
+<meta name="twitter:description" content="coredump是linux中定位程序异常退出的机制（Android基于Linux内核，所以coredump机制在Android环境中同样适用，使用方法稍有不同）。在CarLife项目中可以使用coredump机制，并借助GDB工具来定位Native层的异常退出，比如bdsc和bdcl的异常退出问题定位。 Android coredump生成步骤如下: 增大ulimit空间限制默认情况下cored">
+<meta name="twitter:image" content="http://yoursite.com/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/默认coredump空间.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/"/>
+
+
+
+
+
+  <title> Android环境中借助GDB和coredump定位Native层程序异常退出问题 | 才权的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4e94c4c1ded5d320541370545af638ea";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">才权的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liu Caiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="才权的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android环境中借助GDB和coredump定位Native层程序异常退出问题
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-06T23:58:43+08:00">
+                2017-07-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>coredump是linux中定位程序异常退出的机制（Android基于Linux内核，所以coredump机制在Android环境中同样适用，使用方法稍有不同）。在CarLife项目中可以使用coredump机制，并借助GDB工具来定位Native层的异常退出，比如bdsc和bdcl的异常退出问题定位。</p>
+<h1 id="Android-coredump生成步骤如下"><a href="#Android-coredump生成步骤如下" class="headerlink" title="Android coredump生成步骤如下:"></a>Android coredump生成步骤如下:</h1><ul>
+<li>增大ulimit空间限制<br>默认情况下coredump空间为0<br><img src="/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/默认coredump空间.png" alt="默认coredump空间"><br>增大coredump的方法有两种：<br>1 通过ulimit –c unlimited<br><img src="/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/ulimit –c unlimited命令.png" alt="ulimit –c unlimited命令"><br>2 在程序中修改<br><img src="/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/代码设置.png" alt="代码设置"></li>
+<li>在Android.mk中添加调试选项（有利于查看调用堆栈信息）<br><img src="/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/Android.mk.png" alt="Android.mk"></li>
+<li>准备好Android.mk和测试原文件（本测试中使用的Makefile和源文件内容如下）<br><img src="/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/hello.cpp.png" alt="hello.cpp"><br><img src="/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/Android.m.png" alt="Android.m"></li>
+<li>将准备好的Makefile和源文件，进行交叉编译（下面的两种交叉编译方式可根据实际情况任意选择一种）<br>1 在Android源码环境中进行编译；<br>2 在NDK环境中进行编译；</li>
+<li>获取生成的测试可执行文件<br>如果在Android源码环境下进行编译，需要选择out/target/product/generic/symbols/system/bin/目录下的生成可执行文件（该目录下的文件包含用于调试的符号信息）<br><img src="/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/Android源码环境下编译.png" alt="Android源码环境下编译"><br>如果在NDK环境下编译，可以选择armeabi或armeabi-v7a中的生成文件（armeabi是指的该可执行文件用于Arm的通用CPU；armeabi-v7a是指CPU支持硬件浮点运算；因此armeabi通用性强，但速度慢，而v7a能充分发挥v7a CPU的能力。armeabi就是针对普通的或旧的armcpu，armeabi-v7a是针对有浮点运算或高级扩展功能的arm cpu）<br><img src="/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/NDK环境下编译.png" alt="NDK环境下编译"></li>
+<li>在Android环境中运行可执行文件，程序异常退出后，会在当前目录下产生coredump文件<br><img src="/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/coredump文件产生.png" alt="coredump文件产生"><h1 id="GDB的异常退出定位过程如下"><a href="#GDB的异常退出定位过程如下" class="headerlink" title="GDB的异常退出定位过程如下"></a>GDB的异常退出定位过程如下</h1></li>
+<li>Windows环境下Android GDB工具位于NDK安装目录下android-ndk-r10c\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\bin（Android需要使用专门的GDB工具， 用于调试Linux的GDB不能用于Android环境调试）<br><img src="/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/GDB工具位置.png" alt="GDB工具位置"></li>
+<li>按照可执行程序的生成目录路径创建对应目录，并将可以行文件拷贝到该目录下（也可直接复制生成文件和对应目录），本测试中测试的根目录为dd，则该过程为：<br><img src="/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/测试目录.png" alt="测试目录"></li>
+<li>将coredump文件拷贝到测试根目录下<br><img src="/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/拷贝coredump文件.png" alt="拷贝coredump文件"></li>
+<li>在GDB目录下运行GDB<br><img src="/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/运行GDB.png" alt="运行GDB"></li>
+<li>针对测试可执行文件，执行file命令<br><img src="/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/执行file命令.png" alt="执行file命令"></li>
+<li>使用core命令和bt命令定位异常退出位置<br><img src="/2017/07/06/Android环境中借助GDB和coredump定位Native层程序异常退出问题/定位异常.png" alt="定位异常"><h1 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h1><a href="http://www.csdn123.com/html/exception/597/597343_597351_597349.htm" target="_blank" rel="external">http://www.csdn123.com/html/exception/597/597343_597351_597349.htm</a><br><a href="http://blog.csdn.net/liminled/article/details/17030747" target="_blank" rel="external">http://blog.csdn.net/liminled/article/details/17030747</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/06/基于CLion的GTest测试工程简单示例/" rel="next" title="基于CLion的GTest测试工程简单示例">
+                <i class="fa fa-chevron-left"></i> 基于CLion的GTest测试工程简单示例
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/07/Eddy的AI小助手-写在最前面-1/" rel="prev" title="Eddy的AI小助手-写在最前面(1)">
+                Eddy的AI小助手-写在最前面(1) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Liu Caiquan" />
+          <p class="site-author-name" itemprop="name">Liu Caiquan</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-coredump生成步骤如下"><span class="nav-number">1.</span> <span class="nav-text">Android coredump生成步骤如下:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GDB的异常退出定位过程如下"><span class="nav-number">2.</span> <span class="nav-text">GDB的异常退出定位过程如下</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接："><span class="nav-number">3.</span> <span class="nav-text">参考链接：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liu Caiquan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

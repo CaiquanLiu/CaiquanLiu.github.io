@@ -1,0 +1,729 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="机器学习笔记," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="写在最前面如今机器学习和深度学习如此火热，相信很多像我一样的普通程序猿或者还在大学校园中的同学，一定也想参与其中。不管是出于好奇，还是自身充电，跟上潮流，我觉得都值得试一试。对于自己，经历了一段时间的系统学习（参考《机器学习/深度学习入门资料汇总》），现在计划重新阅读《机器学习》[周志华]和《深度学习》[Goodfellow et al]这两本书，并在阅读的过程中进行记录和总结。这两本是机器学习和">
+<meta name="keywords" content="机器学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《机器学习》笔记-神经网络（5）">
+<meta property="og:url" content="http://yoursite.com/2018/01/30/《机器学习》笔记-神经网络（5）/index.html">
+<meta property="og:site_name" content="才权的博客">
+<meta property="og:description" content="写在最前面如今机器学习和深度学习如此火热，相信很多像我一样的普通程序猿或者还在大学校园中的同学，一定也想参与其中。不管是出于好奇，还是自身充电，跟上潮流，我觉得都值得试一试。对于自己，经历了一段时间的系统学习（参考《机器学习/深度学习入门资料汇总》），现在计划重新阅读《机器学习》[周志华]和《深度学习》[Goodfellow et al]这两本书，并在阅读的过程中进行记录和总结。这两本是机器学习和">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-7d4f0b9225375513.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-76644a7217042923.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-7b10568f632d9939.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-15c2291a90bcaee3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-60c9bcbf1bd6d8e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-be7be7fa5b76cdd5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-03-29T15:20:52.622Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《机器学习》笔记-神经网络（5）">
+<meta name="twitter:description" content="写在最前面如今机器学习和深度学习如此火热，相信很多像我一样的普通程序猿或者还在大学校园中的同学，一定也想参与其中。不管是出于好奇，还是自身充电，跟上潮流，我觉得都值得试一试。对于自己，经历了一段时间的系统学习（参考《机器学习/深度学习入门资料汇总》），现在计划重新阅读《机器学习》[周志华]和《深度学习》[Goodfellow et al]这两本书，并在阅读的过程中进行记录和总结。这两本是机器学习和">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4905018-7d4f0b9225375513.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/30/《机器学习》笔记-神经网络（5）/"/>
+
+
+
+
+
+  <title> 《机器学习》笔记-神经网络（5） | 才权的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4e94c4c1ded5d320541370545af638ea";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">才权的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/30/《机器学习》笔记-神经网络（5）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liu Caiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="才权的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                《机器学习》笔记-神经网络（5）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-30T11:14:33+08:00">
+                2018-01-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h1><p>如今机器学习和深度学习如此火热，相信很多像我一样的普通程序猿或者还在大学校园中的同学，一定也想参与其中。不管是出于好奇，还是自身充电，跟上潮流，我觉得都值得试一试。对于自己，经历了一段时间的系统学习（参考<a href="https://zhuanlan.zhihu.com/p/30980999" target="_blank" rel="external">《机器学习/深度学习入门资料汇总》</a>），现在计划重新阅读《机器学习》[周志华]和《深度学习》[Goodfellow et al]这两本书，并在阅读的过程中进行记录和总结。这两本是机器学习和深度学习的入门经典。笔记中除了会对书中核心及重点内容进行记录，同时，也会增加自己的理解，包括过程中的疑问，并尽量的和实际的工程应用和现实场景进行结合，使得知识不只是停留在理论层面，而是能够更好的指导实践。记录笔记，一方面，是对自己先前学习过程的总结和补充。 另一方面，相信这个系列学习过程的记录，也能为像我一样入门机器学习和深度学习同学作为学习参考。</p>
+<h1 id="章节目录"><a href="#章节目录" class="headerlink" title="章节目录"></a>章节目录</h1><ul>
+<li>神经元模型</li>
+<li>感知机与多层网络</li>
+<li>误差逆传播算法</li>
+<li>全局最小与局部最小</li>
+<li>其他常见神经网络</li>
+<li>深度学习</li>
+</ul>
+<h2 id="（一）神经元模型"><a href="#（一）神经元模型" class="headerlink" title="（一）神经元模型"></a>（一）神经元模型</h2><p>神经网络（neural networks）方面的研究很早就已出现，其中最基本的元素是神经元（neuron）模型。1943年，McCulloch 和Pitts提出一直沿用至今的“M-P神经元模型”，如下图所示，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-7d4f0b9225375513.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图5-1"><br>在这个模型中，神经元接收到来自n个其他神经元传递过来的输入信息，这些输入信号通过带权重的连接（connection）进行传递，神经元接收到的总输入值将与神经元的阈值进行比较，然后通过“激活函数”（activation function）处理以产生神经元的输出。<br>理想激活函数是阶跃函数（下图所示）。然而，阶跃函数具有不连续、不光滑等不太好的性质，因此实际常用sigmoid函数作为激活函数。<br><img src="http://upload-images.jianshu.io/upload_images/4905018-76644a7217042923.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图5.2"><br>把神经元按一定的层次结构连接起来，就得到了神经网络。</p>
+<h2 id="（二）感知机与多层网络"><a href="#（二）感知机与多层网络" class="headerlink" title="（二）感知机与多层网络"></a>（二）感知机与多层网络</h2><p>感知机（perceptron）由两层神经元组成，如下图所示，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-7b10568f632d9939.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图5.3"><br>感知机只有输出层神经元进行激活函数处理，即只拥有一层功能神经元（function neuron），其学习能力非常有限。可以证明，若两类模式是线性可分（linearly separable）的问题，即存在一个线性超平面将它们分开，则感知机学习过程一定会收敛（converge）。否则，感知机学习过程将发生震荡（fluctuation），不能求得合适解。<br>要解决非线性可分问题，需考虑使用多层神经元功能，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-15c2291a90bcaee3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图5.5"><br>输入层与输出层之间的一层神经元被称为隐层或隐含层（hidden layer），隐含层和输出层神经元都是拥有激活函数的功能神经元。<br>神经网络的学习过程，就是根据训练数据来调整神经元之间的“连接权”（connection weight）以及每个功能神经元的阈值；换言之，神经网络“学”到的东西，蕴含在连接权和阈值中。</p>
+<h2 id="（三）误差逆传播算法"><a href="#（三）误差逆传播算法" class="headerlink" title="（三）误差逆传播算法"></a>（三）误差逆传播算法</h2><p>误差传播（erro BackPropagation，简称BP）算法是求解多层网络算法中最杰出的代表，它是迄今最成功的神经网络学习算法。现实任务中使用神经网络时，大多是使用BP算法进行训练。值得指出的是，BP算法不仅可用于多层前馈神经网络，还可以用于其他类型的神经网络，如递归神经网络。<br>BP算法基于梯度下降（gradient）策略，以目标的负梯度方向对参数进行调整。（数学推到过程省略）<br>[Hornik et al. 1989]证明，只需一个包含足够神经元的隐层，多层前馈网络就能以任意精度逼近任意复杂度的连续函数。然而，如何设置隐层神经元的个数仍是个未决问题，实际应用中通常靠“试错法”（trial-by-error）调整。<br>BP神经网络经常遭遇过拟合，其训练误差持续降低，但测试误差却可能上升。有两种策略常用来缓解BP网络的过拟合。</p>
+<ul>
+<li>“早停”（early stopping）<br>将数据分成训练集和验证集，训练集用来计算梯度、更新连接权和阈值，验证集用来估计误差。若训练集误差降低但验证集误差升高，则停止训练，同时，返回具有最小验证集误差的连接权和阈值。</li>
+<li>正则化（regularization）<br>基本思想是在误差目标函数中增加一个用于描述网络复杂度的部分，例如连接权与阈值的平方和。令Ek表示第k个训练样例上的误差，wi表示连接权和阈值，则误差目标函数改写为，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-60c9bcbf1bd6d8e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.17"><br>其中，λ∈(0，1)用于对经验误差与网络复杂度这两项进行折中，通过交叉验证来估计。</li>
+</ul>
+<h2 id="（四）全局最小与局部极小"><a href="#（四）全局最小与局部极小" class="headerlink" title="（四）全局最小与局部极小"></a>（四）全局最小与局部极小</h2><p>若用E表示神经网络在训练集上的误差，则它显然是关于连接权w和阈值θ的函数。此时，神经网络的训练过程可看做一个参数寻优过程，即在参数空间中，寻找一组最优参数使得E最小。<br>直观地看，局部极小解是参数空间的某个点，其邻域点的误差函数值均不小于该点的函数值；全局最小解则是指参数空间中的所有点误差均不小于该点的误差函数值。两者对应的E(w<em>,θ</em>)分别称为误差函数的局部极小值和全局最小值。<br>基于梯度的搜索是使用最为广泛的参数寻优方法。在此类方法中，我们从某些初始解出发，迭代寻找最优参数值。每次迭代中，我们先计算误差函数在当前点的梯度，然后根据梯度确定搜索方向。若误差函数在当前点的梯度为零，则已达到局部极小，更新量将为零，这意味着参数的迭代更新将在此停止。显然，如果误差函数仅有一个局部极小，那么此时找到的局部极小就是全局最下。然而，如果误差函数具有多个局部极小，则不能保证找到的解释全局最小。对后一种情形，我们称参数寻优陷入局部极小，这显然不是我们所希望的。<br>在现实任务中，人们常采用以下策略来试图“跳出”局部极小，从而进一步接近全局最小：</p>
+<ul>
+<li>以多组不同参数值初始化多个神经网络，按标准方法训练后，取其中误差最小的解作为最终参数。</li>
+<li>使用“模拟退火”（simulated annealing）技术<br>模拟退火在每一步都以一定的概率接受比当前解更差的结果，从而有助于“跳出”局部极小。</li>
+<li>使用随机梯度下降<br>与标准梯度下降法精确计算梯度不同，随机梯度下降法在计算梯度时加入随机因素。于是，即使陷入局部极小点，它计算出的梯度仍可能不为零，这样就有机会跳出局部极小继续搜索。<br>此外，遗传算法（genetic algorithms）也常用来训练神经网络更好的逼近全局最小。需要注意的是，上述用于跳出局部极小的技术大多是启发式，理论上尚缺乏保障。</li>
+</ul>
+<h2 id="（五）其他常见神经网络"><a href="#（五）其他常见神经网络" class="headerlink" title="（五）其他常见神经网络"></a>（五）其他常见神经网络</h2><h3 id="1-RBF网络"><a href="#1-RBF网络" class="headerlink" title="1. RBF网络"></a>1. RBF网络</h3><p>RBF（Radial Basis Function，径向基函数）网络是一种单隐层前馈神经网络，它使用径向基函数作为隐藏层神经元激活函数，而输出层则是对隐层神经元输出的线性组合。</p>
+<h3 id="2-ART网络"><a href="#2-ART网络" class="headerlink" title="2. ART网络"></a>2. ART网络</h3><p>竞争型学习（competitive learning）是神经网络中一种常用的无监督学习策略，使用该策略时，网络的输出神经元相互竞争，每一时刻仅有一个竞争获胜的神经元被激活，其他神经元状态被抑制。这种机制亦称为“胜者通吃”（winner-take-all）原则。<br>ART（Adaptive Resonance Theory，自适应谐振理论）网络是竞争型学习的重要代表。ART比较好地缓解了竞争型学习中的“可塑性-稳定性窘境”（stability-plasticity dilemma）。</p>
+<h3 id="3-SOM网络"><a href="#3-SOM网络" class="headerlink" title="3. SOM网络"></a>3. SOM网络</h3><p>SOM（Self-Organizing Map，自组织映射）网络是一种竞争学习型的无监督神经网络，他能将高维输入数据映射到低维空间（通常为二维），同时保持输入数据在高维空间的拓扑结构，即将高维空间中相似的样本点映射到网络输出层中的邻近神经元。</p>
+<h3 id="4-级联相关网络"><a href="#4-级联相关网络" class="headerlink" title="4. 级联相关网络"></a>4. 级联相关网络</h3><p>一般的神经网络模型通常假定网络结构是事先固定的，训练的目的是利用训练样本来确定合适的连接权、阈值等参数。与此不同，结构自适应网络则将网络结构也当做学习目标之一，并希望能在训练过程中能找到最符合数据特点的网络结构。级联相关（cascade-Correlation）网络是结构自适应网络的重要代表。</p>
+<h3 id="5-Elman网络"><a href="#5-Elman网络" class="headerlink" title="5. Elman网络"></a>5. Elman网络</h3><p>与前馈神经网络不同，“递归神经网络”（recurrent neural networks）允许网络中出现环形结构，从而可让一些神经元的输出反馈回来作为输入信号。这样的结构与信息反馈过程，使得网络在t时刻的输出状态不仅与t时刻的输入有关，还与t-1时刻的网络状态有关，从而能处理与时间有关的动态变化。Elman网络是最常用的递归神经网络之一，结构如下图所示，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-be7be7fa5b76cdd5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图5.13"></p>
+<h3 id="6-Boltzmann机"><a href="#6-Boltzmann机" class="headerlink" title="6. Boltzmann机"></a>6. Boltzmann机</h3><p>神经网络中有一类模型是为网络状态定义一个“能量”（energy），能量最小化时网络达到理想状态，而网络的训练就是在最小化这个能量函数。Boltzmann机就是一种“基于能量的模型”（energy-based model）。</p>
+<h2 id="（六）深度学习"><a href="#（六）深度学习" class="headerlink" title="（六）深度学习"></a>（六）深度学习</h2><p>典型的深度学习模型就是很深的神经网络。显然，对神经网络模型，提高容量的一个简单办法是增加隐层的数目。隐层多了，相应的神经元连接权、阈值等参数就会更多。模型复杂度也可通过单纯增加隐层神经元的数目来实现，前面我们谈到过，单隐层的多层前馈网络已具有很强大的学习能力；但从增加模型复杂度的角度来看，增加隐层数目显然比增加隐层神经元的数目更有效，因为增加隐层数不仅增加了拥有激活函数的神经元数目，还增加了激活函数嵌套的层数。然而，多隐层神经网络难以直接用经典算法（例如标准BP算法）进行训练，因为误差在多隐层内逆传播时，往往会“发散”（diverge）而不能收敛到稳定状态。<br>无监督逐层训练（unsupervised layer-wise training）是多隐层网络训练的有效手段。例如，在深度信念网络（deep belief network，检查DBN）中，每层都是一个受限Boltzmann机，即整个网络可视为若干个RBM堆叠而成。<br>另一种节省训练开销的策略是“权共享”（weigh sharing），即让一组神经元使用相同的连接权。这个策略在卷积神经网络（Convolutional Neural Network，简称CNN）中发挥重要作用。<br>无论是DBN还是CNN，其多隐层堆叠、每层对上一层输出进行处理的机制，可看做是在输入信号进行逐层加工，从而把初始的、与输出目标之间联系不太密切的输入表示，转化成与输出目标联系更密切的表示，使得原来仅基于最后一层输出映射难以完成的任务成为可能。换言之，通过多层处理，逐渐将初始的“低层”特征表示转化为“高层”特征表示后，用“简单模型”即可完成复杂的分类等学习任务。因此可将深度学习理解为进行“特征学习”（feature Learning）或“表示学习”（representation learning）。<br>以往在机器学习用于现实任务时，描述样本的特征通常需由人类专家来设计，这称为“特征工程”（feature engineering）。众所周知，特征好坏对泛化性能有至关重要的影响，人类专家设计出好特征也并非易事；特征学习则通过机器学习技术自身来产生好特征，这使机器学习向“全自动数据分析”又前进了一步。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习笔记/" rel="tag"># 机器学习笔记</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/28/《机器学习》笔记-决策树（4）/" rel="next" title="《机器学习》笔记-决策树（4）">
+                <i class="fa fa-chevron-left"></i> 《机器学习》笔记-决策树（4）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/01/《机器学习》笔记-支持向量机（6）/" rel="prev" title="《机器学习》笔记-支持向量机（6）">
+                《机器学习》笔记-支持向量机（6） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Liu Caiquan" />
+          <p class="site-author-name" itemprop="name">Liu Caiquan</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在最前面"><span class="nav-number">1.</span> <span class="nav-text">写在最前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#章节目录"><span class="nav-number">2.</span> <span class="nav-text">章节目录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#（一）神经元模型"><span class="nav-number">2.1.</span> <span class="nav-text">（一）神经元模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（二）感知机与多层网络"><span class="nav-number">2.2.</span> <span class="nav-text">（二）感知机与多层网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（三）误差逆传播算法"><span class="nav-number">2.3.</span> <span class="nav-text">（三）误差逆传播算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（四）全局最小与局部极小"><span class="nav-number">2.4.</span> <span class="nav-text">（四）全局最小与局部极小</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（五）其他常见神经网络"><span class="nav-number">2.5.</span> <span class="nav-text">（五）其他常见神经网络</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-RBF网络"><span class="nav-number">2.5.1.</span> <span class="nav-text">1. RBF网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-ART网络"><span class="nav-number">2.5.2.</span> <span class="nav-text">2. ART网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-SOM网络"><span class="nav-number">2.5.3.</span> <span class="nav-text">3. SOM网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-级联相关网络"><span class="nav-number">2.5.4.</span> <span class="nav-text">4. 级联相关网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Elman网络"><span class="nav-number">2.5.5.</span> <span class="nav-text">5. Elman网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-Boltzmann机"><span class="nav-number">2.5.6.</span> <span class="nav-text">6. Boltzmann机</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（六）深度学习"><span class="nav-number">2.6.</span> <span class="nav-text">（六）深度学习</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liu Caiquan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

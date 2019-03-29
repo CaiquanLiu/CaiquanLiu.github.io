@@ -1,0 +1,743 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="机器学习笔记," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="写在最前面如今机器学习和深度学习如此火热，相信很多像我一样的普通程序猿或者还在大学校园中的同学，一定也想参与其中。不管是出于好奇，还是自身充电，跟上潮流，我觉得都值得试一试。对于自己，经历了一段时间的系统学习（参考《机器学习/深度学习入门资料汇总》），现在计划重新阅读《机器学习》[周志华]和《深度学习》[Goodfellow et al]这两本书，并在阅读的过程中进行记录和总结。这两本是机器学习和">
+<meta name="keywords" content="机器学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《机器学习》笔记-概率图模型（14）">
+<meta property="og:url" content="http://yoursite.com/2018/05/13/《机器学习》笔记-概率图模型（14）/index.html">
+<meta property="og:site_name" content="才权的博客">
+<meta property="og:description" content="写在最前面如今机器学习和深度学习如此火热，相信很多像我一样的普通程序猿或者还在大学校园中的同学，一定也想参与其中。不管是出于好奇，还是自身充电，跟上潮流，我觉得都值得试一试。对于自己，经历了一段时间的系统学习（参考《机器学习/深度学习入门资料汇总》），现在计划重新阅读《机器学习》[周志华]和《深度学习》[Goodfellow et al]这两本书，并在阅读的过程中进行记录和总结。这两本是机器学习和">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-819f2b96464d66fc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-03-29T15:20:52.621Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《机器学习》笔记-概率图模型（14）">
+<meta name="twitter:description" content="写在最前面如今机器学习和深度学习如此火热，相信很多像我一样的普通程序猿或者还在大学校园中的同学，一定也想参与其中。不管是出于好奇，还是自身充电，跟上潮流，我觉得都值得试一试。对于自己，经历了一段时间的系统学习（参考《机器学习/深度学习入门资料汇总》），现在计划重新阅读《机器学习》[周志华]和《深度学习》[Goodfellow et al]这两本书，并在阅读的过程中进行记录和总结。这两本是机器学习和">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4905018-819f2b96464d66fc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/13/《机器学习》笔记-概率图模型（14）/"/>
+
+
+
+
+
+  <title> 《机器学习》笔记-概率图模型（14） | 才权的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4e94c4c1ded5d320541370545af638ea";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">才权的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/13/《机器学习》笔记-概率图模型（14）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liu Caiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="才权的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                《机器学习》笔记-概率图模型（14）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-13T22:26:23+08:00">
+                2018-05-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h1><p>如今机器学习和深度学习如此火热，相信很多像我一样的普通程序猿或者还在大学校园中的同学，一定也想参与其中。不管是出于好奇，还是自身充电，跟上潮流，我觉得都值得试一试。对于自己，经历了一段时间的系统学习（参考<a href="https://zhuanlan.zhihu.com/p/30980999" target="_blank" rel="external">《机器学习/深度学习入门资料汇总》</a>），现在计划重新阅读《机器学习》[周志华]和《深度学习》[Goodfellow et al]这两本书，并在阅读的过程中进行记录和总结。这两本是机器学习和深度学习的入门经典。笔记中除了会对书中核心及重点内容进行记录，同时，也会增加自己的理解，包括过程中的疑问，并尽量的和实际的工程应用和现实场景进行结合，使得知识不只是停留在理论层面，而是能够更好的指导实践。记录笔记，一方面，是对自己先前学习过程的总结和补充。 另一方面，相信这个系列学习过程的记录，也能为像我一样入门机器学习和深度学习同学作为学习参考。</p>
+<h1 id="章节目录"><a href="#章节目录" class="headerlink" title="章节目录"></a>章节目录</h1><ul>
+<li>隐马尔可夫模型</li>
+<li>马尔可夫随机场</li>
+<li>条件随机场</li>
+<li>学习与推断</li>
+<li>近似推断</li>
+<li>话题模型</li>
+</ul>
+<h2 id="（一）隐马可科夫模型"><a href="#（一）隐马可科夫模型" class="headerlink" title="（一）隐马可科夫模型"></a>（一）隐马可科夫模型</h2><p>机器学习最重要的任务，是根据一些已观察到的证据（例如训练样本）来对感兴趣的未知变量（例如类别标记）进行估计和推测。概率模型（probabilistic model）提供了一种描述框架，将学习任务归结于计算变量的概率分布。在概率模型中，利用已知变量推测位置变量的分布称为“推断”（inference），其核心是如何基于可观测变量推测出未知变量的条件分布。具体来说，假定所关心的变量集合为Y，可观测变量集合为O，其他变量集合为R，</p>
+<ul>
+<li>“生成式”（generative）模型考虑联合分布P(Y,R,O)；</li>
+<li>“判别式”（discriminative）模型考虑条件分布P(Y,R|O);</li>
+</ul>
+<p>给定一组观测变量值，推断就是由P(Y,R,O)或P(Y,R|O)得到条件分布P(Y|O)。<br>直接利用概率和规则消去变量R显然不可行。为了便于研究高效的推断和学习算法，需要有一套能简洁紧凑地表达变量间关系的工具。<br>概率图模型（probabilistic graphical model）是一类用图来表达变量相关关系的概率模型。它以图为表示工具，最常见的是用一个结点表示一个或一组随机变量，结点之间的边表示变量间的概率相关关系，即“变量关系图”。根据边的性质不同，概率图模型可大致分为两类：</p>
+<ul>
+<li>第一类是使用有向无环图表示变量间的依赖关系，称为有向图模型或贝叶斯网（Bayesian network）；</li>
+<li>第二类是使用无向图表示变量间的相关关系，称为无向图模型或马尔可夫网（Markov network）；</li>
+</ul>
+<p>隐马尔可夫模型（Hidden Markov Model，简称HMM）是结构最简单的动态贝叶斯网（dynamic Bayesian network），这是一种著名的有向图模型，主要用于时序数据建模，在语音识别、自然语言处理等领域有广泛应用。<br>隐马尔可夫模型中的变量可分为两组。第一组是状态变量{y1，y2，…，yn}，其中，yi∈Y表示第i时刻的系统状态。通常假定状态变量是隐藏的、不可被观测的，因此状态变量亦称隐变量（hidden variable）。第二组是观测变量{x1，x2，…，xn}，其中，xi∈X表示第i时刻的观测值。在隐马尔可夫模型中，系统通常在多个状态{s1，s2，…，sN}之间转换。如下图所示，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-819f2b96464d66fc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图14.1"><br>在任一时刻，观测变量的取值仅依赖于状态变量，即xt由yt确定，与其他状态变量及观测变量的取值无关。同时，t时刻的状态yt仅依赖于<br>t-1时刻的状态yt-1，与其余n-2个状态无关。这就是所谓的“马尔可夫链”（Markov chain），即：系统下一时刻的状态仅由当前状态决定，不依赖于以往的任何状态。<br>在实际应用中，人们常常关注隐马尔可夫模型的三个基本问题：</p>
+<ul>
+<li>如何评价模型与观察序列之间的匹配程度<br>例如许多任务需根据以往的观察序列{x1，x2，…，xn-1}来推测当前时刻最可能的观测值xn；</li>
+<li>如何根据观测序列推断出隐藏的模型状态<br>例如在语音识别等任务中，观测值为语音信号，隐藏状态为文字，目标就是根据观测信号来推断最有可能的状态序列（即对应的文字）；</li>
+<li>如何训练模型使其能最好的描述观测数据<br>例如在大多数现实应用中，人工指定模型参数已变得越来越不可行，如何根据训练样本学得最优的模型参数；</li>
+</ul>
+<h2 id="（二）马尔可夫随机场"><a href="#（二）马尔可夫随机场" class="headerlink" title="（二）马尔可夫随机场"></a>（二）马尔可夫随机场</h2><p>马尔可夫随机场（markov Random Field，简称MRF）是典型的马尔可夫网，这是一种著名的无向图模型。图中每个结点表示一个或一组变量，结点之间的边表示两个变量之间的依赖关系。马尔可夫随机场有一组势函数（potential function），亦称“因子”（factor），这是定义在变量子集上的非负函数，主要用于定义概率分布模型。</p>
+<h2 id="（三）条件随机场"><a href="#（三）条件随机场" class="headerlink" title="（三）条件随机场"></a>（三）条件随机场</h2><p>条件随机场（Conditional Random Field，简称CRF）是一种判别式无向图模型。生成式模型是直接对联合分布进行建模，而判别式模型则是对条件分布进行建模。前面介绍的隐马尔可夫模型和马尔可夫随机场都是生成式模型，而条件随机场是判别式模型。</p>
+<h2 id="（四）学习与推断"><a href="#（四）学习与推断" class="headerlink" title="（四）学习与推断"></a>（四）学习与推断</h2><p>基于概率图模型定义的联合概率分布，我们能对目标变量的边际分布（marginal distribution）或以某些可观测变量为条件的条件分布进行推断。<br>对概率图模型，还需确定具体分布的参数，这称为参数估计或参数学习问题。<br>概率图模型的推断方法大致可分为两类：</p>
+<ul>
+<li>第一类是精确推断方法<br>希望能计算出目标变量的边际分布或条件分布的精确值。遗憾的是，一般情形下，此类算法的计算复杂度随着极大团规模的增长呈指数增长，适用范围有限。</li>
+<li>第二类是近似推断方法<br>希望在较低时间复杂度下获得原问题的近似解。此类方法在现实任务中更常用。</li>
+</ul>
+<p>精确推断具有代表性的方法有，</p>
+<h3 id="1-变量消去"><a href="#1-变量消去" class="headerlink" title="1.变量消去"></a>1.变量消去</h3><p>精确推断的实质是一类动态规划算法，它利用图模型所描述的条件独立性来消减计算目标概率值所需的计算量。变量消去是最直观的精确推断算法，也是构建其他精确推断算法的基础。<br>变量消去法有一个明显的缺陷：若需计算多个边际分布，重复使用变量消去法将对造成大量的冗余计算。</p>
+<h3 id="2-信念传播"><a href="#2-信念传播" class="headerlink" title="2. 信念传播"></a>2. 信念传播</h3><p>信念传播（Belief Propagation）算法将变量消去法中的求和操作看作一个消息传递过程，较好的解决了求解多个边际分布时重复计算问题。</p>
+<h2 id="（五）近似推断"><a href="#（五）近似推断" class="headerlink" title="（五）近似推断"></a>（五）近似推断</h2><p>精确推断方法通常需要很大的计算开销，因此在现实应用中近似推断方法更为常用。近似推断方法大致可分为两大类：</p>
+<ul>
+<li>第一类是采样（sampling）<br>通过使用随机化方法完成近似；</li>
+<li>第二类是使用确定性近似完成近似推断<br>典型代表为变分推断（variational inference）；</li>
+</ul>
+<h3 id="1-MCMC采样"><a href="#1-MCMC采样" class="headerlink" title="1. MCMC采样"></a>1. MCMC采样</h3><p>概率图模型中最常用的采用技术是马尔可夫链蒙特卡罗（Markov Chain Monte Carlo，简称MCMC）方法。</p>
+<h3 id="2-变分推断"><a href="#2-变分推断" class="headerlink" title="2. 变分推断"></a>2. 变分推断</h3><p>变分推断通过使用已知简单分布来逼近所需推断的复杂分布，并通过限制近似分布的类型，从而得到一种局部最优、但具有确定解的近似后验分布。</p>
+<h2 id="（六）话题模型"><a href="#（六）话题模型" class="headerlink" title="（六）话题模型"></a>（六）话题模型</h2><p>话题模型（topic model）是一族生成式有向图模型，主要用于处理离散型的数据（如文本集合），在信息检索、自然语言处理等领域有广泛应用。隐狄利克雷分配模型（Latent Dirichlet Allocation，简称LDA）是话题模型的典型代表。<br>话题模型中有几个重要概念：词（word）、文档（document）和话题（topic）。</p>
+<ul>
+<li>词<br>“词”是待处理数据的基本离散单元，例如在文本处理任务中，一个词就是一个英文单词或有独立意义的中文词。</li>
+<li>文档<br>“文档”是待处理的数据对象，它由一组词组成，这次词在文档中是不计顺序的，例如一篇论文、一个网页都可看做一个文档；这种表示方式称为“词袋”（bag-of-words）。数据对象只要能用词袋描述，就可使用话题模型。</li>
+<li>话题<br>“话题”表示一个概念，具体表示为一系列相关的词，以及它们在该概念下出现的概率。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习笔记/" rel="tag"># 机器学习笔记</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/02/《机器学习》笔记-半监督学习（13）/" rel="next" title="《机器学习》笔记-半监督学习（13）">
+                <i class="fa fa-chevron-left"></i> 《机器学习》笔记-半监督学习（13）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/17/《机器学习》笔记-规则学习（15）/" rel="prev" title="《机器学习》笔记-规则学习（15）">
+                《机器学习》笔记-规则学习（15） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Liu Caiquan" />
+          <p class="site-author-name" itemprop="name">Liu Caiquan</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在最前面"><span class="nav-number">1.</span> <span class="nav-text">写在最前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#章节目录"><span class="nav-number">2.</span> <span class="nav-text">章节目录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#（一）隐马可科夫模型"><span class="nav-number">2.1.</span> <span class="nav-text">（一）隐马可科夫模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（二）马尔可夫随机场"><span class="nav-number">2.2.</span> <span class="nav-text">（二）马尔可夫随机场</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（三）条件随机场"><span class="nav-number">2.3.</span> <span class="nav-text">（三）条件随机场</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（四）学习与推断"><span class="nav-number">2.4.</span> <span class="nav-text">（四）学习与推断</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-变量消去"><span class="nav-number">2.4.1.</span> <span class="nav-text">1.变量消去</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-信念传播"><span class="nav-number">2.4.2.</span> <span class="nav-text">2. 信念传播</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（五）近似推断"><span class="nav-number">2.5.</span> <span class="nav-text">（五）近似推断</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-MCMC采样"><span class="nav-number">2.5.1.</span> <span class="nav-text">1. MCMC采样</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-变分推断"><span class="nav-number">2.5.2.</span> <span class="nav-text">2. 变分推断</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（六）话题模型"><span class="nav-number">2.6.</span> <span class="nav-text">（六）话题模型</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liu Caiquan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

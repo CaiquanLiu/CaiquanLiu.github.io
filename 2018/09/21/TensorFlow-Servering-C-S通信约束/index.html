@@ -1,0 +1,735 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="TensorFlow," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="TensorFlow Serving以Server方式提供模型能力服务，作为服务的使用者（Client）可以通过gRPC和RESTfull API两种方式来获取模型能力。虽然TensorFlow对C/S的通信约束做了说明，但感觉介绍的并不是特别的清晰易用，需要自己根据使用示例，并结合文档进行梳理和总结。 官方参考示例在文档中提到了两个参考示例，一个用于gRPC通信约束测试，一个用于RESTfull">
+<meta name="keywords" content="TensorFlow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TensorFlow Servering C&#x2F;S通信约束">
+<meta property="og:url" content="http://yoursite.com/2018/09/21/TensorFlow-Servering-C-S通信约束/index.html">
+<meta property="og:site_name" content="才权的博客">
+<meta property="og:description" content="TensorFlow Serving以Server方式提供模型能力服务，作为服务的使用者（Client）可以通过gRPC和RESTfull API两种方式来获取模型能力。虽然TensorFlow对C/S的通信约束做了说明，但感觉介绍的并不是特别的清晰易用，需要自己根据使用示例，并结合文档进行梳理和总结。 官方参考示例在文档中提到了两个参考示例，一个用于gRPC通信约束测试，一个用于RESTfull">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-096c9d8c7179e212.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-08d42983a3c994d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-ddbcb11c57d6b1a9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-f11fe8bf94deb985.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-590604b058572893.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-93b045830786fc5f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-b2a8ffbd46651a52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-db79f2f06f1aab81.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-1ce83967311b7195.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-cdc8753f3d8a631e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-4fd54685229a5f5c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-c787b908032f977b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-03-29T15:20:52.619Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TensorFlow Servering C&#x2F;S通信约束">
+<meta name="twitter:description" content="TensorFlow Serving以Server方式提供模型能力服务，作为服务的使用者（Client）可以通过gRPC和RESTfull API两种方式来获取模型能力。虽然TensorFlow对C/S的通信约束做了说明，但感觉介绍的并不是特别的清晰易用，需要自己根据使用示例，并结合文档进行梳理和总结。 官方参考示例在文档中提到了两个参考示例，一个用于gRPC通信约束测试，一个用于RESTfull">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/4905018-096c9d8c7179e212.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/21/TensorFlow-Servering-C-S通信约束/"/>
+
+
+
+
+
+  <title> TensorFlow Servering C/S通信约束 | 才权的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4e94c4c1ded5d320541370545af638ea";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">才权的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/21/TensorFlow-Servering-C-S通信约束/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liu Caiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="才权的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                TensorFlow Servering C/S通信约束
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-21T17:30:10+08:00">
+                2018-09-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>TensorFlow Serving以Server方式提供模型能力服务，作为服务的使用者（Client）可以通过gRPC和RESTfull API两种方式来获取模型能力。虽然TensorFlow对C/S的通信约束做了说明，但感觉介绍的并不是特别的清晰易用，需要自己根据使用示例，并结合文档进行梳理和总结。</p>
+<h1 id="官方参考示例"><a href="#官方参考示例" class="headerlink" title="官方参考示例"></a>官方参考示例</h1><p>在文档中提到了两个参考示例，一个用于gRPC通信约束测试，一个用于RESTfull API通信约束测试。</p>
+<h2 id="1-gRPC示例"><a href="#1-gRPC示例" class="headerlink" title="1. gRPC示例"></a>1. gRPC示例</h2><p>示例使用说明：<a href="https://www.tensorflow.org/serving/serving_basic" target="_blank" rel="external">https://www.tensorflow.org/serving/serving_basic</a></p>
+<ul>
+<li>模型输出</li>
+</ul>
+<p>minist_save_model.py<br>示例代码：<a href="https://github.com/tensorflow/serving/blob/master/tensorflow_serving/example/mnist_saved_model.py" target="_blank" rel="external">https://github.com/tensorflow/serving/blob/master/tensorflow_serving/example/mnist_saved_model.py</a></p>
+<ul>
+<li>客户端验证</li>
+</ul>
+<p>mnist_client.py<br>示例代码：<a href="https://github.com/tensorflow/serving/blob/master/tensorflow_serving/example/mnist_client.py" target="_blank" rel="external">https://github.com/tensorflow/serving/blob/master/tensorflow_serving/example/mnist_client.py</a></p>
+<h2 id="2-RESTfull-API示例"><a href="#2-RESTfull-API示例" class="headerlink" title="2. RESTfull API示例"></a>2. RESTfull API示例</h2><p>示例使用说明:<a href="https://www.tensorflow.org/serving/api_rest" target="_blank" rel="external">https://www.tensorflow.org/serving/api_rest</a></p>
+<ul>
+<li>模型输出</li>
+</ul>
+<p>export_half_plus_two.py<br>示例代码：<br><a href="https://github.com/tensorflow/serving/blob/master/tensorflow_serving/servables/tensorflow/testdata/export_half_plus_two.py" target="_blank" rel="external">https://github.com/tensorflow/serving/blob/master/tensorflow_serving/servables/tensorflow/testdata/export_half_plus_two.py</a></p>
+<ul>
+<li>客户端验证</li>
+</ul>
+<p>Http请求，通过curl命令完成</p>
+<h1 id="示例代码分析"><a href="#示例代码分析" class="headerlink" title="示例代码分析"></a>示例代码分析</h1><p>虽然官网提供了两个示例，但实际上RESTfull API的示例过于简单，并且做了封装，实际的参考价值不大。下面主要结合gRPC的示例代码进行分析。</p>
+<p>客户端同服务端进行通信交互的核心是几个标识，我们分别介绍下。</p>
+<h2 id="1-模型标识"><a href="#1-模型标识" class="headerlink" title="1. 模型标识"></a>1. 模型标识</h2><p>指定要使用哪一个模型。<br>参考mnist_client.py<br><img src="https://upload-images.jianshu.io/upload_images/4905018-096c9d8c7179e212.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="模型标识"><br>模型标识在Serving的模型保存输出代码中并没有显示的声明。模型标识实际上是在指定模型输出路径，和设置TF Serving “target”时指定的。<br><img src="https://upload-images.jianshu.io/upload_images/4905018-08d42983a3c994d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="设置模型标识"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/4905018-ddbcb11c57d6b1a9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="设置模型标识"><br>参考:<a href="https://www.tensorflow.org/serving/serving_basic" target="_blank" rel="external">https://www.tensorflow.org/serving/serving_basic</a></p>
+<h2 id="2-签名标识"><a href="#2-签名标识" class="headerlink" title="2. 签名标识"></a>2. 签名标识</h2><p>可以粗糙的理解为，用来指定需要调用模型中的哪个方法。<br>官网定义（参考：<a href="https://www.tensorflow.org/serving/signature_defs" target="_blank" rel="external">https://www.tensorflow.org/serving/signature_defs</a>）<br><img src="https://upload-images.jianshu.io/upload_images/4905018-f11fe8bf94deb985.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="签名标识"></p>
+<p>参考mnist_client.py<br><img src="https://upload-images.jianshu.io/upload_images/4905018-590604b058572893.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="签名标识"><br>签名标识在Serving的模型保存输出代码中设置，<br>参考minist_save_model.py<br><img src="https://upload-images.jianshu.io/upload_images/4905018-93b045830786fc5f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="签名标识"></p>
+<h2 id="3-输入标识"><a href="#3-输入标识" class="headerlink" title="3. 输入标识"></a>3. 输入标识</h2><p>设置输入，传入待处理的数据。<br>官网定义（参考：<a href="https://www.tensorflow.org/serving/signature_defs" target="_blank" rel="external">https://www.tensorflow.org/serving/signature_defs</a>）<br><img src="https://upload-images.jianshu.io/upload_images/4905018-b2a8ffbd46651a52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="输入标识"><br>参考minist_save_model.py<br><img src="https://upload-images.jianshu.io/upload_images/4905018-db79f2f06f1aab81.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="输入标识"><br>参考mnist_client.py<br><img src="https://upload-images.jianshu.io/upload_images/4905018-1ce83967311b7195.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="输入标识"></p>
+<h2 id="4-输出标识"><a href="#4-输出标识" class="headerlink" title="4. 输出标识"></a>4. 输出标识</h2><p>设置哪些数据作为返回值，只在Serving中进行设置，Client获取的返回值中，能够获取对应的标识。<br>官网定义（参考：<a href="https://www.tensorflow.org/serving/signature_defs" target="_blank" rel="external">https://www.tensorflow.org/serving/signature_defs</a>）<br><img src="https://upload-images.jianshu.io/upload_images/4905018-cdc8753f3d8a631e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="输出标识"><br>参考minist_save_model.py<br><img src="https://upload-images.jianshu.io/upload_images/4905018-4fd54685229a5f5c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="输出标识"><br>参考mnist_client.py<br><img src="https://upload-images.jianshu.io/upload_images/4905018-c787b908032f977b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="输出标识"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>客户端向服务端发起请求时，指定了模型标识、签名标识、输入标识（包含数据），便可以从服务端获取处理结果，结果中包含输出标识。<br>gRPC和RESTfull API在通信约束上是一致的。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/TensorFlow/" rel="tag"># TensorFlow</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/21/TensorFlow-Serving入门/" rel="next" title="TensorFlow Serving入门">
+                <i class="fa fa-chevron-left"></i> TensorFlow Serving入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/12/《从零开始学习自然语言处理-NLP-》-基础准备-0/" rel="prev" title="《从零开始学习自然语言处理(NLP)》-基础准备(0)">
+                《从零开始学习自然语言处理(NLP)》-基础准备(0) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Liu Caiquan" />
+          <p class="site-author-name" itemprop="name">Liu Caiquan</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#官方参考示例"><span class="nav-number">1.</span> <span class="nav-text">官方参考示例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-gRPC示例"><span class="nav-number">1.1.</span> <span class="nav-text">1. gRPC示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-RESTfull-API示例"><span class="nav-number">1.2.</span> <span class="nav-text">2. RESTfull API示例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#示例代码分析"><span class="nav-number">2.</span> <span class="nav-text">示例代码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-模型标识"><span class="nav-number">2.1.</span> <span class="nav-text">1. 模型标识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-签名标识"><span class="nav-number">2.2.</span> <span class="nav-text">2. 签名标识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-输入标识"><span class="nav-number">2.3.</span> <span class="nav-text">3. 输入标识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-输出标识"><span class="nav-number">2.4.</span> <span class="nav-text">4. 输出标识</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liu Caiquan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

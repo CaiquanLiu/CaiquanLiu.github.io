@@ -1,0 +1,726 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="从零开始学习自然语言处理(NLP)," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。 问题描述新的项目开启时，一般会">
+<meta name="keywords" content="从零开始学习自然语言处理(NLP)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《从零开始学习自然语言处理(NLP)》-NLP Framework开源方案梳理(3)">
+<meta property="og:url" content="http://yoursite.com/2019/02/01/《从零开始学习自然语言处理-NLP-》-NLP-Framework开源方案梳理-3/index.html">
+<meta property="og:site_name" content="才权的博客">
+<meta property="og:description" content="写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。 问题描述新的项目开启时，一般会">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-ffa015c3e2212104.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-31a1018b9a6dc7bf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-3869c6d90607bcf2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-19871ec0e38c2f3a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-658f4db3cb09b08d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-e62c769d3804da3e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-84ece0293bf62370.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-b05fe1a8edb066c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-03-29T15:20:52.620Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《从零开始学习自然语言处理(NLP)》-NLP Framework开源方案梳理(3)">
+<meta name="twitter:description" content="写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。 问题描述新的项目开启时，一般会">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/4905018-ffa015c3e2212104.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/01/《从零开始学习自然语言处理-NLP-》-NLP-Framework开源方案梳理-3/"/>
+
+
+
+
+
+  <title> 《从零开始学习自然语言处理(NLP)》-NLP Framework开源方案梳理(3) | 才权的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4e94c4c1ded5d320541370545af638ea";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">才权的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/01/《从零开始学习自然语言处理-NLP-》-NLP-Framework开源方案梳理-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liu Caiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="才权的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                《从零开始学习自然语言处理(NLP)》-NLP Framework开源方案梳理(3)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-01T21:20:16+08:00">
+                2019-02-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h2><p>在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。</p>
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>新的项目开启时，一般会经历如下的流程：</p>
+<ul>
+<li>业务需求梳理</li>
+<li>算法方案选择</li>
+<li>模型实现：选择开源方案，或自己实现</li>
+<li>模型训练：数据清洗、模型训练（使用训练集）</li>
+<li>最优模型选择：依据验证集结果，选择最优模型</li>
+<li>模型评测：依据测试集结果，对模型进行评测</li>
+<li>模型优化：本模型调优，或选择新的模型</li>
+<li>模型服务上线</li>
+</ul>
+<p>而在实际的项目开发中，存在如下的问题：<br><strong>1模型实现问题</strong><br>模型实现一般会选择开源方案，或自己编码实现。自己编码实现开发和调试成本高。直接选择开源方案，会面临开发环境不统一，编译问题，代码结果和可靠性难以保证等问题；<br><strong>2模型训练和评测问题</strong><br>该阶段会设计到数据清洗，输入读入，数据迭代器设计，数据预处理，词向量训练与准备，分词，文本转索引，<br>标签ont-hot表示，训练集/验证集/测试集划分，训练过程最优模型选择，模型评测(准确度A、精确度P、召回率R、F1值等)，数据分析（结果分析，混淆矩阵分析，ROC/AUC分析），Tensorboard结果查看等。由于该部分设计的流程和步骤较多，自己编码开发和调试工作量大，而开源方案很多步骤和组件并不全面。<br><strong>3 模型优化问题</strong><br>除了在现有模型的基础上进行局部优化外，还会选择新的模型。如果选择新的模型，则会重新自己编码实现或选择开源方案，会再次经历前面提到的问题1（模型实现问题）和问题2（模型训练和评测问题）。<br><strong>4 模型服务上线问题</strong><br>模型服务上线，同模型的训练和预测和类似，但又不完全相同。模型上线需要和模型训练一样的预处理，词向量，分词，文本转索引等步骤，但不需要模型的测评。同时，模型上线要求只能包含模型的训练文件，<br>而不能包括模型的代码。通常需要编写专门的代码用于模型服务上线。<br>一般来说，针对上面的问题，公司都会有一个统一的NLP算法框架，<br><strong>一方面，统一模型的实现、评测和上线流程</strong><br><strong>另一方面，框架自身包含很多现成的模型，便于业务在算法落地方面的快速验证</strong><br>大多数公司并不开源自己的NLP算法框架，但开源社区NLP开源框架还是蛮多的，这里做一个统一的梳理。</p>
+<h2 id="针对对话系统的Framework"><a href="#针对对话系统的Framework" class="headerlink" title="针对对话系统的Framework"></a>针对对话系统的Framework</h2><h3 id="1-DeepPavlov"><a href="#1-DeepPavlov" class="headerlink" title="1 DeepPavlov"></a>1 DeepPavlov</h3><p>运行依赖：TensorFlow/Keras<br>支持功能：<br><img src="https://upload-images.jianshu.io/upload_images/4905018-ffa015c3e2212104.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="支持功能"><br>项目地址：<br><a href="https://github.com/deepmipt/DeepPavlov" target="_blank" rel="external">https://github.com/deepmipt/DeepPavlov</a></p>
+<h3 id="2-ParlAI"><a href="#2-ParlAI" class="headerlink" title="2 ParlAI"></a>2 ParlAI</h3><p>运行依赖：Pytorch<br>支持功能：<br><img src="https://upload-images.jianshu.io/upload_images/4905018-31a1018b9a6dc7bf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="支持功能"><br>项目地址：<a href="https://github.com/facebookresearch/ParlAI" target="_blank" rel="external">https://github.com/facebookresearch/ParlAI</a></p>
+<h3 id="3-Rasa"><a href="#3-Rasa" class="headerlink" title="3 Rasa"></a>3 Rasa</h3><p>运行依赖：Python<br>支持功能：纯任务型对话<br>项目地址：<a href="https://www.rasa.com/" target="_blank" rel="external">https://www.rasa.com/</a></p>
+<h3 id="4-OpenDial"><a href="#4-OpenDial" class="headerlink" title="4 OpenDial"></a>4 OpenDial</h3><p>运行依赖：Java<br>支持功能：对话系统<br>描述：主要基于传统方法，深度网络较少涉及。<br>项目地址：<a href="https://github.com/plison/opendial" target="_blank" rel="external">https://github.com/plison/opendial</a></p>
+<h2 id="通用NLP-Framework"><a href="#通用NLP-Framework" class="headerlink" title="通用NLP Framework"></a>通用NLP Framework</h2><h3 id="1-Intel-NLP-Architect"><a href="#1-Intel-NLP-Architect" class="headerlink" title="1 Intel NLP-Architect"></a>1 Intel NLP-Architect</h3><p>运行依赖：TensorFlow<br>支持功能：<br><img src="https://upload-images.jianshu.io/upload_images/4905018-3869c6d90607bcf2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="支持功能"><br>项目地址：<a href="http://nlp_architect.nervanasys.com/" target="_blank" rel="external">http://nlp_architect.nervanasys.com/</a></p>
+<h3 id="2-AllenNLP"><a href="#2-AllenNLP" class="headerlink" title="2 AllenNLP"></a>2 AllenNLP</h3><p>运行依赖：Pytorch<br>支持功能：<br><img src="https://upload-images.jianshu.io/upload_images/4905018-19871ec0e38c2f3a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="支持功能"><br>项目地址：<br><a href="https://allennlp.org/" target="_blank" rel="external">https://allennlp.org/</a></p>
+<h3 id="3-PyText"><a href="#3-PyText" class="headerlink" title="3 PyText"></a>3 PyText</h3><p>运行依赖：Pytorch<br>支持功能：<br><img src="https://upload-images.jianshu.io/upload_images/4905018-658f4db3cb09b08d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="支持功能"><br>项目地址：<br><a href="https://pytext-pytext.readthedocs-hosted.com/en/latest/" target="_blank" rel="external">https://pytext-pytext.readthedocs-hosted.com/en/latest/#</a></p>
+<h2 id="NLP基础依赖组件项目（提供pre-train模型）"><a href="#NLP基础依赖组件项目（提供pre-train模型）" class="headerlink" title="NLP基础依赖组件项目（提供pre-train模型）"></a>NLP基础依赖组件项目（提供pre-train模型）</h2><h3 id="1-Stanford-CoreNLP"><a href="#1-Stanford-CoreNLP" class="headerlink" title="1 Stanford CoreNLP"></a>1 Stanford CoreNLP</h3><p>运行依赖：Java<br>支持功能：<br><img src="https://upload-images.jianshu.io/upload_images/4905018-e62c769d3804da3e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="支持功能"><br>项目地址：<br><a href="https://stanfordnlp.github.io/CoreNLP/index.html" target="_blank" rel="external">https://stanfordnlp.github.io/CoreNLP/index.html</a></p>
+<h3 id="2-Stanford-NLP"><a href="#2-Stanford-NLP" class="headerlink" title="2 Stanford NLP"></a>2 Stanford NLP</h3><p>运行依赖：Pytorch<br>支持功能：<br><img src="https://upload-images.jianshu.io/upload_images/4905018-84ece0293bf62370.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="支持功能"><br>项目地址：<br><a href="https://stanfordnlp.github.io/stanfordnlp/tokenize.html" target="_blank" rel="external">https://stanfordnlp.github.io/stanfordnlp/tokenize.html</a></p>
+<h3 id="3-spaCy"><a href="#3-spaCy" class="headerlink" title="3 spaCy"></a>3 spaCy</h3><p>运行依赖：Python<br>支持功能：<br><img src="https://upload-images.jianshu.io/upload_images/4905018-b05fe1a8edb066c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="支持功能"><br>项目地址：<br><a href="https://spacy.io/" target="_blank" rel="external">https://spacy.io/</a></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本文梳理了实际的业务算法落地开发过程，并提出了其中存在的问题，和解决方案。对当前开源的NLP框架做了整理，可以依据自身的需要开发自己的NLP算法框架，规范开发流程，提升业务落地效率。同时，也可以直接从开源方案中获取自己需求的算法实现模块。后续有新的开源框架方案，会持续整理进来。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/从零开始学习自然语言处理-NLP/" rel="tag"># 从零开始学习自然语言处理(NLP)</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/01/深度学习的高阶数学/" rel="next" title="深度学习的高阶数学">
+                <i class="fa fa-chevron-left"></i> 深度学习的高阶数学
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/24/《TensorFlow内核剖析》笔记/" rel="prev" title="《TensorFlow内核剖析》笔记">
+                《TensorFlow内核剖析》笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Liu Caiquan" />
+          <p class="site-author-name" itemprop="name">Liu Caiquan</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在最前面"><span class="nav-number">1.</span> <span class="nav-text">写在最前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题描述"><span class="nav-number">2.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#针对对话系统的Framework"><span class="nav-number">3.</span> <span class="nav-text">针对对话系统的Framework</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-DeepPavlov"><span class="nav-number">3.1.</span> <span class="nav-text">1 DeepPavlov</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-ParlAI"><span class="nav-number">3.2.</span> <span class="nav-text">2 ParlAI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Rasa"><span class="nav-number">3.3.</span> <span class="nav-text">3 Rasa</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-OpenDial"><span class="nav-number">3.4.</span> <span class="nav-text">4 OpenDial</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通用NLP-Framework"><span class="nav-number">4.</span> <span class="nav-text">通用NLP Framework</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Intel-NLP-Architect"><span class="nav-number">4.1.</span> <span class="nav-text">1 Intel NLP-Architect</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-AllenNLP"><span class="nav-number">4.2.</span> <span class="nav-text">2 AllenNLP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-PyText"><span class="nav-number">4.3.</span> <span class="nav-text">3 PyText</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NLP基础依赖组件项目（提供pre-train模型）"><span class="nav-number">5.</span> <span class="nav-text">NLP基础依赖组件项目（提供pre-train模型）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Stanford-CoreNLP"><span class="nav-number">5.1.</span> <span class="nav-text">1 Stanford CoreNLP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Stanford-NLP"><span class="nav-number">5.2.</span> <span class="nav-text">2 Stanford NLP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-spaCy"><span class="nav-number">5.3.</span> <span class="nav-text">3 spaCy</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">6.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liu Caiquan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

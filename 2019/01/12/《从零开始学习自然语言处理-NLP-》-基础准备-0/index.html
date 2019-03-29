@@ -1,0 +1,742 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="从零开始学习自然语言处理(NLP)," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。 信心与兴趣很多同学提到算法可能">
+<meta name="keywords" content="从零开始学习自然语言处理(NLP)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《从零开始学习自然语言处理(NLP)》-基础准备(0)">
+<meta property="og:url" content="http://yoursite.com/2019/01/12/《从零开始学习自然语言处理-NLP-》-基础准备-0/index.html">
+<meta property="og:site_name" content="才权的博客">
+<meta property="og:description" content="写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。 信心与兴趣很多同学提到算法可能">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-29T15:20:52.621Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《从零开始学习自然语言处理(NLP)》-基础准备(0)">
+<meta name="twitter:description" content="写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。 信心与兴趣很多同学提到算法可能">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/12/《从零开始学习自然语言处理-NLP-》-基础准备-0/"/>
+
+
+
+
+
+  <title> 《从零开始学习自然语言处理(NLP)》-基础准备(0) | 才权的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4e94c4c1ded5d320541370545af638ea";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">才权的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/12/《从零开始学习自然语言处理-NLP-》-基础准备-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liu Caiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="才权的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                《从零开始学习自然语言处理(NLP)》-基础准备(0)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-12T22:11:22+08:00">
+                2019-01-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h1><p>在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。</p>
+<h1 id="信心与兴趣"><a href="#信心与兴趣" class="headerlink" title="信心与兴趣"></a>信心与兴趣</h1><p>很多同学提到算法可能就会打退堂鼓，尤其是一直从事纯工程的软件开发。工作中连经典的数据结构都很少使用，更不用提五花八门的机器学习和深度学习算法。尤其各个大厂的算法专家、数据科学家都是背景爆表，动不动就是国外名校的Phd，至少也是国内清北、C9。实际上，针对普通的算法开发岗，从学习梯度上来讲，算法和工程的差异并不大。当然也并不需要非要名校硕博。<br>以前经常和同事开玩笑说，好歹大家都是985的本硕，但手上这工作，找个高中生也能妥妥搞定啊。虽然是玩笑，线上的产品当然也不是像Demo那么简单，但真实的工作真的没有那么明显的条条框框限制。自己也是面试官，百度这样的大厂对普通的开发要求也只是大专。针对普通的算法开发，自己觉得本科基本足够了，当然更没有像211/985这样的限制。<br>一般来讲，从事某个领域的工作，从底层基础到业务实现一般包括如下的几个层次（以互联网移动开发和算法开发为例）：</p>
+<table>
+<thead>
+<tr>
+<th>方向</th>
+<th>通用基础</th>
+<th>专业基础</th>
+<th>领域基础</th>
+<th>业务方向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>移动开发</td>
+<td>操作系统、计算机网络、编译原理、数据结构、编程语言、设计模式</td>
+<td>Android开发、iOS开发</td>
+<td>驱动开发、Framework开发、应用开发</td>
+<td>电商、社交、智能硬件</td>
+</tr>
+<tr>
+<td>算法开发</td>
+<td>编程语言(python)、数学基础(线性代数、概率/统计、微积分)</td>
+<td>机器学习，深度学习</td>
+<td>语音、自然语言理解、计算机视觉、推荐、计算广告、风控</td>
+<td>搜索，智能客服，广告推荐，互联网金融</td>
+</tr>
+</tbody>
+</table>
+<p>从技能栈的对比来看，算法开发对数学要求要高些，这又会让很多同学看着头痛。实际上对数学的恐惧主要原因在于，对大多数人来说，数学主要是用来应付作业和考试的，而很少在真实的工程场景中使用它。<br>自己的本科专业是电子信息方向（觉得空闲时间多，顺手拿了个计算机科学与技术的双学士），有一些专业课程也蛮让人头痛的，比如《通信原理》、《信号与系统》、《数字信号处理》、《微机原理》、《数字电路》等，五花八门的抽象概念和算法公式。当时参加全国大学生电子设计竞赛，选入的学校的电子设计校队，参加系统的学习和培训（有半年的时间参加集中培训，不用像其他同学一样日常上课）：<br>当大家还在纠结《通信系统》里的调制解调原理时，我们已经在做单边带调制收音机了；<br>当大家还在纠结《信号与系统》的傅里叶变换时，我们已经在做基于快速傅里叶变换的频谱仪了；<br>当大家还在纠结《数字信号处理》里的滤波器时，我们已经在做50Hz及其谐波过滤的工频陷波器了；<br>当大家还在纠结《微机原理》的X86汇编指令时，我们已经用上工业级的Msp430和C8051F系列控制器了；<br>当大家还在纠结《数字电路》的逻辑控制和抱怨VHDL难学时，我们已经在用Verilog玩Altera的FPGA了。<br>本来是非常枯燥有难以对付的专业课，但有了实际的使用场景和工程实践，反而变得非常有趣，不但专业课的教材就在手边经常翻阅，还会专门找相应的Paper，看看有没有更好更新的方案。自己对这些专业课不但没有反感，反而觉得超级有用，知识就是力量，在这一刻特别贴切。<br>我们回过头来说数学，也是同样的体验。算法的开发工作为数学和算法提供了实践的土壤，理论有了实践这块沃土，也就不再那么枯燥和晦涩。像很多数学大神一样徒手推公式确实是件很难的事情，但基于基础的数学知识来解决工程问题，这并没有想象中的那么难。而且，学习本来就是一个往复的过程，先有一个大概，尝试用已有的知识解决问题，当问题解决不掉时，再反过来学习自己欠缺的知识。<br>说了信心再说兴趣，很多同学会觉得目前机器学习和深度学习大火，是不是就该放弃手上的工程岗位，全力以赴的加入到算法的大军中。自己觉得要不加入这个方向还是看个人兴趣吧，现在算法岗位炙手可热，但三五年之后就不好说了。典型的就是Android/iOS移动开发，10年左右如日中天，市场蓝海，人才紧俏，公司抢人的盛况应该跟现在差不多。收益的决定因素是市场，但个人的成长从长期来看，还要看自己的兴趣。依照T型能力理论来说，深度方面，前端、后台、架构、嵌入式、客户端都OK；广度方面，机器学习和深度学习不论从是否要从事相关的领域开发，花些时间了解和学习一下，总的来说也还是不错的。<br>好了，下面我们就具体看看从事自然语言处理需要准备的基础知识吧。</p>
+<h1 id="编程语言"><a href="#编程语言" class="headerlink" title="编程语言"></a>编程语言</h1><p>编程语言的要求是很低的，弄掌握Python就基本OK。我的自己经验是：</p>
+<ul>
+<li>1 在网上找一篇Python入门的帖子，搭建环境，运行简单的例子（半天）</li>
+<li>2 找一本基础书籍，系统的熟悉下语言的基本特性和完整框架（1~2天）<br>ps：我之前有C/C++和Java的语音基础</li>
+<li>3 开始正常使用Python进行开发，遇到问题，求助搜索引擎（2个月以上）</li>
+<li>4 觉得自己对语言就基本的掌握后，可以根据选择进行进阶学习了</li>
+</ul>
+<p>系统的基础学习可以参考：<a href="https://item.jd.com/12279949.html" target="_blank" rel="external">《Python基础教程》</a><br>晋级学习可以参考：<a href="https://item.jd.com/12186192.html" target="_blank" rel="external">《流畅的Python》</a></p>
+<h1 id="经典数据结构与算法"><a href="#经典数据结构与算法" class="headerlink" title="经典数据结构与算法"></a>经典数据结构与算法</h1><p>经典的数据结构和算法，主要指数组、链表、队列、堆栈、树、图这样的经典数据结构，以及各种排序/查找、深度搜索、广度搜索、最小路径、Hash等算法。对一般的算法开发，这部分不是必须项。如果时间有限，可以跳过这部分。但从长远来看，无论是普通的工程开发还是算法开发，经典的数据结构和算法还是必要了。<br>落实到具体的学习上，基础的《数据结构与算法》应该随便一本教科书都OK。在实际操作方面，可以抽空刷一刷<a href="https://leetcode.com/" target="_blank" rel="external">LeetCode</a>，书的话可以考虑<a href="https://item.jd.com/39977813000.html" target="_blank" rel="external">《进军硅谷，程序员面试解密》</a>，内容基本都是LeetCode的原题，可以先刷题再看书。如果LeetCode上能持续刷上200+的题目，以后面对经典的数据结构和算法问题，应该也就没有恐惧的感觉了，反而遇到新问题还会饶有兴趣的去研究研究解决方案。</p>
+<h1 id="数学基础"><a href="#数学基础" class="headerlink" title="数学基础"></a>数学基础</h1><p>对于算法开发，本科学习的《微积分》、《线性代数》、《概率/统计》基本上就够用了。有些同学会提到《概率图模型》和《凸优化》等。我觉得对于入门来说，前面的三门课基本够用，后面如果真的觉得需要深入，再看后面的内容也不迟。<br>如果觉得当时大学的课程成绩还不错，那最快的方法就是把大学的教材拿出来重新再扫一般即可。如果觉得时间充裕，想再系统的学习一遍，在线视频是个不错的选择，<br><a href="http://open.163.com/special/sp/singlevariablecalculus.html" target="_blank" rel="external">MIT：《单变量微积分》</a><br><a href="http://open.163.com/special/opencourse/daishu.html" target="_blank" rel="external">MIT：《线性代数》</a><br><a href="http://open.163.com/special/Khan/probability.html" target="_blank" rel="external">可汗学院：《概率》</a><br><a href="http://open.163.com/special/Khan/khstatistics.html" target="_blank" rel="external">可汗学院：《统计学》</a><br>学习的过程不要太苛求全面理解，没必要像数学大牛一样能把所有的公式都手动的推导一遍。能理解基本的概念和原理，关键是有系统的知识框架，后面遇到细节问题，可以回过头来再看。</p>
+<h1 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h1><p>这部分目前资料应该是铺天盖地的多，当然还有各式各样的培训班。自己觉得从入门角度，只要把吴恩达在Coursera上的机器学习课程完整的学习完，并完成作业拿到证书，机器学习这部分就算及格了。<br><a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">Coursera：《MachineLearning》</a><br>一定要完成作业！一定要完成作业！一定要完成作业！重要的事情说三遍。<br>Coursera不翻墙速度好像有些慢，网易云课堂也有视频，但不能提交作业作业。<br>至于书的话，可以看看周志华老师的“西瓜书”：<a href="https://item.jd.com/11867803.html" target="_blank" rel="external">《机器学习》</a></p>
+<h1 id="深度学习"><a href="#深度学习" class="headerlink" title="深度学习"></a>深度学习</h1><p>看完前面机器学习的内容你会发现两个事情：</p>
+<ul>
+<li>机器学习的各种算法好像都是些非常经典的算法，基本都是2000年之前提出的</li>
+<li>现在大家都在搞深度学习了，这些老掉牙的算法越来越没人用了</li>
+</ul>
+<p>真实情况也大抵如此，如果直接跳过机器学习直接学习深度学习可以吗？当然可以啊，而且，直接学习深度学习还会觉得深度学习的入门门槛更低。<br>这估计会让很多同学觉得反常识。但反过来你问问自己，如果没有学习过汇编，上来就用C语言搞嵌入式应用开发可以吗？没有学习过C++，上来就用Java搞Android开发可以吗？当然可以啊。从入门角度没问题，但从长期来看还是需要的，想深入一个领域，知识的完备是必要的。比如嵌入开发用汇编写过两级中断向量表，做Android开发也开发过JNI。<br>深度学习也是一样，从最快入门的角度来看，可以跳过机器学习，直接进入深度学习，但从长期看机器学习还是必要的。而且，看完了吴恩达的《机器学习》课程，再看他的深度学习也更流畅。<br><a href="https://mooc.study.163.com/smartSpec/detail/1001319001.htm" target="_blank" rel="external">Coursera：《DeepLearning》</a><br>一定要完成作业！一定要完成作业！一定要完成作业！重要的事情说三遍。<br>补充下，吴恩达在Coursera上的课程，《MachineLearning》是免费观看的，在线作业是付费的。《DeepLearning》无论是视频还是在线作业都是付费的。网易云课堂有免费的视频课程，但不能提交在线作业。其实，Coursera上的课程也挺便宜的，做完作业还有证书，还是挺不错的。<br>至于书的话，可以看看“花书”<a href="https://item.jd.com/12128543.html" target="_blank" rel="external">《深度学习》</a></p>
+<h1 id="自然语言处理"><a href="#自然语言处理" class="headerlink" title="自然语言处理"></a>自然语言处理</h1><p>好了终于到了这篇文章的核心部分了，因为是专业基础，所有市面上的系统学习资料也就没前面那么多了。但仔细找找的话也不少（都需要翻墙，手动捂脸）：<br>经典自然语言处理（斯坦福）：<a href="https://www.youtube.com/playlist?list=PLQiyVNMpDLKnZYBTUOlSI9mi9wAErFtFm" target="_blank" rel="external">《Natural Language Processing course by Dan Jurafsky and Christopher Manning》</a><br>经典+深度学习（National Research University Higher School of Economics）：<a href="https://www.coursera.org/learn/language-processing" target="_blank" rel="external">《Natural Language Processing》</a><br>深度学习自然语言处理（斯坦福）：<a href="https://www.youtube.com/playlist?list=PL3FW7Lu3i5Jsnh1rnUwq_TcylNr7EkRe6" target="_blank" rel="external">《Natural language processing with DeepLearning》</a><br>深度学习自然语言处理（CMU）：<a href="https://www.youtube.com/playlist?list=PL8PYTP1V4I8Ba7-rY4FoB4-jfuJ7VDKEE" target="_blank" rel="external">《CMU Neural Nets for NLP》</a><br>除了第一个之外，后面的视频都比较新。相对来说，书的资料就相对滞后了，如果有兴趣可以翻翻经典的宗成庆的<a href="https://item.jd.com/1040675628.html" target="_blank" rel="external">《统计自然语言处理》</a>，主要是针对经典的自然语言处理方法，虽然方法是经典的，但领域问题的描述还是很全面的。</p>
+<h1 id="小节"><a href="#小节" class="headerlink" title="小节"></a>小节</h1><p>总的来说，算法开发和普通的工程开发，从学习梯度上来讲差别不大，也不需要高大上的背景和学历。确定兴趣，看好方向，就坚持一步一步积累，理论结合实践，相信很快你也能像我一样，跨过算法开发的门槛，体会用算法解决实际工程问题的乐趣。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/从零开始学习自然语言处理-NLP/" rel="tag"># 从零开始学习自然语言处理(NLP)</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/21/TensorFlow-Servering-C-S通信约束/" rel="next" title="TensorFlow Servering C/S通信约束">
+                <i class="fa fa-chevron-left"></i> TensorFlow Servering C/S通信约束
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/20/《从零开始学习自然语言处理-NLP-》-倒排索引-1/" rel="prev" title="《从零开始学习自然语言处理(NLP)》-倒排索引(1)">
+                《从零开始学习自然语言处理(NLP)》-倒排索引(1) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Liu Caiquan" />
+          <p class="site-author-name" itemprop="name">Liu Caiquan</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在最前面"><span class="nav-number">1.</span> <span class="nav-text">写在最前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#信心与兴趣"><span class="nav-number">2.</span> <span class="nav-text">信心与兴趣</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编程语言"><span class="nav-number">3.</span> <span class="nav-text">编程语言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#经典数据结构与算法"><span class="nav-number">4.</span> <span class="nav-text">经典数据结构与算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数学基础"><span class="nav-number">5.</span> <span class="nav-text">数学基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#机器学习"><span class="nav-number">6.</span> <span class="nav-text">机器学习</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#深度学习"><span class="nav-number">7.</span> <span class="nav-text">深度学习</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自然语言处理"><span class="nav-number">8.</span> <span class="nav-text">自然语言处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小节"><span class="nav-number">9.</span> <span class="nav-text">小节</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liu Caiquan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

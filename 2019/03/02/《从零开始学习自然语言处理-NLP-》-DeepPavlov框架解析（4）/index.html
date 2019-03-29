@@ -1,0 +1,912 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="从零开始学习自然语言处理(NLP)," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。 问题描述在上一篇《从零开始学习">
+<meta name="keywords" content="从零开始学习自然语言处理(NLP)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《从零开始学习自然语言处理(NLP)》-DeepPavlov框架解析（4）">
+<meta property="og:url" content="http://yoursite.com/2019/03/02/《从零开始学习自然语言处理-NLP-》-DeepPavlov框架解析（4）/index.html">
+<meta property="og:site_name" content="才权的博客">
+<meta property="og:description" content="写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。 问题描述在上一篇《从零开始学习">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-f4c0014e182c870b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-c0f6ca8cbb1f27c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-aa3877cb08461905.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-20ec116fa7907873.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-99c0ebb7de6cc02f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-b5316fe0884017ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-35bbd3ed436a7545.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-6f83f4dcefee7713.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-ba0d381b6d858e97.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-0e61711decf24e69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-4b3fafd2b9128a17.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-03-29T15:20:52.620Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《从零开始学习自然语言处理(NLP)》-DeepPavlov框架解析（4）">
+<meta name="twitter:description" content="写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。 问题描述在上一篇《从零开始学习">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/4905018-f4c0014e182c870b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/02/《从零开始学习自然语言处理-NLP-》-DeepPavlov框架解析（4）/"/>
+
+
+
+
+
+  <title> 《从零开始学习自然语言处理(NLP)》-DeepPavlov框架解析（4） | 才权的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4e94c4c1ded5d320541370545af638ea";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">才权的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/02/《从零开始学习自然语言处理-NLP-》-DeepPavlov框架解析（4）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liu Caiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="才权的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                《从零开始学习自然语言处理(NLP)》-DeepPavlov框架解析（4）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-02T19:49:19+08:00">
+                2019-03-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h2><p>在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。</p>
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>在上一篇《从零开始学习自然语言处理(NLP)-NLP Framework开源方案梳理(3)》中梳理了目前流行的NLP开源框架，这里重点介绍下DeepPavlov框架。DeepPavlov框架的模型实用性很强，对实际的生产开发有很大的借鉴意义。</p>
+<h2 id="框架组成"><a href="#框架组成" class="headerlink" title="框架组成"></a>框架组成</h2><p>DeepPavlov是一个基于TensorFlow和Keras的，专门针对对话系统研究和实验部署的自然语言处理框架。<br>项目地址：<a href="http://docs.deeppavlov.ai/en/master/#" target="_blank" rel="external">http://docs.deeppavlov.ai/en/master/#</a><br>框架主要包括：<br><strong>常用的NLP模型（包括Pre-train模型）</strong><br>如词向量训练、分类、命名实体识别（NER）、相似度计算等；<br><strong>针对对话系统实现和评测的实验框架（Framework）</strong><br>基于Json文件进行开发流程和数据流pipeline配置；<br><strong>提供同第三方应用进行集成的工具</strong><br>如与Amazon Alexa和Microsoft Bot Framework的集成；<br><strong>为对话模型的评测提供Benchmark环境</strong><br>DeepPavlov的默认Pre-train模型和测评数据集主要基于英文和俄文，对于中文场景需要做适当的调整。</p>
+<h2 id="框架使用对象"><a href="#框架使用对象" class="headerlink" title="框架使用对象"></a>框架使用对象</h2><p><strong>新模型开发者</strong><br>方便同已有Benchmark模型进行对比评测<br><strong>普通NLP任务处理者</strong><br>如针对内容审核任务，敏感信息增加掩码等任务，可以直接使用框架提供的分类和序列标注模型，完成业务服务的快速开发和测评；<br><strong>对话系统开发者</strong><br>DeepPavlov是为对话系统场景量身定制的。对话系统开发者，可以直接参考使用；<br><strong>对话系统应用开发者</strong><br>DeepPavlov框架为应用集成提供了专门的工具，可以直接与Amazon Alexa，Microsoft Bot Framework等平台进行对接。</p>
+<h2 id="框架使用"><a href="#框架使用" class="headerlink" title="框架使用"></a>框架使用</h2><p><strong>规范开发流程</strong><br>框架将数据模型服务的开发和验证流程（如数据清洗、模型设计、模型训练、模型选优、模型评测），使用Json配置文件串联成pipeline。能够很好的规范开发流程；<br><strong>新模型对比评测</strong><br>为对话模型的评测提供Benchmark环境，方便新模型的对比评测。但环境主要基于英文和俄文，对于中文任务，需要重新训练对比；<br><strong>常用NLP模型使用</strong><br>框架内置了很多常用模型（以分类为例，就包含了cnn_model，bilstm_model，bilstm_attention_model，transformer_model等12种模型实现），在项目中可以直接使用；<br>同时框架提供了Pre-train模型，但主要是基于英文和俄文的，对于中文场景需要自己进行重新训练；<br><strong>对话系统开发</strong><br>DeepPavlov是为对话系统场景量身定制的，对话系统开发者，可以直接参考使用；</p>
+<h2 id="DeepPavlov框架层次"><a href="#DeepPavlov框架层次" class="headerlink" title="DeepPavlov框架层次"></a>DeepPavlov框架层次</h2><p>DeepPavlov从整体到局部，可分为如下三个层次：<br><img src="https://upload-images.jianshu.io/upload_images/4905018-f4c0014e182c870b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="DeepPavlov框架层次"><br>下面我们从外层到内层，逐层介绍DeepPavlov的框架设计。</p>
+<h2 id="DeepPavlov顶层框架"><a href="#DeepPavlov顶层框架" class="headerlink" title="DeepPavlov顶层框架"></a>DeepPavlov顶层框架</h2><p><img src="https://upload-images.jianshu.io/upload_images/4905018-c0f6ca8cbb1f27c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="DeepPavlov框架"><br><strong>Agent</strong><br>同用户直接交互的代理，直接接收用户输入的纯文本信息（raw text）<br><strong>Skill</strong><br>领域技能，如基于意图-词槽的任务型技能，基于Seq2Seq的闲聊技能，基于知识图谱的知识问答技能；<br><strong>Skill Manager</strong><br>确定用户query，选择使用哪些skill，并确定将哪一个skill的召回结果作为最终的回复；<br><strong>Component</strong><br>Skill实现的组成部分，如针对任务型技能，包括数据预处理component、意图识别component、slotfilling component等；<br><strong>Chainer</strong><br>Chainer以Json配置文件的形式，将某个skill相关的所有component串联起来；<br><strong>Data Storage</strong><br>框架本身包含的Pre-train模型和Benchmark评测数据集</p>
+<h2 id="Skill框架"><a href="#Skill框架" class="headerlink" title="Skill框架"></a>Skill框架</h2><p>DeepPavlov内置的skill主要包括：<br><strong>任务型skill（Goal-Oriented Dialogue Bot）</strong><br>基于意图/词槽/对话管理等component实现的问答skill。<br><img src="https://upload-images.jianshu.io/upload_images/4905018-aa3877cb08461905.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="任务型skill"><br><strong>阅读理解skill（Open-Domain Question Answering）</strong><br>基于阅读理解实现问答skill。相对于阅读理解component（Context Question Answering），skill还包含在多个召回结果中进行排序的能力。<br><strong>规则型skill（Pattern Matching）</strong><br>基于自定义规则实现问答skill。<br><strong>Seq2Seq skill（Sequence-To-Sequence Dialogue Bot）</strong><br>基于Seq2Seq实现问答skill。<br><img src="https://upload-images.jianshu.io/upload_images/4905018-20ec116fa7907873.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Seq2Seq skill"><br><strong>常见问题问答skill（Frequently Asked Questions Answering）</strong><br>先将句子嵌入为向量（使用词向量叠加），然后做分类处理（给每一个answer一个打分），选取打分最高的answer作为最终回复的skill。<br><strong>商品查询skill（eCommerce Bot）</strong><br>商品查询回复skill，支持多轮（添加过滤条件）。下面是场景示例，<br><img src="https://upload-images.jianshu.io/upload_images/4905018-99c0ebb7de6cc02f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="商品查询skill"></p>
+<h2 id="基本能力框架"><a href="#基本能力框架" class="headerlink" title="基本能力框架"></a>基本能力框架</h2><p>DeepPavlov内置的基本能力主要包括：<br><strong>数据预处理component（Data processors）</strong><br>主要提供包括分词、嵌入向量化等预处理能力（主要基于俄文和英文）。<br><strong>阅读理解component（Context Question Answering）</strong><br>相对于阅读理解skill（Open-Domain Question Answering），component不包含对多个召回结果进行排序（rank）的能力。具体的处理场景示例如下，<br><img src="https://upload-images.jianshu.io/upload_images/4905018-b5316fe0884017ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="阅读理解component"><br><strong>分类component（Classification）</strong><br>分类组件，可以用来做场景和意图的分类。<br><strong>Morphological Tagger component</strong><br>一种特殊的POS？<br><strong>命名实体识别component（Named Entity Recognition）</strong><br>NER能力组件。<br><strong>相似度计算component（Neural Ranking）</strong><br>通过基于孪生网络完成相似度计算，实现在标准问答库中标准答复的查找。<br><strong>词槽填充component（Slot filling）</strong><br>在NER的基础上，增加了词表限制。<br><strong>*拼写纠错component（Spelling Correction）</strong><br>提供了两种纠错方法：</p>
+<ul>
+<li>levenshtein_corrector ：基于编辑距离</li>
+<li>brillmoore：基于统计模型</li>
+</ul>
+<p><strong>TF-IDF排序component（TF-IDF Ranking）</strong><br>基于TF-IDF的文档召回排序。<br><strong>流行度排序component（Popularity Ranking）</strong><br>将TF-IDF打分和流行度打分作为特征，通过逻辑回归计算流行度，最终实现排序。</p>
+<h2 id="Json配置文件解析"><a href="#Json配置文件解析" class="headerlink" title="Json配置文件解析"></a>Json配置文件解析</h2><p>DeepPavlov通过Json配置文件实现开发流程控制和数据流pipeline的控制。<br>上面提到DeepPavlov主要分为Agent、Skill和Component三个层次。而Json配置文件主要应用在Skill和Component这两个层面。而对Agent的控制，框架通过直接的代码来实现，例如，<br><img src="https://upload-images.jianshu.io/upload_images/4905018-35bbd3ed436a7545.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="agent"><br>其中，<br><strong>skills</strong><br>Agent支持的所有skill列表；<br><strong>skills_filter</strong><br>针对用户query，确定Agent使用哪些skill；<br><strong>skills_filter</strong><br>通过召回的不同skill结果，确定最后的回复内容给用户；<br>下面我们具体的介绍下Json配置文件的具体结构。</p>
+<h2 id="Json配置文件结构"><a href="#Json配置文件结构" class="headerlink" title="Json配置文件结构"></a>Json配置文件结构</h2><p><img src="https://upload-images.jianshu.io/upload_images/4905018-6f83f4dcefee7713.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Json配置文件结构"><br>如上图所示，Json配置文件主要由如下五个部分组成（参考分类component）：<br><strong>dataset_reader</strong><br>主要负责数据的读取。<br><img src="https://upload-images.jianshu.io/upload_images/4905018-ba0d381b6d858e97.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="dataset_reader"><br><strong>dataset_iterator</strong><br>数据迭代器，从dataset_reader中获得数据，然后按batch抽取数据，供后面的模型训练使用。<br><img src="https://upload-images.jianshu.io/upload_images/4905018-0e61711decf24e69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="dataset_iterator"><br><strong>chainer</strong><br>配置文件的核心，将数据预处理、模型选优和模型预测输出，通过pipeline（”pipe”字段内进行约束）的形式串联起来。</p>
+<pre><code>&quot;chainer&quot;: {
+&quot;in&quot;: [
+  &quot;x&quot;
+],
+&quot;in_y&quot;: [
+  &quot;y&quot;
+],
+&quot;pipe&quot;: [
+  {
+    &quot;id&quot;: &quot;classes_vocab&quot;,
+    &quot;class_name&quot;: &quot;simple_vocab&quot;,
+    &quot;fit_on&quot;: [
+      &quot;y&quot;
+    ],
+    &quot;save_path&quot;: &quot;{MODELS_PATH}/classifiers/{PROJECT_NAME}_{MODEL_NAME}/classes.dict&quot;,
+    &quot;load_path&quot;: &quot;{MODELS_PATH}/classifiers/{PROJECT_NAME}_{MODEL_NAME}/classes.dict&quot;,
+    &quot;in&quot;: &quot;y&quot;,
+    &quot;out&quot;: &quot;y_ids&quot;
+  },
+  {
+    &quot;in&quot;: &quot;x&quot;,
+    &quot;out&quot;: &quot;x_tok&quot;,
+    &quot;id&quot;: &quot;my_tokenizer&quot;,
+    &quot;class_name&quot;: &quot;char_tokenizer&quot;,
+    &quot;tokenizer&quot;: &quot;char_tokenizer&quot;
+  },
+  {
+    &quot;in&quot;: &quot;x_tok&quot;,
+    &quot;out&quot;: &quot;x_ids&quot;,
+    &quot;id&quot;: &quot;seq_to_emb_ids&quot;,
+    &quot;class_name&quot;: &quot;seq_to_emb_ids&quot;,
+    &quot;emb_file_path&quot;:&quot;{EMBED_PATH}&quot;,
+    &quot;text_size&quot;:250
+  },
+  {
+    &quot;in&quot;: &quot;y_ids&quot;,
+    &quot;out&quot;: &quot;y_onehot&quot;,
+    &quot;class_name&quot;: &quot;one_hotter&quot;,
+    &quot;id&quot;: &quot;my_one_hotter&quot;,
+    &quot;single_vector&quot;: true,
+    &quot;depth&quot;: &quot;#classes_vocab.len&quot;
+  },
+  {
+    &quot;in&quot;: [
+      &quot;x_ids&quot;
+    ],
+    &quot;fit_on_batch_preprocess&quot;: [
+      &quot;x_ids&quot;,
+      &quot;y_onehot&quot;
+    ],
+    &quot;out&quot;: [
+      &quot;y_pred_probas&quot;
+    ],
+    &quot;main&quot;: true,
+    &quot;class_name&quot;: &quot;keras_classifier_model&quot;,
+    &quot;graph_metrics&quot;: &quot;multilabel_f1&quot;,
+    &quot;save_path&quot;: &quot;{MODELS_PATH}/classifiers/{PROJECT_NAME}_{MODEL_NAME}/model&quot;,
+    &quot;load_path&quot;: &quot;{MODELS_PATH}/classifiers/{PROJECT_NAME}_{MODEL_NAME}/model&quot;,
+    &quot;n_classes&quot;: &quot;#classes_vocab.len&quot;,
+    &quot;train_emb&quot;: false,
+    &quot;kernel_sizes_cnn&quot;: [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    &quot;filters_cnn&quot;: 512,
+    &quot;optimizer&quot;: &quot;Adam&quot;,
+    &quot;learning_rate&quot;: 0.001,
+    &quot;learning_rate_decay&quot;: 0.9,
+    &quot;loss&quot;: &quot;categorical_crossentropy&quot;,
+    &quot;embedding_matrix&quot;: &quot;#seq_to_emb_ids.matrix&quot;,
+    &quot;text_size&quot;: 250,
+    &quot;last_layer_activation&quot;: &quot;softmax&quot;,
+    &quot;coef_reg_cnn&quot;: 0.0,
+    &quot;coef_reg_den&quot;: 0.0,
+    &quot;dropout_rate&quot;: 0.5,
+    &quot;dense_size&quot;: 30,
+    &quot;model_name&quot;: &quot;cnn_model&quot;
+  },
+  {
+    &quot;in&quot;: &quot;y_pred_probas&quot;,
+    &quot;out&quot;: &quot;y_pred_ids&quot;,
+    &quot;class_name&quot;: &quot;proba2labels&quot;,
+    &quot;max_proba&quot;: true
+  },
+  {
+    &quot;in&quot;: &quot;y_pred_ids&quot;,
+    &quot;out&quot;: &quot;y_pred_onehot&quot;,
+    &quot;ref&quot;: &quot;my_one_hotter&quot;
+  },
+  {
+    &quot;in&quot;: &quot;y_pred_ids&quot;,
+    &quot;out&quot;: &quot;y_pred_labels&quot;,
+    &quot;ref&quot;: &quot;classes_vocab&quot;
+  }
+],
+&quot;out&quot;: [
+  &quot;y_pred_ids&quot;,
+  &quot;y_pred_onehot&quot;,
+  &quot;y_pred_labels&quot;,
+  &quot;y_pred_probas&quot;
+]
+},
+</code></pre><p>官方文档中，将“pipe”字段内的每一对花括号({})中的内容成为一个component（注意这里的component和上面提到的框架component是不同的。为了方便区分，我们将”pipe”中的component标识为pipe-component）。<br><strong>train</strong><br>模型训练、模型选优和评测配置。</p>
+<pre><code>&quot;train&quot;: {
+&quot;epochs&quot;: 10,
+&quot;batch_size&quot;: 256,
+&quot;metrics&quot;: [
+  {
+    &quot;name&quot;: &quot;cal_confusion_matrix&quot;,
+    &quot;inputs&quot;: [
+      &quot;y&quot;,
+      &quot;y_pred_labels&quot;
+    ]
+  },
+  {
+    &quot;name&quot;: &quot;f1_micro&quot;,
+    &quot;inputs&quot;: [
+      &quot;y&quot;,
+      &quot;y_pred_labels&quot;
+    ]
+  },
+  {
+    &quot;name&quot;: &quot;recall_micro&quot;,
+    &quot;inputs&quot;: [
+      &quot;y_ids&quot;,
+      &quot;y_pred_ids&quot;
+    ]
+  },
+  {
+    &quot;name&quot;: &quot;precision_micro&quot;,
+    &quot;inputs&quot;: [
+      &quot;y_onehot&quot;,
+      &quot;y_pred_onehot&quot;
+    ]
+  },
+  {
+    &quot;name&quot;: &quot;f1_macro&quot;,
+    &quot;inputs&quot;: [
+      &quot;y_onehot&quot;,
+      &quot;y_pred_onehot&quot;
+    ]
+  },
+  {
+    &quot;name&quot;: &quot;precision_macro&quot;,
+    &quot;inputs&quot;: [
+      &quot;y&quot;,
+      &quot;y_pred_labels&quot;
+    ]
+  },
+  {
+    &quot;name&quot;: &quot;recall_macro&quot;,
+    &quot;inputs&quot;: [
+      &quot;y_ids&quot;,
+      &quot;y_pred_ids&quot;
+    ]
+  },
+  {
+    &quot;name&quot;: &quot;recall_group&quot;,
+    &quot;inputs&quot;: [
+      &quot;y_onehot&quot;,
+      &quot;y_pred_onehot&quot;
+    ]
+  },
+  {
+    &quot;name&quot;: &quot;precision_group&quot;,
+    &quot;inputs&quot;: [
+      &quot;y&quot;,
+      &quot;y_pred_labels&quot;
+    ]
+  },
+  {
+    &quot;name&quot;: &quot;f1_group&quot;,
+    &quot;inputs&quot;: [
+      &quot;y_ids&quot;,
+      &quot;y_pred_ids&quot;
+    ]
+  }
+],
+&quot;validation_patience&quot;: 5,
+&quot;val_every_n_epochs&quot;: 1,
+&quot;log_every_n_epochs&quot;: 1,
+&quot;show_examples&quot;: true,
+&quot;validate_best&quot;: true,
+&quot;test_best&quot;: true,
+&quot;report_path&quot;: &quot;{MODELS_PATH}/classifiers/{PROJECT_NAME}_{MODEL_NAME}/report.xlsx&quot;
+},
+</code></pre><p>其中，<br>“metric”字段中排在最前面的指标，作为模型选优的标准。<br><strong>metadata</strong><br>相关相关的常量配置。<br><img src="https://upload-images.jianshu.io/upload_images/4905018-4b3fafd2b9128a17.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="metadata"><br>其中，”imports”是DeepPavlov框架之外自定义实现。</p>
+<h2 id="DeepPavlov存在的问题"><a href="#DeepPavlov存在的问题" class="headerlink" title="DeepPavlov存在的问题"></a>DeepPavlov存在的问题</h2><p><strong>环境依赖</strong><br>DeepPavlov是基于TensorFlow和Keras实现的，不能继承其他计算框架的模型实现（如PyTorch）。<br><strong>语言支持</strong><br>Pre-train模型和评测数据集主要基于英文和俄文，不支持中文。<br><strong>生产环境部署</strong><br>DeepPavlov在运行时需要依赖整个框架源码，开发环境对框架修改后，生产环境需要更新整个框架。同时，也不能直接将功能Component作为服务独立导出，不适合在生产环境的部署和发布。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/从零开始学习自然语言处理-NLP/" rel="tag"># 从零开始学习自然语言处理(NLP)</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/24/《TensorFlow内核剖析》笔记/" rel="next" title="《TensorFlow内核剖析》笔记">
+                <i class="fa fa-chevron-left"></i> 《TensorFlow内核剖析》笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/29/TensorFlow-GPU开发环境搭建/" rel="prev" title="TensorFlow GPU开发环境搭建">
+                TensorFlow GPU开发环境搭建 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Liu Caiquan" />
+          <p class="site-author-name" itemprop="name">Liu Caiquan</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在最前面"><span class="nav-number">1.</span> <span class="nav-text">写在最前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题描述"><span class="nav-number">2.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#框架组成"><span class="nav-number">3.</span> <span class="nav-text">框架组成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#框架使用对象"><span class="nav-number">4.</span> <span class="nav-text">框架使用对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#框架使用"><span class="nav-number">5.</span> <span class="nav-text">框架使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DeepPavlov框架层次"><span class="nav-number">6.</span> <span class="nav-text">DeepPavlov框架层次</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DeepPavlov顶层框架"><span class="nav-number">7.</span> <span class="nav-text">DeepPavlov顶层框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Skill框架"><span class="nav-number">8.</span> <span class="nav-text">Skill框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本能力框架"><span class="nav-number">9.</span> <span class="nav-text">基本能力框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Json配置文件解析"><span class="nav-number">10.</span> <span class="nav-text">Json配置文件解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Json配置文件结构"><span class="nav-number">11.</span> <span class="nav-text">Json配置文件结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DeepPavlov存在的问题"><span class="nav-number">12.</span> <span class="nav-text">DeepPavlov存在的问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liu Caiquan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

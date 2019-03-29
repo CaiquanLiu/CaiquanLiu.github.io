@@ -1,0 +1,715 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Eddy的AI学习之旅," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="需求提出上一篇文章中我们接入了图灵机器人，通过图灵机器人接口，我们可以实现查天气、看股票、听故事这样的需求。但如果我现在需要查看下我的简书上有哪些文章该如何处理呢？显然通过图灵机器人接口是不能实现的，这里就需要我们自己来完成语义的解析，同时，通过网络爬虫来爬取我在简书上的文章列表。下面我们以“我们简书上有哪些文章？”为例，来说明AI小助手中，自定义语义解析和内容抓取是如何实现的。 语义解析在AI小">
+<meta name="keywords" content="Eddy的AI学习之旅">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Eddy的AI小助手-自定义语义解析和内容抓取(9)">
+<meta property="og:url" content="http://yoursite.com/2017/07/07/Eddy的AI小助手-自定义语义解析和内容抓取-9/index.html">
+<meta property="og:site_name" content="才权的博客">
+<meta property="og:description" content="需求提出上一篇文章中我们接入了图灵机器人，通过图灵机器人接口，我们可以实现查天气、看股票、听故事这样的需求。但如果我现在需要查看下我的简书上有哪些文章该如何处理呢？显然通过图灵机器人接口是不能实现的，这里就需要我们自己来完成语义的解析，同时，通过网络爬虫来爬取我在简书上的文章列表。下面我们以“我们简书上有哪些文章？”为例，来说明AI小助手中，自定义语义解析和内容抓取是如何实现的。 语义解析在AI小">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2017/07/07/Eddy的AI小助手-自定义语义解析和内容抓取-9/图灵机器的能力.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/07/Eddy的AI小助手-自定义语义解析和内容抓取-9/关键字匹配代码.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/07/Eddy的AI小助手-自定义语义解析和内容抓取-9/自定义意图解析.png">
+<meta property="og:updated_time" content="2019-03-29T15:20:52.609Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Eddy的AI小助手-自定义语义解析和内容抓取(9)">
+<meta name="twitter:description" content="需求提出上一篇文章中我们接入了图灵机器人，通过图灵机器人接口，我们可以实现查天气、看股票、听故事这样的需求。但如果我现在需要查看下我的简书上有哪些文章该如何处理呢？显然通过图灵机器人接口是不能实现的，这里就需要我们自己来完成语义的解析，同时，通过网络爬虫来爬取我在简书上的文章列表。下面我们以“我们简书上有哪些文章？”为例，来说明AI小助手中，自定义语义解析和内容抓取是如何实现的。 语义解析在AI小">
+<meta name="twitter:image" content="http://yoursite.com/2017/07/07/Eddy的AI小助手-自定义语义解析和内容抓取-9/图灵机器的能力.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/07/Eddy的AI小助手-自定义语义解析和内容抓取-9/"/>
+
+
+
+
+
+  <title> Eddy的AI小助手-自定义语义解析和内容抓取(9) | 才权的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4e94c4c1ded5d320541370545af638ea";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">才权的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/07/Eddy的AI小助手-自定义语义解析和内容抓取-9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liu Caiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="才权的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Eddy的AI小助手-自定义语义解析和内容抓取(9)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-07T14:31:39+08:00">
+                2017-07-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="需求提出"><a href="#需求提出" class="headerlink" title="需求提出"></a>需求提出</h1><p>上一篇文章中我们接入了图灵机器人，通过图灵机器人接口，我们可以实现查天气、看股票、听故事这样的需求。但如果我现在需要查看下我的简书上有哪些文章该如何处理呢？显然通过图灵机器人接口是不能实现的，这里就需要我们自己来完成语义的解析，同时，通过网络爬虫来爬取我在简书上的文章列表。下面我们以“我们简书上有哪些文章？”为例，来说明AI小助手中，自定义语义解析和内容抓取是如何实现的。</p>
+<h1 id="语义解析"><a href="#语义解析" class="headerlink" title="语义解析"></a>语义解析</h1><p>在AI小助手中对语义的解析分为两个层次：</p>
+<h2 id="1-理解意图"><a href="#1-理解意图" class="headerlink" title="1 理解意图"></a>1 理解意图</h2><p>意图就是要干什么，也是后台处理的能力范围。对于图灵机器人，它的能力包括“笑话大全”、“故事大全”、“成语接龙”等等：</p>
+<p><img src="/2017/07/07/Eddy的AI小助手-自定义语义解析和内容抓取-9/图灵机器的能力.png" alt="图灵机器的能力"></p>
+<p>在接收到用户请求后，图灵机器人会首先分析该请求和自己的那一种能力相对应，如果超过自己的能力范围，图灵机器人便无法进行处理。如果询问图灵机器人“我的简书上有哪些文章？”，用户的意图不在图灵的能力范围之内，它是无法做出正确回复的。</p>
+<h2 id="2-确定意图参数"><a href="#2-确定意图参数" class="headerlink" title="2 确定意图参数"></a>2 确定意图参数</h2><p>在获取意图之后，就需要确定该意图对应的具体参数。比如“今天天气怎么样？”，图灵机器人能够获取该请求的意图是“天气查询”，但它不知道查询什么地方的天气，所以，也是无法给出正确的答复的。所以正确的询问方式应该是“今天深圳天气怎么样？”图灵机器人在识别到“天气查询”的意图后，还会提取“今天”和“深圳”这样的关键参数，从而返回正确的回复。</p>
+<h2 id="3-AI小助手的语义解析"><a href="#3-AI小助手的语义解析" class="headerlink" title="3 AI小助手的语义解析"></a>3 AI小助手的语义解析</h2><p>AI小助手采用关键字匹配的方式来分层获取意图和意图对应的参数。对于“我的简书上有哪些文章？”，AI小助手对先匹配关键字“简书”获取意图，然后通过关键字“文章”来获取“简书”意图下的关键参数。</p>
+<p>关键字的匹配使用了Java的正则表达式。其中，“简书”意图的匹配规则，</p>
+<pre><code>private final String REG_EX_JIANSHU = &quot;简书|jianshu&quot;;
+</code></pre><p>“文章”参数的匹配规则，</p>
+<pre><code>private final String REG_EX_ARTICLE = &quot;文章|article&quot;;
+</code></pre><p>意图和对应参数的提取都是基于字符串查找的，</p>
+<p><img src="/2017/07/07/Eddy的AI小助手-自定义语义解析和内容抓取-9/关键字匹配代码.png" alt="关键字匹配代码"></p>
+<h1 id="内容爬取"><a href="#内容爬取" class="headerlink" title="内容爬取"></a>内容爬取</h1><p>在正确获取到请求的意图和对应参数后，需要给出正确的答复。对于“我的简书上有哪些文章？”这样的请求，我们可以通过网络爬虫来爬取自己需要的信息。在AI小助手中，采用了HtmlParser（htmlparser.sourceforge.net/）对个人的简书文章进行分析，从而爬取需要的信息。</p>
+<h1 id="自定义语义解析与图灵机器人配合使用"><a href="#自定义语义解析与图灵机器人配合使用" class="headerlink" title="自定义语义解析与图灵机器人配合使用"></a>自定义语义解析与图灵机器人配合使用</h1><p>自定义语义解析可以同图灵机器人接口配合使用。首先进行自定义的语义解析，如果解析失败再通过图灵机器人接口进行解析。这样既可以满足像“我的简书上有哪些文章？”这样自定义能力，又可以完成像“今天深圳天气怎么样？”这样的通用能力。</p>
+<h1 id="AI小助手自定义语义解析和内容抓取效果"><a href="#AI小助手自定义语义解析和内容抓取效果" class="headerlink" title="AI小助手自定义语义解析和内容抓取效果"></a>AI小助手自定义语义解析和内容抓取效果</h1><p><img src="/2017/07/07/Eddy的AI小助手-自定义语义解析和内容抓取-9/自定义意图解析.png" alt="自定义意图解析"></p>
+<h1 id="项目代码"><a href="#项目代码" class="headerlink" title="项目代码"></a>项目代码</h1><p>Java代码：<a href="github.com/CaiquanLiu/MyWeChatService.git">github.com/CaiquanLiu/MyWeChatService.git</a></p>
+<p>Python代码：<a href="github.com/CaiquanLiu/MyTuringService">github.com/CaiquanLiu/MyTuringService</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Eddy的AI学习之旅/" rel="tag"># Eddy的AI学习之旅</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/07/Eddy的AI小助手-图灵机器人接入-8/" rel="next" title="Eddy的AI小助手-图灵机器人接入(8)">
+                <i class="fa fa-chevron-left"></i> Eddy的AI小助手-图灵机器人接入(8)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/07/Eddy的AI小助手-后台处理模块接入-10/" rel="prev" title="Eddy的AI小助手-后台处理模块接入(10)">
+                Eddy的AI小助手-后台处理模块接入(10) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Liu Caiquan" />
+          <p class="site-author-name" itemprop="name">Liu Caiquan</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#需求提出"><span class="nav-number">1.</span> <span class="nav-text">需求提出</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#语义解析"><span class="nav-number">2.</span> <span class="nav-text">语义解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-理解意图"><span class="nav-number">2.1.</span> <span class="nav-text">1 理解意图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-确定意图参数"><span class="nav-number">2.2.</span> <span class="nav-text">2 确定意图参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-AI小助手的语义解析"><span class="nav-number">2.3.</span> <span class="nav-text">3 AI小助手的语义解析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内容爬取"><span class="nav-number">3.</span> <span class="nav-text">内容爬取</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自定义语义解析与图灵机器人配合使用"><span class="nav-number">4.</span> <span class="nav-text">自定义语义解析与图灵机器人配合使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AI小助手自定义语义解析和内容抓取效果"><span class="nav-number">5.</span> <span class="nav-text">AI小助手自定义语义解析和内容抓取效果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#项目代码"><span class="nav-number">6.</span> <span class="nav-text">项目代码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liu Caiquan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

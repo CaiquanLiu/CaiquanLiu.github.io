@@ -1,0 +1,729 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="TensorFlow," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="市面上对TensorFlow使用介绍的书非常之多，但剖析原理的却很少。如果对TensorFlow的底层实现感兴趣，刘光聪的《TensorFlow内核剖析》是一个不错的选择。同时，这是一本开源技术书，可以免费获得。 DistBelife框架 DistBelief缺点 TensorFlow设计原则 TensorFlow优势 TensorFlow里程碑 TensorFlow技术栈 TensorFlow系">
+<meta name="keywords" content="TensorFlow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《TensorFlow内核剖析》笔记">
+<meta property="og:url" content="http://yoursite.com/2019/02/24/《TensorFlow内核剖析》笔记/index.html">
+<meta property="og:site_name" content="才权的博客">
+<meta property="og:description" content="市面上对TensorFlow使用介绍的书非常之多，但剖析原理的却很少。如果对TensorFlow的底层实现感兴趣，刘光聪的《TensorFlow内核剖析》是一个不错的选择。同时，这是一本开源技术书，可以免费获得。 DistBelife框架 DistBelief缺点 TensorFlow设计原则 TensorFlow优势 TensorFlow里程碑 TensorFlow技术栈 TensorFlow系">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-4353758491c42988.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-8e7217b17816c5f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-61167f0c483ebef2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-b5274b1e0a620542.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-5a1f4453b8c12fbf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-fc46239d6f9e5447.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-64be0bebce3b0fea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-b9adaaea3bf849d0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-9edbf4350c1eb435.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-3a4a8f95f10fbdd8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-a9d3670a01be4c17.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-0d571744e78612d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-fc9adc70dba88bf6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-7fbc67ed7ad2c16e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-19beefd44fa712ac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-8421bbe8a067bf2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-078e3463fda1933b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-30a2d980b9f325ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-889d5c03ed5237d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-1cb2f9c97633ede4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-2361f428ce897631.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-533b782f7bbf85fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-7a2cfa2712dc4900.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-550f9faaa2881cdb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-03-29T15:20:52.620Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《TensorFlow内核剖析》笔记">
+<meta name="twitter:description" content="市面上对TensorFlow使用介绍的书非常之多，但剖析原理的却很少。如果对TensorFlow的底层实现感兴趣，刘光聪的《TensorFlow内核剖析》是一个不错的选择。同时，这是一本开源技术书，可以免费获得。 DistBelife框架 DistBelief缺点 TensorFlow设计原则 TensorFlow优势 TensorFlow里程碑 TensorFlow技术栈 TensorFlow系">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/4905018-4353758491c42988.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/24/《TensorFlow内核剖析》笔记/"/>
+
+
+
+
+
+  <title> 《TensorFlow内核剖析》笔记 | 才权的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4e94c4c1ded5d320541370545af638ea";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">才权的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/24/《TensorFlow内核剖析》笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liu Caiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="才权的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                《TensorFlow内核剖析》笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-24T19:40:33+08:00">
+                2019-02-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>市面上对TensorFlow使用介绍的书非常之多，但剖析原理的却很少。如果对TensorFlow的底层实现感兴趣，刘光聪的《TensorFlow内核剖析》是一个不错的选择。同时，这是一本开源技术书，可以免费获得。</p>
+<h2 id="DistBelife框架"><a href="#DistBelife框架" class="headerlink" title="DistBelife框架"></a>DistBelife框架</h2><p><img src="https://upload-images.jianshu.io/upload_images/4905018-4353758491c42988.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="DistBelife框架"></p>
+<h2 id="DistBelief缺点"><a href="#DistBelief缺点" class="headerlink" title="DistBelief缺点"></a>DistBelief缺点</h2><p><img src="https://upload-images.jianshu.io/upload_images/4905018-8e7217b17816c5f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="DistBelief缺点"></p>
+<h2 id="TensorFlow设计原则"><a href="#TensorFlow设计原则" class="headerlink" title="TensorFlow设计原则"></a>TensorFlow设计原则</h2><p><img src="https://upload-images.jianshu.io/upload_images/4905018-61167f0c483ebef2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="TensorFlow设计原则"></p>
+<h2 id="TensorFlow优势"><a href="#TensorFlow优势" class="headerlink" title="TensorFlow优势"></a>TensorFlow优势</h2><p><img src="https://upload-images.jianshu.io/upload_images/4905018-b5274b1e0a620542.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="TensorFlow优势"></p>
+<h2 id="TensorFlow里程碑"><a href="#TensorFlow里程碑" class="headerlink" title="TensorFlow里程碑"></a>TensorFlow里程碑</h2><p><img src="https://upload-images.jianshu.io/upload_images/4905018-5a1f4453b8c12fbf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="TensorFlow里程碑"></p>
+<h2 id="TensorFlow技术栈"><a href="#TensorFlow技术栈" class="headerlink" title="TensorFlow技术栈"></a>TensorFlow技术栈</h2><p><img src="https://upload-images.jianshu.io/upload_images/4905018-fc46239d6f9e5447.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="TensorFlow技术栈"></p>
+<h2 id="TensorFlow系统架构"><a href="#TensorFlow系统架构" class="headerlink" title="TensorFlow系统架构"></a>TensorFlow系统架构</h2><p><strong>TensorFlow系统架构</strong><br><img src="https://upload-images.jianshu.io/upload_images/4905018-64be0bebce3b0fea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="TensorFlow系统架构"><br><strong>说明</strong><br><img src="https://upload-images.jianshu.io/upload_images/4905018-b9adaaea3bf849d0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="说明"><br><strong>Client</strong><br><img src="https://upload-images.jianshu.io/upload_images/4905018-9edbf4350c1eb435.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Client"><br><strong>Master</strong><br><img src="https://upload-images.jianshu.io/upload_images/4905018-3a4a8f95f10fbdd8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Master"><br><strong>Worker</strong><br><img src="https://upload-images.jianshu.io/upload_images/4905018-a9d3670a01be4c17.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Worker"><br><strong>Kernel</strong><br><img src="https://upload-images.jianshu.io/upload_images/4905018-0d571744e78612d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Kernel"></p>
+<h2 id="集群组建"><a href="#集群组建" class="headerlink" title="集群组建"></a>集群组建</h2><p><img src="https://upload-images.jianshu.io/upload_images/4905018-fc9adc70dba88bf6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="集群组建"></p>
+<h2 id="本地模式"><a href="#本地模式" class="headerlink" title="本地模式"></a>本地模式</h2><p><strong>本地模式</strong><br><img src="https://upload-images.jianshu.io/upload_images/4905018-7fbc67ed7ad2c16e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="本地模式"><br><strong>本地模式：图操作</strong><br><img src="https://upload-images.jianshu.io/upload_images/4905018-19beefd44fa712ac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="本地模式：图操作"></p>
+<h2 id="分布式模式"><a href="#分布式模式" class="headerlink" title="分布式模式"></a>分布式模式</h2><p><strong>分布式模式</strong><br><img src="https://upload-images.jianshu.io/upload_images/4905018-8421bbe8a067bf2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="分布式模式"><br><strong>分布式模式-图操作</strong><br><img src="https://upload-images.jianshu.io/upload_images/4905018-078e3463fda1933b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="分布式模式-图操作"><br><strong>PS与Worker</strong><br><img src="https://upload-images.jianshu.io/upload_images/4905018-30a2d980b9f325ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="PS与Worker"><br><strong>服务互联</strong><br><img src="https://upload-images.jianshu.io/upload_images/4905018-889d5c03ed5237d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="服务互联"><br><strong>单Client接入集群</strong><br><img src="https://upload-images.jianshu.io/upload_images/4905018-1cb2f9c97633ede4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="单Client接入集群"><br><strong>多Client接入集群</strong><br><img src="https://upload-images.jianshu.io/upload_images/4905018-2361f428ce897631.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="多Client接入集群"><br><strong>会话协同</strong><br><img src="https://upload-images.jianshu.io/upload_images/4905018-533b782f7bbf85fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="会话协同"><br><strong>会话控制领域模型</strong><br><img src="https://upload-images.jianshu.io/upload_images/4905018-7a2cfa2712dc4900.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="会话控制领域模型"><br><strong>获取远端设备集</strong><br><img src="https://upload-images.jianshu.io/upload_images/4905018-550f9faaa2881cdb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="获取远端设备集"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/TensorFlow/" rel="tag"># TensorFlow</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/01/《从零开始学习自然语言处理-NLP-》-NLP-Framework开源方案梳理-3/" rel="next" title="《从零开始学习自然语言处理(NLP)》-NLP Framework开源方案梳理(3)">
+                <i class="fa fa-chevron-left"></i> 《从零开始学习自然语言处理(NLP)》-NLP Framework开源方案梳理(3)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/02/《从零开始学习自然语言处理-NLP-》-DeepPavlov框架解析（4）/" rel="prev" title="《从零开始学习自然语言处理(NLP)》-DeepPavlov框架解析（4）">
+                《从零开始学习自然语言处理(NLP)》-DeepPavlov框架解析（4） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Liu Caiquan" />
+          <p class="site-author-name" itemprop="name">Liu Caiquan</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DistBelife框架"><span class="nav-number">1.</span> <span class="nav-text">DistBelife框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DistBelief缺点"><span class="nav-number">2.</span> <span class="nav-text">DistBelief缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TensorFlow设计原则"><span class="nav-number">3.</span> <span class="nav-text">TensorFlow设计原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TensorFlow优势"><span class="nav-number">4.</span> <span class="nav-text">TensorFlow优势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TensorFlow里程碑"><span class="nav-number">5.</span> <span class="nav-text">TensorFlow里程碑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TensorFlow技术栈"><span class="nav-number">6.</span> <span class="nav-text">TensorFlow技术栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TensorFlow系统架构"><span class="nav-number">7.</span> <span class="nav-text">TensorFlow系统架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集群组建"><span class="nav-number">8.</span> <span class="nav-text">集群组建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本地模式"><span class="nav-number">9.</span> <span class="nav-text">本地模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式模式"><span class="nav-number">10.</span> <span class="nav-text">分布式模式</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liu Caiquan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

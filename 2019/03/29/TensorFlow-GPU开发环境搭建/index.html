@@ -1,0 +1,719 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="TensorFlow," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="TensorFlow有CPU版本和GPU版本之分，CPU版本安装相对简单，按着TensorFlow的官方文档进行安装即可。但CPU版本只能使用CPU进行计算，计算效率低。对于简单的模型计算可以使用CPU模式，但对于复杂的模型训练就需要GPU的支持了。 GPU版本安装方式TensorFlow的GPU版本有两种安装方式：源码编译安装这种方式灵活性最强，但这种方式不但会涉及TensorFlow GPU版">
+<meta name="keywords" content="TensorFlow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TensorFlow GPU开发环境搭建">
+<meta property="og:url" content="http://yoursite.com/2019/03/29/TensorFlow-GPU开发环境搭建/index.html">
+<meta property="og:site_name" content="才权的博客">
+<meta property="og:description" content="TensorFlow有CPU版本和GPU版本之分，CPU版本安装相对简单，按着TensorFlow的官方文档进行安装即可。但CPU版本只能使用CPU进行计算，计算效率低。对于简单的模型计算可以使用CPU模式，但对于复杂的模型训练就需要GPU的支持了。 GPU版本安装方式TensorFlow的GPU版本有两种安装方式：源码编译安装这种方式灵活性最强，但这种方式不但会涉及TensorFlow GPU版">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-e64598fdad6c2325.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-726584ec5bee3647.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-7d32ed5c819f8dc7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-4af061cba4cfd665.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-1dcf34269d5c370f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-b0030c20943724b2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-6933e5f4e092925b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-8e91236a94f8f8a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-8d5ccc9b25aba2f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-03-29T15:29:20.279Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TensorFlow GPU开发环境搭建">
+<meta name="twitter:description" content="TensorFlow有CPU版本和GPU版本之分，CPU版本安装相对简单，按着TensorFlow的官方文档进行安装即可。但CPU版本只能使用CPU进行计算，计算效率低。对于简单的模型计算可以使用CPU模式，但对于复杂的模型训练就需要GPU的支持了。 GPU版本安装方式TensorFlow的GPU版本有两种安装方式：源码编译安装这种方式灵活性最强，但这种方式不但会涉及TensorFlow GPU版">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/4905018-e64598fdad6c2325.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/29/TensorFlow-GPU开发环境搭建/"/>
+
+
+
+
+
+  <title> TensorFlow GPU开发环境搭建 | 才权的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4e94c4c1ded5d320541370545af638ea";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">才权的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/29/TensorFlow-GPU开发环境搭建/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liu Caiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="才权的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                TensorFlow GPU开发环境搭建
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-29T23:27:14+08:00">
+                2019-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>TensorFlow有CPU版本和GPU版本之分，CPU版本安装相对简单，按着TensorFlow的官方文档进行安装即可。但CPU版本只能使用CPU进行计算，计算效率低。对于简单的模型计算可以使用CPU模式，但对于复杂的模型训练就需要GPU的支持了。</p>
+<h2 id="GPU版本安装方式"><a href="#GPU版本安装方式" class="headerlink" title="GPU版本安装方式"></a>GPU版本安装方式</h2><p>TensorFlow的GPU版本有两种安装方式：<br><strong>源码编译安装</strong><br>这种方式灵活性最强，但这种方式不但会涉及TensorFlow GPU版本计算框架的依赖，还会牵扯到源码编译的工具依赖和库依赖。如果不是有特别的需要，不建议采用这种安装方式。<br><strong>二进制安装包安装</strong><br>针对大多数的使用场景，直接使用编译好的二进制安装包进行安装即可，操作相对简单，依赖也比较少。本文主要针对二进制安装包的方式进行安装。</p>
+<h2 id="二进制安装包安装方式选择"><a href="#二进制安装包安装方式选择" class="headerlink" title="二进制安装包安装方式选择"></a>二进制安装包安装方式选择</h2><p><strong>参考TensorFlow官方文档</strong><br>TensorFlow官方文档提供了基于命令方式的安装模式。但实际上，文档提供的安装命令更多是一种参考，而不是针对所有显卡和硬件环境都可以适用的，傻瓜式解决方案。或者说，直接按照TensorFlow的官网提供命令进行安装，多半会出现问题。<br><strong>自定义安装</strong><br>TensorFlow CPU版本和GPU版本最大的不同在于它们依赖的硬件平台，CPU版本的硬件依赖比较低，甚至可以粗糙的认为对硬件没有特别的要求（桌面或工作站处理器，大多是基于X86计算架构的）。GPU则不同，即便大家目前使用的GPU卡大多是Nvidia的，但Nvidia不同的显卡系列的计算能力和对TensorFlow的支持也是不一样的。所以有必要针对自己实际的GPU显卡，配置与之相对应的运行环境，最终满足TensorFlow GPU版本的运行要求。</p>
+<h2 id="TensorFlow-GPU版本的运行依赖"><a href="#TensorFlow-GPU版本的运行依赖" class="headerlink" title="TensorFlow GPU版本的运行依赖"></a>TensorFlow GPU版本的运行依赖</h2><p>GPU版本的TensorFlow运行依赖并不复杂，从底层到上层，依赖关系如下图所示：<br><img src="https://upload-images.jianshu.io/upload_images/4905018-e64598fdad6c2325.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="运行依赖"></p>
+<p><strong>显卡</strong><br>目前深度学习使用的主流GPU大多是Nvidia的显卡。而大家常用的是GeForce系列和Tesla系列。从Nvidia的角度，GeForce系列定位在游戏市场，Tesla系列定位在数据中心。但实际上从经济考虑，很多公司都使用GeForce做模型训练，然后使用Tesla做线上服务（Nvidia禁止公司使用Tesla系列之外的显卡作为数据中心）。<br><strong>驱动</strong><br>驱动运行在系统的内核态，是操作系统的一部分，直接跟显卡硬件打交道，是应用层和硬件打交道的门户。不同的显卡需要不同的驱动。<br><strong>CUDA</strong><br>CUDA运行在系统的应用层，对通用GPU计算操作做了封装，方便其他组件调用。<br><strong>cuDNN</strong><br>cuDNN依赖CUDA库，封装了常用的深度学习方法，供更上层的组件调用。<br><strong>TensorFlow GPU版本要求</strong><br>不同版本的TensorFlow，对运行环境是有不同的要求。驱动版本的选择，主要依赖于显卡型号。而CUDA、cuDNN、Python版本的选择，则需要依赖TensorFlow GPU版本的选择：<br><img src="https://upload-images.jianshu.io/upload_images/4905018-726584ec5bee3647.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="依赖版本"><br>参考：<a href="https://www.tensorflow.org/install/source" target="_blank" rel="external">https://www.tensorflow.org/install/source</a></p>
+<p>在有了显卡之后，后面需要做的，就是从下到上，安装对应版本的驱动、CUDA库、cuDNN库、Python和TensorFlow了。</p>
+<h2 id="具体环境搭建步骤"><a href="#具体环境搭建步骤" class="headerlink" title="具体环境搭建步骤"></a>具体环境搭建步骤</h2><p>下面我们以超微的GPU工作站为例，逐步搭建TensorFlow GPU开发环境。<br><strong>系统环境</strong></p>
+<ul>
+<li>GTX 1080TI 四卡</li>
+<li>Ubuntu 16.04</li>
+<li>目标：TensorFlow GPU 1.10.0版本</li>
+</ul>
+<p><strong>（一）驱动安装</strong><br>驱动选择地址：<a href="https://www.nvidia.com/Download/index.aspx?lang=en-us" target="_blank" rel="external">https://www.nvidia.com/Download/index.aspx?lang=en-us</a><br><img src="https://upload-images.jianshu.io/upload_images/4905018-7d32ed5c819f8dc7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="驱动选择"><br>最终，会下载得到xxx.run的安装文件，直接使用shell安装，</p>
+<pre><code># sudo sh xxx.run
+</code></pre><p><strong>（二）CUDA安装</strong><br>下载地址：<a href="https://developer.nvidia.com/cuda-zone" target="_blank" rel="external">https://developer.nvidia.com/cuda-zone</a><br><img src="https://upload-images.jianshu.io/upload_images/4905018-4af061cba4cfd665.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="最新CUDA"><br>我们需要安装的TensorFlow GPU版本为1.10.0，所以CUDA的版本是9。但直接打开是最新版本的CUDA。可以选择上面的“Legacy Releases”，然后，选择需要的版本，<br><img src="https://upload-images.jianshu.io/upload_images/4905018-1dcf34269d5c370f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="对应版本CUDA"><br>最终，会下载得到xxx.run的安装文件，直接使用shell命令进行安装，</p>
+<pre><code># sudo sh xxx.run
+</code></pre><p><strong>（三）CUDNN安装</strong><br>下载地址（需要注册）：<a href="https://developer.nvidia.com/cudnn" target="_blank" rel="external">https://developer.nvidia.com/cudnn</a><br>cuDNN主要和CUDA版本对齐，<br><img src="https://upload-images.jianshu.io/upload_images/4905018-b0030c20943724b2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="cuDNN"><br>cuDNN主要下载两个文件，<br><img src="https://upload-images.jianshu.io/upload_images/4905018-6933e5f4e092925b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="两个文件"><br>下载的两个xxx.deb文件，通过dpkg -i命令进行安装，</p>
+<pre><code># dpkg -i xxx.deb
+</code></pre><p><strong>（四）Python安装</strong><br>Python可以采用Anaconda环境，具体的安装步骤就不详细展开了，工作中选择了Python3.6版本。只提两点：<br><strong>全局环境变量设置</strong><br>Anaconda默认会将环境变量设置到~/.bashrc文件中。如果想全局可见，可以手动在/etc/profile文件中添加环境变量。<br><strong>使用清华的下载链接</strong><br>Anaconda的官方下载，国内下载速度很慢，可以直接使用清华的源。<br>地址：<a href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/" target="_blank" rel="external">https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/</a><br><strong>（五）TensorFlow GPU安装</strong><br>TensorFlow安装先对简单，直接使用pip命令进行安装即可，但低于1.13.0版本的TensorFlow GPU版本，不能直接使用“pip install tensorflow-gup===xxx”来安装。需要手动下载安装文件，然后进行安装。<br>TensorFlow GPU历史版本下载地址：<a href="https://pypi.org/project/tensorflow-gpu/" target="_blank" rel="external">https://pypi.org/project/tensorflow-gpu/</a><br><img src="https://upload-images.jianshu.io/upload_images/4905018-8e91236a94f8f8a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="历史版本"><br>TensorFlow GPU也可以使用清华的源，但源更新的可能不够及时：<br>清华TensorFlow GPU地址：<a href="https://mirrors.tuna.tsinghua.edu.cn/help/tensorflow/" target="_blank" rel="external">https://mirrors.tuna.tsinghua.edu.cn/help/tensorflow/</a><br><img src="https://upload-images.jianshu.io/upload_images/4905018-8d5ccc9b25aba2f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="清华地址"></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>TensorFlow的GPU版本安装，本身并不复杂。关键是要梳理清楚不同组件的依赖关系。不同组件之间没有特别的强依赖，如果发现其中的某个组件有问题，单独卸载和重装即可。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/TensorFlow/" rel="tag"># TensorFlow</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/02/《从零开始学习自然语言处理-NLP-》-DeepPavlov框架解析（4）/" rel="next" title="《从零开始学习自然语言处理(NLP)》-DeepPavlov框架解析（4）">
+                <i class="fa fa-chevron-left"></i> 《从零开始学习自然语言处理(NLP)》-DeepPavlov框架解析（4）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Liu Caiquan" />
+          <p class="site-author-name" itemprop="name">Liu Caiquan</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#GPU版本安装方式"><span class="nav-number">1.</span> <span class="nav-text">GPU版本安装方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二进制安装包安装方式选择"><span class="nav-number">2.</span> <span class="nav-text">二进制安装包安装方式选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TensorFlow-GPU版本的运行依赖"><span class="nav-number">3.</span> <span class="nav-text">TensorFlow GPU版本的运行依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体环境搭建步骤"><span class="nav-number">4.</span> <span class="nav-text">具体环境搭建步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liu Caiquan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

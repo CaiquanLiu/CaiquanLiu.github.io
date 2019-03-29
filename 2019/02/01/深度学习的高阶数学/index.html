@@ -1,0 +1,699 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="机器学习/深度学习," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="有了基础的《概率/统计》、《线性代数》、《微积分》知识，就可以上手深度学习的算法和实践了。但经过一段时间的工程实践，慢慢觉得大多数时间都用在选模型，调超参，或者是网络结构的排列组合上。深度学习的黑盒特性越来越明显。难道深度学习工程师就当真是数据“炼丹师”吗？如果，你有了这样的感觉，下面的视频不妨抽时间看看(都需要翻墙)： 李宏毅《Machine Learning and having it dee">
+<meta name="keywords" content="机器学习&#x2F;深度学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习的高阶数学">
+<meta property="og:url" content="http://yoursite.com/2019/02/01/深度学习的高阶数学/index.html">
+<meta property="og:site_name" content="才权的博客">
+<meta property="og:description" content="有了基础的《概率/统计》、《线性代数》、《微积分》知识，就可以上手深度学习的算法和实践了。但经过一段时间的工程实践，慢慢觉得大多数时间都用在选模型，调超参，或者是网络结构的排列组合上。深度学习的黑盒特性越来越明显。难道深度学习工程师就当真是数据“炼丹师”吗？如果，你有了这样的感觉，下面的视频不妨抽时间看看(都需要翻墙)： 李宏毅《Machine Learning and having it dee">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-7d5ed8e29ad63030.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-03-29T15:20:52.628Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深度学习的高阶数学">
+<meta name="twitter:description" content="有了基础的《概率/统计》、《线性代数》、《微积分》知识，就可以上手深度学习的算法和实践了。但经过一段时间的工程实践，慢慢觉得大多数时间都用在选模型，调超参，或者是网络结构的排列组合上。深度学习的黑盒特性越来越明显。难道深度学习工程师就当真是数据“炼丹师”吗？如果，你有了这样的感觉，下面的视频不妨抽时间看看(都需要翻墙)： 李宏毅《Machine Learning and having it dee">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/4905018-7d5ed8e29ad63030.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/01/深度学习的高阶数学/"/>
+
+
+
+
+
+  <title> 深度学习的高阶数学 | 才权的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?4e94c4c1ded5d320541370545af638ea";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">才权的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/01/深度学习的高阶数学/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liu Caiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="才权的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                深度学习的高阶数学
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-01T21:18:03+08:00">
+                2019-02-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>有了基础的《概率/统计》、《线性代数》、《微积分》知识，就可以上手深度学习的算法和实践了。但经过一段时间的工程实践，慢慢觉得大多数时间都用在选模型，调超参，或者是网络结构的排列组合上。深度学习的黑盒特性越来越明显。难道深度学习工程师就当真是数据“炼丹师”吗？<br>如果，你有了这样的感觉，下面的视频不妨抽时间看看(都需要翻墙)：</p>
+<h2 id="李宏毅《Machine-Learning-and-having-it-deep-and-structured》"><a href="#李宏毅《Machine-Learning-and-having-it-deep-and-structured》" class="headerlink" title="李宏毅《Machine Learning and having it deep and structured》"></a>李宏毅《Machine Learning and having it deep and structured》</h2><p>不多说，直接看目录吧。<br>课程地址：<a href="http://speech.ee.ntu.edu.tw/~tlkagk/courses_MLDS18.html" target="_blank" rel="external">http://speech.ee.ntu.edu.tw/~tlkagk/courses_MLDS18.html</a><br><strong>《Theory 1 - Why Deep Structure》</strong><br>&emsp;<a href="https://www.youtube.com/watch?v=KKT2VkTdFyc&amp;feature=youtu.be" target="_blank" rel="external">Can shallow network fit any function</a><br>&emsp;<a href="https://www.youtube.com/watch?v=FN8jclCrqY0&amp;feature=youtu.be" target="_blank" rel="external">Potential of Deep</a><br>&emsp;<a href="https://www.youtube.com/watch?v=qpuLxXrHQB4&amp;feature=youtu.be" target="_blank" rel="external">Is Deep better than Shallow</a><br><strong>《Theory 2 - Optimization》</strong><br>&emsp;<a href="https://www.youtube.com/watch?v=XSdkBG6Vvr0&amp;feature=youtu.be" target="_blank" rel="external">When Gradient is Zero</a><br>&emsp;<a href="https://www.youtube.com/watch?v=0O6nYRC7GeY&amp;feature=youtu.be" target="_blank" rel="external">Deep Linear Network</a><br>&emsp;<a href="https://www.youtube.com/watch?v=NmelPQkUark&amp;feature=youtu.be" target="_blank" rel="external">Does Deep Network have Local Minima</a><br>&emsp;<a href="https://www.youtube.com/watch?v=_VuWvQUMQVk&amp;feature=youtu.be" target="_blank" rel="external">Geometry of Loss Surfaces (Conjecture)</a><br>&emsp;<a href="https://www.youtube.com/watch?v=XysGHdNOTbg&amp;feature=youtu.be" target="_blank" rel="external">Geometry of Loss Surfaces (Empirical)</a><br><strong>《Theory 3 - Generalization 》</strong><br>&emsp;<a href="https://www.youtube.com/watch?v=9dtxv4HLq_8&amp;feature=youtu.be" target="_blank" rel="external">Capability of Generalization</a><br>&emsp;<a href="https://www.youtube.com/watch?v=pivB5jEBOQw&amp;feature=youtu.be" target="_blank" rel="external">Indicator of Generalization</a></p>
+<h2 id="Sanjeev-Arora《The-mathematics-of-machine-learning-and-deep-learning》"><a href="#Sanjeev-Arora《The-mathematics-of-machine-learning-and-deep-learning》" class="headerlink" title="Sanjeev Arora《The mathematics of machine learning and deep learning》"></a>Sanjeev Arora《The mathematics of machine learning and deep learning》</h2><p>视频地址：<a href="https://www.youtube.com/watch?v=r07Sofj_puQ" target="_blank" rel="external">https://www.youtube.com/watch?v=r07Sofj_puQ</a><br>这是ICM2018的主题演讲，虽然Sanjeev Arora作为普林斯顿计算机科学的教授，但演讲内容深入浅出，并没有涉及大量的数学公式和推导，这里贴一下提纲：<br><img src="https://upload-images.jianshu.io/upload_images/4905018-7d5ed8e29ad63030.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="内容提纲"></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>这两部分的内容是相互呼应的，可以先看李宏毅老师的课程，然后在看Sanjeev Arora教授的分享总结。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习-深度学习/" rel="tag"># 机器学习/深度学习</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/27/《从零开始学习自然语言处理-NLP-》-TF-IDF算法-2/" rel="next" title="《从零开始学习自然语言处理(NLP)》-TF-IDF算法(2)">
+                <i class="fa fa-chevron-left"></i> 《从零开始学习自然语言处理(NLP)》-TF-IDF算法(2)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/01/《从零开始学习自然语言处理-NLP-》-NLP-Framework开源方案梳理-3/" rel="prev" title="《从零开始学习自然语言处理(NLP)》-NLP Framework开源方案梳理(3)">
+                《从零开始学习自然语言处理(NLP)》-NLP Framework开源方案梳理(3) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Liu Caiquan" />
+          <p class="site-author-name" itemprop="name">Liu Caiquan</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#李宏毅《Machine-Learning-and-having-it-deep-and-structured》"><span class="nav-number">1.</span> <span class="nav-text">李宏毅《Machine Learning and having it deep and structured》</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sanjeev-Arora《The-mathematics-of-machine-learning-and-deep-learning》"><span class="nav-number">2.</span> <span class="nav-text">Sanjeev Arora《The mathematics of machine learning and deep learning》</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">3.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liu Caiquan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
