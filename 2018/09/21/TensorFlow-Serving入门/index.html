@@ -87,20 +87,20 @@
 
 
 
-<meta name="description" content="大家习惯使用TensorFlow进行模型的训练、验证和预测，但模型完善之后的生产上线流程，就变得五花八门了。针对这种情况Google提供了TensorFlow Servering，可以将训练好的模型直接上线并提供服务。在2017年的TensorFlow开发者Summit上便提出了TensorFlow Serving。传送门：https://www.youtube.com/watch?v=q_IkJ">
+<meta name="description" content="由于图片外链被禁止了，图片不能显示，完整文章看这里吧：https://zhuanlan.zhihu.com/p/45109194 大家习惯使用TensorFlow进行模型的训练、验证和预测，但模型完善之后的生产上线流程，就变得五花八门了。针对这种情况Google提供了TensorFlow Servering，可以将训练好的模型直接上线并提供服务。在2017年的TensorFlow开发者Summit">
 <meta name="keywords" content="TensorFlow">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TensorFlow Serving入门">
 <meta property="og:url" content="http://yoursite.com/2018/09/21/TensorFlow-Serving入门/index.html">
 <meta property="og:site_name" content="才权的博客">
-<meta property="og:description" content="大家习惯使用TensorFlow进行模型的训练、验证和预测，但模型完善之后的生产上线流程，就变得五花八门了。针对这种情况Google提供了TensorFlow Servering，可以将训练好的模型直接上线并提供服务。在2017年的TensorFlow开发者Summit上便提出了TensorFlow Serving。传送门：https://www.youtube.com/watch?v=q_IkJ">
+<meta property="og:description" content="由于图片外链被禁止了，图片不能显示，完整文章看这里吧：https://zhuanlan.zhihu.com/p/45109194 大家习惯使用TensorFlow进行模型的训练、验证和预测，但模型完善之后的生产上线流程，就变得五花八门了。针对这种情况Google提供了TensorFlow Servering，可以将训练好的模型直接上线并提供服务。在2017年的TensorFlow开发者Summit">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-913e07a93c4821ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-560bf34c3a9e5aca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-03-29T15:20:52.619Z">
+<meta property="og:updated_time" content="2019-09-22T14:48:19.128Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TensorFlow Serving入门">
-<meta name="twitter:description" content="大家习惯使用TensorFlow进行模型的训练、验证和预测，但模型完善之后的生产上线流程，就变得五花八门了。针对这种情况Google提供了TensorFlow Servering，可以将训练好的模型直接上线并提供服务。在2017年的TensorFlow开发者Summit上便提出了TensorFlow Serving。传送门：https://www.youtube.com/watch?v=q_IkJ">
+<meta name="twitter:description" content="由于图片外链被禁止了，图片不能显示，完整文章看这里吧：https://zhuanlan.zhihu.com/p/45109194 大家习惯使用TensorFlow进行模型的训练、验证和预测，但模型完善之后的生产上线流程，就变得五花八门了。针对这种情况Google提供了TensorFlow Servering，可以将训练好的模型直接上线并提供服务。在2017年的TensorFlow开发者Summit">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/4905018-913e07a93c4821ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -346,7 +346,8 @@
       
 
       
-        <p>大家习惯使用TensorFlow进行模型的训练、验证和预测，但模型完善之后的生产上线流程，就变得五花八门了。针对这种情况Google提供了TensorFlow Servering，可以将训练好的模型直接上线并提供服务。在2017年的TensorFlow开发者Summit上便提出了TensorFlow Serving。<br>传送门：<a href="https://www.youtube.com/watch?v=q_IkJcPyNl0&amp;list=PLOU2XLYxmsIKGc_NBoIhTn2Qhraji53cv&amp;index=13" target="_blank" rel="external">https://www.youtube.com/watch?v=q_IkJcPyNl0&amp;list=PLOU2XLYxmsIKGc_NBoIhTn2Qhraji53cv&amp;index=13</a><br>但那时候客户端和服务端的通信只支持gRPC。在实际的生产环境中比较广泛使用的C/S通信手段是基于RESTfull API的，幸运的是从TF1.8以后，TF Serving也正式支持RESTfull API通信方式了。</p>
+        <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://zhuanlan.zhihu.com/p/45109194" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/45109194</a></p>
+<p>大家习惯使用TensorFlow进行模型的训练、验证和预测，但模型完善之后的生产上线流程，就变得五花八门了。针对这种情况Google提供了TensorFlow Servering，可以将训练好的模型直接上线并提供服务。在2017年的TensorFlow开发者Summit上便提出了TensorFlow Serving。<br>传送门：<a href="https://www.youtube.com/watch?v=q_IkJcPyNl0&amp;list=PLOU2XLYxmsIKGc_NBoIhTn2Qhraji53cv&amp;index=13" target="_blank" rel="external">https://www.youtube.com/watch?v=q_IkJcPyNl0&amp;list=PLOU2XLYxmsIKGc_NBoIhTn2Qhraji53cv&amp;index=13</a><br>但那时候客户端和服务端的通信只支持gRPC。在实际的生产环境中比较广泛使用的C/S通信手段是基于RESTfull API的，幸运的是从TF1.8以后，TF Serving也正式支持RESTfull API通信方式了。</p>
 <h2 id="服务框架"><a href="#服务框架" class="headerlink" title="服务框架"></a>服务框架</h2><p><img src="https://upload-images.jianshu.io/upload_images/4905018-913e07a93c4821ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="TF Serving服务框架"><br>基于TF Serving的持续集成框架还是挺简明的，基本分三个步骤：</p>
 <ul>
 <li>模型训练<br>这是大家最熟悉的部分，主要包括数据的收集和清洗、模型的训练、评测和优化；</li>

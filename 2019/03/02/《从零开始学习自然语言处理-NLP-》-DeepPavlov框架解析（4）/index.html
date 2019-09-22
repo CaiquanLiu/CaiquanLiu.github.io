@@ -87,13 +87,13 @@
 
 
 
-<meta name="description" content="写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。 问题描述在上一篇《从零开始学习">
+<meta name="description" content="由于图片外链被禁止了，图片不能显示，完整文章看这里吧：https://zhuanlan.zhihu.com/p/58133705 写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这">
 <meta name="keywords" content="从零开始学习自然语言处理(NLP)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《从零开始学习自然语言处理(NLP)》-DeepPavlov框架解析（4）">
 <meta property="og:url" content="http://yoursite.com/2019/03/02/《从零开始学习自然语言处理-NLP-》-DeepPavlov框架解析（4）/index.html">
 <meta property="og:site_name" content="才权的博客">
-<meta property="og:description" content="写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。 问题描述在上一篇《从零开始学习">
+<meta property="og:description" content="由于图片外链被禁止了，图片不能显示，完整文章看这里吧：https://zhuanlan.zhihu.com/p/58133705 写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-f4c0014e182c870b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-c0f6ca8cbb1f27c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
@@ -106,10 +106,10 @@
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-ba0d381b6d858e97.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-0e61711decf24e69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-4b3fafd2b9128a17.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-03-29T15:20:52.620Z">
+<meta property="og:updated_time" content="2019-09-22T14:51:15.152Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《从零开始学习自然语言处理(NLP)》-DeepPavlov框架解析（4）">
-<meta name="twitter:description" content="写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。 问题描述在上一篇《从零开始学习">
+<meta name="twitter:description" content="由于图片外链被禁止了，图片不能显示，完整文章看这里吧：https://zhuanlan.zhihu.com/p/58133705 写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/4905018-f4c0014e182c870b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -355,7 +355,8 @@
       
 
       
-        <h2 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h2><p>在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。</p>
+        <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://zhuanlan.zhihu.com/p/58133705" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/58133705</a></p>
+<h2 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h2><p>在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。</p>
 <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>在上一篇《从零开始学习自然语言处理(NLP)-NLP Framework开源方案梳理(3)》中梳理了目前流行的NLP开源框架，这里重点介绍下DeepPavlov框架。DeepPavlov框架的模型实用性很强，对实际的生产开发有很大的借鉴意义。</p>
 <h2 id="框架组成"><a href="#框架组成" class="headerlink" title="框架组成"></a>框架组成</h2><p>DeepPavlov是一个基于TensorFlow和Keras的，专门针对对话系统研究和实验部署的自然语言处理框架。<br>项目地址：<a href="http://docs.deeppavlov.ai/en/master/#" target="_blank" rel="external">http://docs.deeppavlov.ai/en/master/#</a><br>框架主要包括：<br><strong>常用的NLP模型（包括Pre-train模型）</strong><br>如词向量训练、分类、命名实体识别（NER）、相似度计算等；<br><strong>针对对话系统实现和评测的实验框架（Framework）</strong><br>基于Json文件进行开发流程和数据流pipeline配置；<br><strong>提供同第三方应用进行集成的工具</strong><br>如与Amazon Alexa和Microsoft Bot Framework的集成；<br><strong>为对话模型的评测提供Benchmark环境</strong><br>DeepPavlov的默认Pre-train模型和测评数据集主要基于英文和俄文，对于中文场景需要做适当的调整。</p>
 <h2 id="框架使用对象"><a href="#框架使用对象" class="headerlink" title="框架使用对象"></a>框架使用对象</h2><p><strong>新模型开发者</strong><br>方便同已有Benchmark模型进行对比评测<br><strong>普通NLP任务处理者</strong><br>如针对内容审核任务，敏感信息增加掩码等任务，可以直接使用框架提供的分类和序列标注模型，完成业务服务的快速开发和测评；<br><strong>对话系统开发者</strong><br>DeepPavlov是为对话系统场景量身定制的。对话系统开发者，可以直接参考使用；<br><strong>对话系统应用开发者</strong><br>DeepPavlov框架为应用集成提供了专门的工具，可以直接与Amazon Alexa，Microsoft Bot Framework等平台进行对接。</p>

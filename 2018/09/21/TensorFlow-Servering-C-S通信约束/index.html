@@ -87,13 +87,13 @@
 
 
 
-<meta name="description" content="TensorFlow Serving以Server方式提供模型能力服务，作为服务的使用者（Client）可以通过gRPC和RESTfull API两种方式来获取模型能力。虽然TensorFlow对C/S的通信约束做了说明，但感觉介绍的并不是特别的清晰易用，需要自己根据使用示例，并结合文档进行梳理和总结。 官方参考示例在文档中提到了两个参考示例，一个用于gRPC通信约束测试，一个用于RESTfull">
+<meta name="description" content="由于图片外链被禁止了，图片不能显示，完整文章看这里吧：https://zhuanlan.zhihu.com/p/45109527 TensorFlow Serving以Server方式提供模型能力服务，作为服务的使用者（Client）可以通过gRPC和RESTfull API两种方式来获取模型能力。虽然TensorFlow对C/S的通信约束做了说明，但感觉介绍的并不是特别的清晰易用，需要自己根据使">
 <meta name="keywords" content="TensorFlow">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TensorFlow Servering C&#x2F;S通信约束">
 <meta property="og:url" content="http://yoursite.com/2018/09/21/TensorFlow-Servering-C-S通信约束/index.html">
 <meta property="og:site_name" content="才权的博客">
-<meta property="og:description" content="TensorFlow Serving以Server方式提供模型能力服务，作为服务的使用者（Client）可以通过gRPC和RESTfull API两种方式来获取模型能力。虽然TensorFlow对C/S的通信约束做了说明，但感觉介绍的并不是特别的清晰易用，需要自己根据使用示例，并结合文档进行梳理和总结。 官方参考示例在文档中提到了两个参考示例，一个用于gRPC通信约束测试，一个用于RESTfull">
+<meta property="og:description" content="由于图片外链被禁止了，图片不能显示，完整文章看这里吧：https://zhuanlan.zhihu.com/p/45109527 TensorFlow Serving以Server方式提供模型能力服务，作为服务的使用者（Client）可以通过gRPC和RESTfull API两种方式来获取模型能力。虽然TensorFlow对C/S的通信约束做了说明，但感觉介绍的并不是特别的清晰易用，需要自己根据使">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-096c9d8c7179e212.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-08d42983a3c994d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
@@ -107,10 +107,10 @@
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-cdc8753f3d8a631e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-4fd54685229a5f5c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-c787b908032f977b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-03-29T15:20:52.619Z">
+<meta property="og:updated_time" content="2019-09-22T14:48:47.907Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TensorFlow Servering C&#x2F;S通信约束">
-<meta name="twitter:description" content="TensorFlow Serving以Server方式提供模型能力服务，作为服务的使用者（Client）可以通过gRPC和RESTfull API两种方式来获取模型能力。虽然TensorFlow对C/S的通信约束做了说明，但感觉介绍的并不是特别的清晰易用，需要自己根据使用示例，并结合文档进行梳理和总结。 官方参考示例在文档中提到了两个参考示例，一个用于gRPC通信约束测试，一个用于RESTfull">
+<meta name="twitter:description" content="由于图片外链被禁止了，图片不能显示，完整文章看这里吧：https://zhuanlan.zhihu.com/p/45109527 TensorFlow Serving以Server方式提供模型能力服务，作为服务的使用者（Client）可以通过gRPC和RESTfull API两种方式来获取模型能力。虽然TensorFlow对C/S的通信约束做了说明，但感觉介绍的并不是特别的清晰易用，需要自己根据使">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/4905018-096c9d8c7179e212.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -356,7 +356,8 @@
       
 
       
-        <p>TensorFlow Serving以Server方式提供模型能力服务，作为服务的使用者（Client）可以通过gRPC和RESTfull API两种方式来获取模型能力。虽然TensorFlow对C/S的通信约束做了说明，但感觉介绍的并不是特别的清晰易用，需要自己根据使用示例，并结合文档进行梳理和总结。</p>
+        <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://zhuanlan.zhihu.com/p/45109527" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/45109527</a></p>
+<p>TensorFlow Serving以Server方式提供模型能力服务，作为服务的使用者（Client）可以通过gRPC和RESTfull API两种方式来获取模型能力。虽然TensorFlow对C/S的通信约束做了说明，但感觉介绍的并不是特别的清晰易用，需要自己根据使用示例，并结合文档进行梳理和总结。</p>
 <h1 id="官方参考示例"><a href="#官方参考示例" class="headerlink" title="官方参考示例"></a>官方参考示例</h1><p>在文档中提到了两个参考示例，一个用于gRPC通信约束测试，一个用于RESTfull API通信约束测试。</p>
 <h2 id="1-gRPC示例"><a href="#1-gRPC示例" class="headerlink" title="1. gRPC示例"></a>1. gRPC示例</h2><p>示例使用说明：<a href="https://www.tensorflow.org/serving/serving_basic" target="_blank" rel="external">https://www.tensorflow.org/serving/serving_basic</a></p>
 <ul>

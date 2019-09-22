@@ -87,13 +87,13 @@
 
 
 
-<meta name="description" content="写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。 问题描述在上一篇文章中（《《从">
+<meta name="description" content="由于图片外链被禁止了，图片不能显示，完整文章看这里吧：https://zhuanlan.zhihu.com/p/55843621 写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这">
 <meta name="keywords" content="从零开始学习自然语言处理(NLP)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《从零开始学习自然语言处理(NLP)》-TF-IDF算法(2)">
 <meta property="og:url" content="http://yoursite.com/2019/01/27/《从零开始学习自然语言处理-NLP-》-TF-IDF算法-2/index.html">
 <meta property="og:site_name" content="才权的博客">
-<meta property="og:description" content="写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。 问题描述在上一篇文章中（《《从">
+<meta property="og:description" content="由于图片外链被禁止了，图片不能显示，完整文章看这里吧：https://zhuanlan.zhihu.com/p/55843621 写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-2166358dc8c2fbae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-8c341c80a496862e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
@@ -101,10 +101,10 @@
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-ad1332e689276ef9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-de1a33712251872a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-db90ca37a0c4ec6a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-03-29T15:20:52.620Z">
+<meta property="og:updated_time" content="2019-09-22T14:50:15.909Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《从零开始学习自然语言处理(NLP)》-TF-IDF算法(2)">
-<meta name="twitter:description" content="写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。 问题描述在上一篇文章中（《《从">
+<meta name="twitter:description" content="由于图片外链被禁止了，图片不能显示，完整文章看这里吧：https://zhuanlan.zhihu.com/p/55843621 写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/4905018-2166358dc8c2fbae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -350,7 +350,8 @@
       
 
       
-        <h1 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h1><p>在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。</p>
+        <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://zhuanlan.zhihu.com/p/55843621" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/55843621</a></p>
+<h1 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h1><p>在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。</p>
 <h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>在上一篇文章中（<a href="https://zhuanlan.zhihu.com/p/55296265" target="_blank" rel="external">《《从零开始学习自然语言处理(NLP)》-倒排索引(1)》</a>）描述了基于关键词搜索的基本原理，以及通过倒排索引来提升和关键词相关网页的查询。本文在上文的基础上提出一个新的问题：<br>如果通过倒排索引查找到的网页都包含<strong>全部的</strong>查询关键字，而且，召回（符合查找条件）的网页数目又很多，这就需要将网页与查询Query的相关度进行排序了。相关度高的网页排在查询结果的前面，相关度低的网页排在后面。那问题来了，如何依据网页与查询关键词的相关性对召回的网页做排序呢？</p>
 <h1 id="基于TF（Term-Frequency，词频）进行排序"><a href="#基于TF（Term-Frequency，词频）进行排序" class="headerlink" title="基于TF（Term Frequency，词频）进行排序"></a>基于TF（Term Frequency，词频）进行排序</h1><p>最容易想到的便是基于词频打分进行排序，具体来说，对于查询Query：“林俊杰/2019/演唱会/行程”，下面的哪个网页跟查询Query的相关度更高呢？<br><strong>网页a</strong></p>
 <pre><code>[林俊杰]/[2019]/全球/[演唱会]/[行程]/发布/，/这是/[林俊杰]/的/第/20/场/全球/巡演/。

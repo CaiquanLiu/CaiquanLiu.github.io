@@ -345,7 +345,8 @@
       
         
           
-            <p>TensorFlow有CPU版本和GPU版本之分，CPU版本安装相对简单，按着TensorFlow的官方文档进行安装即可。但CPU版本只能使用CPU进行计算，计算效率低。对于简单的模型计算可以使用CPU模式，但对于复杂的模型训练就需要GPU的支持了。</p>
+            <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://zhuanlan.zhihu.com/p/60924644" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/60924644</a></p>
+<p>TensorFlow有CPU版本和GPU版本之分，CPU版本安装相对简单，按着TensorFlow的官方文档进行安装即可。但CPU版本只能使用CPU进行计算，计算效率低。对于简单的模型计算可以使用CPU模式，但对于复杂的模型训练就需要GPU的支持了。</p>
 <h2 id="GPU版本安装方式"><a href="#GPU版本安装方式" class="headerlink" title="GPU版本安装方式"></a>GPU版本安装方式</h2><p>TensorFlow的GPU版本有两种安装方式：<br><strong>源码编译安装</strong><br>这种方式灵活性最强，但这种方式不但会涉及TensorFlow GPU版本计算框架的依赖，还会牵扯到源码编译的工具依赖和库依赖。如果不是有特别的需要，不建议采用这种安装方式。<br><strong>二进制安装包安装</strong><br>针对大多数的使用场景，直接使用编译好的二进制安装包进行安装即可，操作相对简单，依赖也比较少。本文主要针对二进制安装包的方式进行安装。</p>
 <h2 id="二进制安装包安装方式选择"><a href="#二进制安装包安装方式选择" class="headerlink" title="二进制安装包安装方式选择"></a>二进制安装包安装方式选择</h2><p><strong>参考TensorFlow官方文档</strong><br>TensorFlow官方文档提供了基于命令方式的安装模式。但实际上，文档提供的安装命令更多是一种参考，而不是针对所有显卡和硬件环境都可以适用的，傻瓜式解决方案。或者说，直接按照TensorFlow的官网提供命令进行安装，多半会出现问题。<br><strong>自定义安装</strong><br>TensorFlow CPU版本和GPU版本最大的不同在于它们依赖的硬件平台，CPU版本的硬件依赖比较低，甚至可以粗糙的认为对硬件没有特别的要求（桌面或工作站处理器，大多是基于X86计算架构的）。GPU则不同，即便大家目前使用的GPU卡大多是Nvidia的，但Nvidia不同的显卡系列的计算能力和对TensorFlow的支持也是不一样的。所以有必要针对自己实际的GPU显卡，配置与之相对应的运行环境，最终满足TensorFlow GPU版本的运行要求。</p>
 <h2 id="TensorFlow-GPU版本的运行依赖"><a href="#TensorFlow-GPU版本的运行依赖" class="headerlink" title="TensorFlow GPU版本的运行依赖"></a>TensorFlow GPU版本的运行依赖</h2><p>GPU版本的TensorFlow运行依赖并不复杂，从底层到上层，依赖关系如下图所示：<br><img src="https://upload-images.jianshu.io/upload_images/4905018-e64598fdad6c2325.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="运行依赖"></p>
@@ -485,7 +486,8 @@
       
         
           
-            <h2 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h2><p>在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。</p>
+            <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://zhuanlan.zhihu.com/p/58133705" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/58133705</a></p>
+<h2 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h2><p>在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。</p>
 <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>在上一篇《从零开始学习自然语言处理(NLP)-NLP Framework开源方案梳理(3)》中梳理了目前流行的NLP开源框架，这里重点介绍下DeepPavlov框架。DeepPavlov框架的模型实用性很强，对实际的生产开发有很大的借鉴意义。</p>
 <h2 id="框架组成"><a href="#框架组成" class="headerlink" title="框架组成"></a>框架组成</h2><p>DeepPavlov是一个基于TensorFlow和Keras的，专门针对对话系统研究和实验部署的自然语言处理框架。<br>项目地址：<a href="http://docs.deeppavlov.ai/en/master/#" target="_blank" rel="external">http://docs.deeppavlov.ai/en/master/#</a><br>框架主要包括：<br><strong>常用的NLP模型（包括Pre-train模型）</strong><br>如词向量训练、分类、命名实体识别（NER）、相似度计算等；<br><strong>针对对话系统实现和评测的实验框架（Framework）</strong><br>基于Json文件进行开发流程和数据流pipeline配置；<br><strong>提供同第三方应用进行集成的工具</strong><br>如与Amazon Alexa和Microsoft Bot Framework的集成；<br><strong>为对话模型的评测提供Benchmark环境</strong><br>DeepPavlov的默认Pre-train模型和测评数据集主要基于英文和俄文，对于中文场景需要做适当的调整。</p>
 <h2 id="框架使用对象"><a href="#框架使用对象" class="headerlink" title="框架使用对象"></a>框架使用对象</h2><p><strong>新模型开发者</strong><br>方便同已有Benchmark模型进行对比评测<br><strong>普通NLP任务处理者</strong><br>如针对内容审核任务，敏感信息增加掩码等任务，可以直接使用框架提供的分类和序列标注模型，完成业务服务的快速开发和测评；<br><strong>对话系统开发者</strong><br>DeepPavlov是为对话系统场景量身定制的。对话系统开发者，可以直接参考使用；<br><strong>对话系统应用开发者</strong><br>DeepPavlov框架为应用集成提供了专门的工具，可以直接与Amazon Alexa，Microsoft Bot Framework等平台进行对接。</p>
@@ -812,7 +814,8 @@
       
         
           
-            <p>市面上对TensorFlow使用介绍的书非常之多，但剖析原理的却很少。如果对TensorFlow的底层实现感兴趣，刘光聪的《TensorFlow内核剖析》是一个不错的选择。同时，这是一本开源技术书，可以免费获得。</p>
+            <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://zhuanlan.zhihu.com/p/57559407" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/57559407</a></p>
+<p>市面上对TensorFlow使用介绍的书非常之多，但剖析原理的却很少。如果对TensorFlow的底层实现感兴趣，刘光聪的《TensorFlow内核剖析》是一个不错的选择。同时，这是一本开源技术书，可以免费获得。</p>
 <h2 id="DistBelife框架"><a href="#DistBelife框架" class="headerlink" title="DistBelife框架"></a>DistBelife框架</h2><p><img src="https://upload-images.jianshu.io/upload_images/4905018-4353758491c42988.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="DistBelife框架"></p>
 <h2 id="DistBelief缺点"><a href="#DistBelief缺点" class="headerlink" title="DistBelief缺点"></a>DistBelief缺点</h2><p><img src="https://upload-images.jianshu.io/upload_images/4905018-8e7217b17816c5f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="DistBelief缺点"></p>
 <h2 id="TensorFlow设计原则"><a href="#TensorFlow设计原则" class="headerlink" title="TensorFlow设计原则"></a>TensorFlow设计原则</h2><p><img src="https://upload-images.jianshu.io/upload_images/4905018-61167f0c483ebef2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="TensorFlow设计原则"></p>
@@ -943,7 +946,8 @@
       
         
           
-            <h2 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h2><p>在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。</p>
+            <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://zhuanlan.zhihu.com/p/56159591" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/56159591</a></p>
+<h2 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h2><p>在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。</p>
 <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>新的项目开启时，一般会经历如下的流程：</p>
 <ul>
 <li>业务需求梳理</li>
@@ -1087,7 +1091,8 @@
       
         
           
-            <p>有了基础的《概率/统计》、《线性代数》、《微积分》知识，就可以上手深度学习的算法和实践了。但经过一段时间的工程实践，慢慢觉得大多数时间都用在选模型，调超参，或者是网络结构的排列组合上。深度学习的黑盒特性越来越明显。难道深度学习工程师就当真是数据“炼丹师”吗？<br>如果，你有了这样的感觉，下面的视频不妨抽时间看看(都需要翻墙)：</p>
+            <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://zhuanlan.zhihu.com/p/56159815" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/56159815</a></p>
+<p>有了基础的《概率/统计》、《线性代数》、《微积分》知识，就可以上手深度学习的算法和实践了。但经过一段时间的工程实践，慢慢觉得大多数时间都用在选模型，调超参，或者是网络结构的排列组合上。深度学习的黑盒特性越来越明显。难道深度学习工程师就当真是数据“炼丹师”吗？<br>如果，你有了这样的感觉，下面的视频不妨抽时间看看(都需要翻墙)：</p>
 <h2 id="李宏毅《Machine-Learning-and-having-it-deep-and-structured》"><a href="#李宏毅《Machine-Learning-and-having-it-deep-and-structured》" class="headerlink" title="李宏毅《Machine Learning and having it deep and structured》"></a>李宏毅《Machine Learning and having it deep and structured》</h2><p>不多说，直接看目录吧。<br>课程地址：<a href="http://speech.ee.ntu.edu.tw/~tlkagk/courses_MLDS18.html" target="_blank" rel="external">http://speech.ee.ntu.edu.tw/~tlkagk/courses_MLDS18.html</a><br><strong>《Theory 1 - Why Deep Structure》</strong><br>&emsp;<a href="https://www.youtube.com/watch?v=KKT2VkTdFyc&amp;feature=youtu.be" target="_blank" rel="external">Can shallow network fit any function</a><br>&emsp;<a href="https://www.youtube.com/watch?v=FN8jclCrqY0&amp;feature=youtu.be" target="_blank" rel="external">Potential of Deep</a><br>&emsp;<a href="https://www.youtube.com/watch?v=qpuLxXrHQB4&amp;feature=youtu.be" target="_blank" rel="external">Is Deep better than Shallow</a><br><strong>《Theory 2 - Optimization》</strong><br>&emsp;<a href="https://www.youtube.com/watch?v=XSdkBG6Vvr0&amp;feature=youtu.be" target="_blank" rel="external">When Gradient is Zero</a><br>&emsp;<a href="https://www.youtube.com/watch?v=0O6nYRC7GeY&amp;feature=youtu.be" target="_blank" rel="external">Deep Linear Network</a><br>&emsp;<a href="https://www.youtube.com/watch?v=NmelPQkUark&amp;feature=youtu.be" target="_blank" rel="external">Does Deep Network have Local Minima</a><br>&emsp;<a href="https://www.youtube.com/watch?v=_VuWvQUMQVk&amp;feature=youtu.be" target="_blank" rel="external">Geometry of Loss Surfaces (Conjecture)</a><br>&emsp;<a href="https://www.youtube.com/watch?v=XysGHdNOTbg&amp;feature=youtu.be" target="_blank" rel="external">Geometry of Loss Surfaces (Empirical)</a><br><strong>《Theory 3 - Generalization 》</strong><br>&emsp;<a href="https://www.youtube.com/watch?v=9dtxv4HLq_8&amp;feature=youtu.be" target="_blank" rel="external">Capability of Generalization</a><br>&emsp;<a href="https://www.youtube.com/watch?v=pivB5jEBOQw&amp;feature=youtu.be" target="_blank" rel="external">Indicator of Generalization</a></p>
 <h2 id="Sanjeev-Arora《The-mathematics-of-machine-learning-and-deep-learning》"><a href="#Sanjeev-Arora《The-mathematics-of-machine-learning-and-deep-learning》" class="headerlink" title="Sanjeev Arora《The mathematics of machine learning and deep learning》"></a>Sanjeev Arora《The mathematics of machine learning and deep learning》</h2><p>视频地址：<a href="https://www.youtube.com/watch?v=r07Sofj_puQ" target="_blank" rel="external">https://www.youtube.com/watch?v=r07Sofj_puQ</a><br>这是ICM2018的主题演讲，虽然Sanjeev Arora作为普林斯顿计算机科学的教授，但演讲内容深入浅出，并没有涉及大量的数学公式和推导，这里贴一下提纲：<br><img src="https://upload-images.jianshu.io/upload_images/4905018-7d5ed8e29ad63030.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="内容提纲"></p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>这两部分的内容是相互呼应的，可以先看李宏毅老师的课程，然后在看Sanjeev Arora教授的分享总结。</p>
@@ -1211,7 +1216,8 @@
       
         
           
-            <h1 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h1><p>在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。</p>
+            <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://zhuanlan.zhihu.com/p/55843621" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/55843621</a></p>
+<h1 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h1><p>在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。</p>
 <h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>在上一篇文章中（<a href="https://zhuanlan.zhihu.com/p/55296265" target="_blank" rel="external">《《从零开始学习自然语言处理(NLP)》-倒排索引(1)》</a>）描述了基于关键词搜索的基本原理，以及通过倒排索引来提升和关键词相关网页的查询。本文在上文的基础上提出一个新的问题：<br>如果通过倒排索引查找到的网页都包含<strong>全部的</strong>查询关键字，而且，召回（符合查找条件）的网页数目又很多，这就需要将网页与查询Query的相关度进行排序了。相关度高的网页排在查询结果的前面，相关度低的网页排在后面。那问题来了，如何依据网页与查询关键词的相关性对召回的网页做排序呢？</p>
 <h1 id="基于TF（Term-Frequency，词频）进行排序"><a href="#基于TF（Term-Frequency，词频）进行排序" class="headerlink" title="基于TF（Term Frequency，词频）进行排序"></a>基于TF（Term Frequency，词频）进行排序</h1><p>最容易想到的便是基于词频打分进行排序，具体来说，对于查询Query：“林俊杰/2019/演唱会/行程”，下面的哪个网页跟查询Query的相关度更高呢？<br><strong>网页a</strong></p>
 <pre><code>[林俊杰]/[2019]/全球/[演唱会]/[行程]/发布/，/这是/[林俊杰]/的/第/20/场/全球/巡演/。
@@ -1428,7 +1434,8 @@
       
         
           
-            <h1 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h1><p>在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。</p>
+            <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://zhuanlan.zhihu.com/p/55296265" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/55296265</a></p>
+<h1 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h1><p>在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。</p>
 <h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>倒排索引是搜索引擎的基础算法，在本文中我们以一个简单的例子来详细介绍倒排索引的思想和实现。<br>假设用户有个搜索query：“林俊杰2019演唱会行程”。百度的搜索结果如下：<br><img src="https://upload-images.jianshu.io/upload_images/4905018-25e46b27de0ebfdd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="百度搜索结果"><br>如果要求你来设计一个搜索引擎，来解决这个问题，你会如何着手呢？</p>
 <h1 id="问题简化"><a href="#问题简化" class="headerlink" title="问题简化"></a>问题简化</h1><p>现在我们把这个问题具体化。我们除了有要查询的query：“林俊杰2019演唱会行程”。还有被查询的网页数据库。这里我们做个简化，假设我们的网页数据库内容只有如下4条：<br><strong>网页1：</strong></p>
 <pre><code>2019年，JJ林俊杰全球演唱会在北京首场演出，行程如下xxxxxxx；
@@ -1632,7 +1639,8 @@
       
         
           
-            <h1 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h1><p>在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。</p>
+            <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://zhuanlan.zhihu.com/p/54731715" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/54731715</a></p>
+<h1 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h1><p>在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。</p>
 <h1 id="信心与兴趣"><a href="#信心与兴趣" class="headerlink" title="信心与兴趣"></a>信心与兴趣</h1><p>很多同学提到算法可能就会打退堂鼓，尤其是一直从事纯工程的软件开发。工作中连经典的数据结构都很少使用，更不用提五花八门的机器学习和深度学习算法。尤其各个大厂的算法专家、数据科学家都是背景爆表，动不动就是国外名校的Phd，至少也是国内清北、C9。实际上，针对普通的算法开发岗，从学习梯度上来讲，算法和工程的差异并不大。当然也并不需要非要名校硕博。<br>以前经常和同事开玩笑说，好歹大家都是985的本硕，但手上这工作，找个高中生也能妥妥搞定啊。虽然是玩笑，线上的产品当然也不是像Demo那么简单，但真实的工作真的没有那么明显的条条框框限制。自己也是面试官，百度这样的大厂对普通的开发要求也只是大专。针对普通的算法开发，自己觉得本科基本足够了，当然更没有像211/985这样的限制。<br>一般来讲，从事某个领域的工作，从底层基础到业务实现一般包括如下的几个层次（以互联网移动开发和算法开发为例）：</p>
 <table>
 <thead>
@@ -1801,7 +1809,8 @@
       
         
           
-            <p>TensorFlow Serving以Server方式提供模型能力服务，作为服务的使用者（Client）可以通过gRPC和RESTfull API两种方式来获取模型能力。虽然TensorFlow对C/S的通信约束做了说明，但感觉介绍的并不是特别的清晰易用，需要自己根据使用示例，并结合文档进行梳理和总结。</p>
+            <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://zhuanlan.zhihu.com/p/45109527" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/45109527</a></p>
+<p>TensorFlow Serving以Server方式提供模型能力服务，作为服务的使用者（Client）可以通过gRPC和RESTfull API两种方式来获取模型能力。虽然TensorFlow对C/S的通信约束做了说明，但感觉介绍的并不是特别的清晰易用，需要自己根据使用示例，并结合文档进行梳理和总结。</p>
 <h1 id="官方参考示例"><a href="#官方参考示例" class="headerlink" title="官方参考示例"></a>官方参考示例</h1><p>在文档中提到了两个参考示例，一个用于gRPC通信约束测试，一个用于RESTfull API通信约束测试。</p>
 <h2 id="1-gRPC示例"><a href="#1-gRPC示例" class="headerlink" title="1. gRPC示例"></a>1. gRPC示例</h2><p>示例使用说明：<a href="https://www.tensorflow.org/serving/serving_basic" target="_blank" rel="external">https://www.tensorflow.org/serving/serving_basic</a></p>
 <ul>
@@ -1950,7 +1959,8 @@
       
         
           
-            <p>大家习惯使用TensorFlow进行模型的训练、验证和预测，但模型完善之后的生产上线流程，就变得五花八门了。针对这种情况Google提供了TensorFlow Servering，可以将训练好的模型直接上线并提供服务。在2017年的TensorFlow开发者Summit上便提出了TensorFlow Serving。<br>传送门：<a href="https://www.youtube.com/watch?v=q_IkJcPyNl0&amp;list=PLOU2XLYxmsIKGc_NBoIhTn2Qhraji53cv&amp;index=13" target="_blank" rel="external">https://www.youtube.com/watch?v=q_IkJcPyNl0&amp;list=PLOU2XLYxmsIKGc_NBoIhTn2Qhraji53cv&amp;index=13</a><br>但那时候客户端和服务端的通信只支持gRPC。在实际的生产环境中比较广泛使用的C/S通信手段是基于RESTfull API的，幸运的是从TF1.8以后，TF Serving也正式支持RESTfull API通信方式了。</p>
+            <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://zhuanlan.zhihu.com/p/45109194" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/45109194</a></p>
+<p>大家习惯使用TensorFlow进行模型的训练、验证和预测，但模型完善之后的生产上线流程，就变得五花八门了。针对这种情况Google提供了TensorFlow Servering，可以将训练好的模型直接上线并提供服务。在2017年的TensorFlow开发者Summit上便提出了TensorFlow Serving。<br>传送门：<a href="https://www.youtube.com/watch?v=q_IkJcPyNl0&amp;list=PLOU2XLYxmsIKGc_NBoIhTn2Qhraji53cv&amp;index=13" target="_blank" rel="external">https://www.youtube.com/watch?v=q_IkJcPyNl0&amp;list=PLOU2XLYxmsIKGc_NBoIhTn2Qhraji53cv&amp;index=13</a><br>但那时候客户端和服务端的通信只支持gRPC。在实际的生产环境中比较广泛使用的C/S通信手段是基于RESTfull API的，幸运的是从TF1.8以后，TF Serving也正式支持RESTfull API通信方式了。</p>
 <h2 id="服务框架"><a href="#服务框架" class="headerlink" title="服务框架"></a>服务框架</h2><p><img src="https://upload-images.jianshu.io/upload_images/4905018-913e07a93c4821ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="TF Serving服务框架"><br>基于TF Serving的持续集成框架还是挺简明的，基本分三个步骤：</p>
 <ul>
 <li>模型训练<br>这是大家最熟悉的部分，主要包括数据的收集和清洗、模型的训练、评测和优化；</li>

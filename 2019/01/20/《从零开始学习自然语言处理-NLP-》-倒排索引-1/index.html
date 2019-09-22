@@ -87,20 +87,20 @@
 
 
 
-<meta name="description" content="写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。 问题描述倒排索引是搜索引擎的基">
+<meta name="description" content="由于图片外链被禁止了，图片不能显示，完整文章看这里吧：https://zhuanlan.zhihu.com/p/55296265 写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这">
 <meta name="keywords" content="从零开始学习自然语言处理(NLP)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《从零开始学习自然语言处理(NLP)》-倒排索引(1)">
 <meta property="og:url" content="http://yoursite.com/2019/01/20/《从零开始学习自然语言处理-NLP-》-倒排索引-1/index.html">
 <meta property="og:site_name" content="才权的博客">
-<meta property="og:description" content="写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。 问题描述倒排索引是搜索引擎的基">
+<meta property="og:description" content="由于图片外链被禁止了，图片不能显示，完整文章看这里吧：https://zhuanlan.zhihu.com/p/55296265 写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-25e46b27de0ebfdd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4905018-0cc45397fced1b35.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-03-29T15:20:52.620Z">
+<meta property="og:updated_time" content="2019-09-22T14:49:51.683Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《从零开始学习自然语言处理(NLP)》-倒排索引(1)">
-<meta name="twitter:description" content="写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。 问题描述倒排索引是搜索引擎的基">
+<meta name="twitter:description" content="由于图片外链被禁止了，图片不能显示，完整文章看这里吧：https://zhuanlan.zhihu.com/p/55296265 写在最前面在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/4905018-25e46b27de0ebfdd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -346,7 +346,8 @@
       
 
       
-        <h1 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h1><p>在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。</p>
+        <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://zhuanlan.zhihu.com/p/55296265" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/55296265</a></p>
+<h1 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h1><p>在这个日新月异的信息时代，海量数据的积累，计算能力的不断提升，机器学习尤其是深度学习的蓬勃发展，使得人工智能技术在不同领域焕发出蓬勃的活力。自己经历了嵌入式开发，移动互联网开发，目前从事自然语言处理算法开发工作。从工程软件开发到自然语言处理算法开发，希望通过这个系列的文章，能够由浅入深，通俗易懂的介绍自然语言处理的领域知识，分享自己的成长，同大家一起进步。</p>
 <h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>倒排索引是搜索引擎的基础算法，在本文中我们以一个简单的例子来详细介绍倒排索引的思想和实现。<br>假设用户有个搜索query：“林俊杰2019演唱会行程”。百度的搜索结果如下：<br><img src="https://upload-images.jianshu.io/upload_images/4905018-25e46b27de0ebfdd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="百度搜索结果"><br>如果要求你来设计一个搜索引擎，来解决这个问题，你会如何着手呢？</p>
 <h1 id="问题简化"><a href="#问题简化" class="headerlink" title="问题简化"></a>问题简化</h1><p>现在我们把这个问题具体化。我们除了有要查询的query：“林俊杰2019演唱会行程”。还有被查询的网页数据库。这里我们做个简化，假设我们的网页数据库内容只有如下4条：<br><strong>网页1：</strong></p>
 <pre><code>2019年，JJ林俊杰全球演唱会在北京首场演出，行程如下xxxxxxx；
