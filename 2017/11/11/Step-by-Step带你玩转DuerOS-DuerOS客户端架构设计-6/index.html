@@ -87,13 +87,13 @@
 
 
 
-<meta name="description" content="在前面的系列文章中，我们完整的分析了智能语音系统的系统组成，然后，我们提供了一个基于Python的DuerOS客户端供大家实际体验。这时候很多同学可能想：我能不能从零开始，完全的基于DuerOS提供的后台能力接口，用自己喜欢的语言（如C/C++、Java、ObjectC、Python、NodeJS），在自己熟悉的平台上（如Android、iOS、Linux、Windows、树莓派、单片机），自己独">
+<meta name="description" content="由于图片外链被禁止了，图片不能显示，完整文章看这里吧：https://www.jianshu.com/p/ab3ae8067bb8 在前面的系列文章中，我们完整的分析了智能语音系统的系统组成，然后，我们提供了一个基于Python的DuerOS客户端供大家实际体验。这时候很多同学可能想：我能不能从零开始，完全的基于DuerOS提供的后台能力接口，用自己喜欢的语言（如C/C++、Java、Object">
 <meta name="keywords" content="DuerOS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Step by Step带你玩转DuerOS - DuerOS客户端架构设计(6)">
 <meta property="og:url" content="http://yoursite.com/2017/11/11/Step-by-Step带你玩转DuerOS-DuerOS客户端架构设计-6/index.html">
 <meta property="og:site_name" content="才权的博客">
-<meta property="og:description" content="在前面的系列文章中，我们完整的分析了智能语音系统的系统组成，然后，我们提供了一个基于Python的DuerOS客户端供大家实际体验。这时候很多同学可能想：我能不能从零开始，完全的基于DuerOS提供的后台能力接口，用自己喜欢的语言（如C/C++、Java、ObjectC、Python、NodeJS），在自己熟悉的平台上（如Android、iOS、Linux、Windows、树莓派、单片机），自己独">
+<meta property="og:description" content="由于图片外链被禁止了，图片不能显示，完整文章看这里吧：https://www.jianshu.com/p/ab3ae8067bb8 在前面的系列文章中，我们完整的分析了智能语音系统的系统组成，然后，我们提供了一个基于Python的DuerOS客户端供大家实际体验。这时候很多同学可能想：我能不能从零开始，完全的基于DuerOS提供的后台能力接口，用自己喜欢的语言（如C/C++、Java、Object">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-4d9a1721507bebef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-536eeee3e75eb23c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
@@ -105,10 +105,10 @@
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-d7be5cba60305187.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-a8b2d06e62454112.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-4ce59769a9bd22dc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-03-29T15:20:52.613Z">
+<meta property="og:updated_time" content="2019-09-22T14:27:57.564Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Step by Step带你玩转DuerOS - DuerOS客户端架构设计(6)">
-<meta name="twitter:description" content="在前面的系列文章中，我们完整的分析了智能语音系统的系统组成，然后，我们提供了一个基于Python的DuerOS客户端供大家实际体验。这时候很多同学可能想：我能不能从零开始，完全的基于DuerOS提供的后台能力接口，用自己喜欢的语言（如C/C++、Java、ObjectC、Python、NodeJS），在自己熟悉的平台上（如Android、iOS、Linux、Windows、树莓派、单片机），自己独">
+<meta name="twitter:description" content="由于图片外链被禁止了，图片不能显示，完整文章看这里吧：https://www.jianshu.com/p/ab3ae8067bb8 在前面的系列文章中，我们完整的分析了智能语音系统的系统组成，然后，我们提供了一个基于Python的DuerOS客户端供大家实际体验。这时候很多同学可能想：我能不能从零开始，完全的基于DuerOS提供的后台能力接口，用自己喜欢的语言（如C/C++、Java、Object">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4905018-4d9a1721507bebef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -354,7 +354,8 @@
       
 
       
-        <p>在前面的系列文章中，我们完整的分析了智能语音系统的系统组成，然后，我们提供了一个基于Python的DuerOS客户端供大家实际体验。这时候很多同学可能想：我能不能从零开始，完全的基于DuerOS提供的后台能力接口，用自己喜欢的语言（如C/C++、Java、ObjectC、Python、NodeJS），在自己熟悉的平台上（如Android、iOS、Linux、Windows、树莓派、单片机），自己独立完成DurOS的客户端开发呢？特别是对有产品化想法的同学，把DurOS的能力集成到自己的项目平台中。<br>这篇文章就跟大家一起来熟悉下DuerOS客户端实现的架构设计，主要是侧重对DuerOS客户端协议的解析（对于设备端开发过程中涉及到的更多细节，如AEC、采样率转换、音频焦点管理、混音处理），会在后面的文章中一一作出介绍和解析），希望这篇文章能对你的开发和工作有帮助。</p>
+        <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://www.jianshu.com/p/ab3ae8067bb8" target="_blank" rel="external">https://www.jianshu.com/p/ab3ae8067bb8</a></p>
+<p>在前面的系列文章中，我们完整的分析了智能语音系统的系统组成，然后，我们提供了一个基于Python的DuerOS客户端供大家实际体验。这时候很多同学可能想：我能不能从零开始，完全的基于DuerOS提供的后台能力接口，用自己喜欢的语言（如C/C++、Java、ObjectC、Python、NodeJS），在自己熟悉的平台上（如Android、iOS、Linux、Windows、树莓派、单片机），自己独立完成DurOS的客户端开发呢？特别是对有产品化想法的同学，把DurOS的能力集成到自己的项目平台中。<br>这篇文章就跟大家一起来熟悉下DuerOS客户端实现的架构设计，主要是侧重对DuerOS客户端协议的解析（对于设备端开发过程中涉及到的更多细节，如AEC、采样率转换、音频焦点管理、混音处理），会在后面的文章中一一作出介绍和解析），希望这篇文章能对你的开发和工作有帮助。</p>
 <h2 id="DuerOS客户端核心任务"><a href="#DuerOS客户端核心任务" class="headerlink" title="DuerOS客户端核心任务"></a>DuerOS客户端核心任务</h2><p>简单的说，客户端的主要任务就是，将用户的语音数据通过网络传给DuerOS后台，然后，执行DuerOS后台经过语音处理后的结果。<br>当然了如果，真是这么简单就好了~<br>具体的说，客户端需要完成的工作主要有，</p>
 <ul>
 <li>同DuerOS后台建立长链接，接收并处理DuerOS后台的推送命令（Directive）</li>

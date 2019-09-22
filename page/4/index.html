@@ -345,7 +345,8 @@
       
         
           
-            <p>当前Python版本的DuerOS只能通过[小度小度]进行唤醒。论坛里和群里很多同学问：“那如果我想通过[大白大白]，[叮当叮当]或者[你好]这样的自定义唤醒词来唤醒DuerOS改怎么做呢？”<br>自定义唤醒词其实超简单，下面我们就一步一步的来更换唤醒词。</p>
+            <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://www.jianshu.com/p/96284d314cbe" target="_blank" rel="external">https://www.jianshu.com/p/96284d314cbe</a></p>
+<p>当前Python版本的DuerOS只能通过[小度小度]进行唤醒。论坛里和群里很多同学问：“那如果我想通过[大白大白]，[叮当叮当]或者[你好]这样的自定义唤醒词来唤醒DuerOS改怎么做呢？”<br>自定义唤醒词其实超简单，下面我们就一步一步的来更换唤醒词。</p>
 <h2 id="1-在snowboy平台训练自己的唤醒词"><a href="#1-在snowboy平台训练自己的唤醒词" class="headerlink" title="1 在snowboy平台训练自己的唤醒词"></a>1 在snowboy平台训练自己的唤醒词</h2><p>先附上snowboy的官方地址：<a href="https://snowboy.kitt.ai/" target="_blank" rel="external">https://snowboy.kitt.ai/</a></p>
 <h3 id="登陆"><a href="#登陆" class="headerlink" title="登陆"></a>登陆</h3><p><img src="http://upload-images.jianshu.io/upload_images/4905018-58440cde7df17e4c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="登陆入口"></p>
 <h3 id="创建自定义的唤醒词"><a href="#创建自定义的唤醒词" class="headerlink" title="创建自定义的唤醒词"></a>创建自定义的唤醒词</h3><p><img src="http://upload-images.jianshu.io/upload_images/4905018-cc4cd746d64f2f3f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="自定义唤醒词创建"></p>
@@ -489,7 +490,8 @@
       
         
           
-            <p>DuerOS的开发平台在创建产品时，有一步需要进行OAuth设置（<a href="http://open.duer.baidu.com/doc/overall/console-guide_markdown" target="_blank" rel="external">http://open.duer.baidu.com/doc/overall/console-guide_markdown</a>），<br><img src="http://upload-images.jianshu.io/upload_images/4905018-60bba90bdfea249e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="DuerOS OAuth配置"><br>很多同学到这个步骤估计会很困惑，OAuth是什么？这里设置的URL有是什么呢？那我们这篇文章就好好讲一讲OAuth到底是什么？在DuerOS的接入过程中又是怎么使用的。</p>
+            <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://www.jianshu.com/p/c0219b8a50cd" target="_blank" rel="external">https://www.jianshu.com/p/c0219b8a50cd</a></p>
+<p>DuerOS的开发平台在创建产品时，有一步需要进行OAuth设置（<a href="http://open.duer.baidu.com/doc/overall/console-guide_markdown" target="_blank" rel="external">http://open.duer.baidu.com/doc/overall/console-guide_markdown</a>），<br><img src="http://upload-images.jianshu.io/upload_images/4905018-60bba90bdfea249e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="DuerOS OAuth配置"><br>很多同学到这个步骤估计会很困惑，OAuth是什么？这里设置的URL有是什么呢？那我们这篇文章就好好讲一讲OAuth到底是什么？在DuerOS的接入过程中又是怎么使用的。</p>
 <h2 id="什么是OAuth"><a href="#什么是OAuth" class="headerlink" title="什么是OAuth"></a>什么是OAuth</h2><p> 其实OAuth在我们日常中是非常常见的，但可能你没有专门的关注过功能背后的实现原理。这里有一篇阮一峰老师专门介绍OAuth的文章《理解OAuth 2.0》(<a href="http://www.ruanyifeng.com/blog/2014/05/oauth_2_0.html" target="_blank" rel="external">http://www.ruanyifeng.com/blog/2014/05/oauth_2_0.html</a>)，这是我目前为止见得对OAuth讲解最浅显又是最全面的一篇（ps 阮一峰老师的文章质量都很高呀）。</p>
 <h2 id="DuerOS是如何使用OAuth的"><a href="#DuerOS是如何使用OAuth的" class="headerlink" title="DuerOS是如何使用OAuth的"></a>DuerOS是如何使用OAuth的</h2><p>OAuth有4中授权模式，</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/4905018-ef5c25357e5d5e5c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="OAuth授权模式"></p>
@@ -649,7 +651,8 @@
       
         
           
-            <p>在前一个帖子中，给大家带来了Python版本的DuerOS SDK。但DuerOS的测试环境却声明为Ubuntu，相信很多同学会疑惑：Python不是跨平台的吗？为什么要限制测试平台呢？真实的情况呢是这样的：<br>首先，Python跨平台这个没毛病。但问题在于DuerOS运行所需要的依赖环境确实跟平台相关的。比如DuerOS是基于Http2 ALPN的，但树莓派官方镜像的OpenSSL并不支持，而对应的Python库依赖于OpenSSL。为了在树莓派平台上支持Python的DuerOS SDK，专门交叉编译了OpenSSL和Python。<br>所以，这里限制了平台主要是方便同学能将DuerOS快速的Run起来。当然，如果想在MacOS、Windows平台运行DuerOS Python SDK也是没问题的，只是在依赖配置方面可能要多花些时间。<br>好了，废话不多说，直接上干货：</p>
+            <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://www.jianshu.com/p/e689d770d99d" target="_blank" rel="external">https://www.jianshu.com/p/e689d770d99d</a></p>
+<p>在前一个帖子中，给大家带来了Python版本的DuerOS SDK。但DuerOS的测试环境却声明为Ubuntu，相信很多同学会疑惑：Python不是跨平台的吗？为什么要限制测试平台呢？真实的情况呢是这样的：<br>首先，Python跨平台这个没毛病。但问题在于DuerOS运行所需要的依赖环境确实跟平台相关的。比如DuerOS是基于Http2 ALPN的，但树莓派官方镜像的OpenSSL并不支持，而对应的Python库依赖于OpenSSL。为了在树莓派平台上支持Python的DuerOS SDK，专门交叉编译了OpenSSL和Python。<br>所以，这里限制了平台主要是方便同学能将DuerOS快速的Run起来。当然，如果想在MacOS、Windows平台运行DuerOS Python SDK也是没问题的，只是在依赖配置方面可能要多花些时间。<br>好了，废话不多说，直接上干货：</p>
 <h1 id="树莓派DuerOS-Python-版本支持"><a href="#树莓派DuerOS-Python-版本支持" class="headerlink" title="树莓派DuerOS Python 版本支持"></a>树莓派DuerOS Python 版本支持</h1><p>##准备<br>按照个人版使用说明完成如下3步（<a href="http://open.duer.baidu.com/doc/device-devkit/intro_markdown" target="_blank" rel="external">http://open.duer.baidu.com/doc/device-devkit/intro_markdown</a>）</p>
 <ul>
 <li>镜像下载，烧录安装</li>
@@ -826,7 +829,8 @@ git checkout raspberry-dev
       
         
           
-            <p>有了前面两篇文章的介绍，相信大家已经跃跃欲试了，想最快的体验DuerOS的能力？那当然是下载DuerOS App啦，</p>
+            <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://www.jianshu.com/p/267334be6954" target="_blank" rel="external">https://www.jianshu.com/p/267334be6954</a></p>
+<p>有了前面两篇文章的介绍，相信大家已经跃跃欲试了，想最快的体验DuerOS的能力？那当然是下载DuerOS App啦，</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/4905018-dc6b78232b08c78a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="度秘App"></p>
 <p>如果想在硬件上体验，可以尝试树莓派版本，</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/4905018-fbd911a8fa84a6ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="基于树莓派的个人开发套件"></p>

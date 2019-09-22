@@ -87,20 +87,20 @@
 
 
 
-<meta name="description" content="在前一个帖子中，给大家带来了Python版本的DuerOS SDK。但DuerOS的测试环境却声明为Ubuntu，相信很多同学会疑惑：Python不是跨平台的吗？为什么要限制测试平台呢？真实的情况呢是这样的：首先，Python跨平台这个没毛病。但问题在于DuerOS运行所需要的依赖环境确实跟平台相关的。比如DuerOS是基于Http2 ALPN的，但树莓派官方镜像的OpenSSL并不支持，而对应的">
+<meta name="description" content="由于图片外链被禁止了，图片不能显示，完整文章看这里吧：https://www.jianshu.com/p/e689d770d99d 在前一个帖子中，给大家带来了Python版本的DuerOS SDK。但DuerOS的测试环境却声明为Ubuntu，相信很多同学会疑惑：Python不是跨平台的吗？为什么要限制测试平台呢？真实的情况呢是这样的：首先，Python跨平台这个没毛病。但问题在于DuerOS运">
 <meta name="keywords" content="DuerOS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Step by Step带你玩转DuerOS - Python DuerOS SDK[树莓派平台] (3)">
 <meta property="og:url" content="http://yoursite.com/2017/11/11/Step-by-Step带你玩转DuerOS-Python-DuerOS-SDK-树莓派平台-3/index.html">
 <meta property="og:site_name" content="才权的博客">
-<meta property="og:description" content="在前一个帖子中，给大家带来了Python版本的DuerOS SDK。但DuerOS的测试环境却声明为Ubuntu，相信很多同学会疑惑：Python不是跨平台的吗？为什么要限制测试平台呢？真实的情况呢是这样的：首先，Python跨平台这个没毛病。但问题在于DuerOS运行所需要的依赖环境确实跟平台相关的。比如DuerOS是基于Http2 ALPN的，但树莓派官方镜像的OpenSSL并不支持，而对应的">
+<meta property="og:description" content="由于图片外链被禁止了，图片不能显示，完整文章看这里吧：https://www.jianshu.com/p/e689d770d99d 在前一个帖子中，给大家带来了Python版本的DuerOS SDK。但DuerOS的测试环境却声明为Ubuntu，相信很多同学会疑惑：Python不是跨平台的吗？为什么要限制测试平台呢？真实的情况呢是这样的：首先，Python跨平台这个没毛病。但问题在于DuerOS运">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-b8e7c555be24d4fb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4905018-caca627041b10380.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-03-29T15:20:52.614Z">
+<meta property="og:updated_time" content="2019-09-22T14:25:22.054Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Step by Step带你玩转DuerOS - Python DuerOS SDK[树莓派平台] (3)">
-<meta name="twitter:description" content="在前一个帖子中，给大家带来了Python版本的DuerOS SDK。但DuerOS的测试环境却声明为Ubuntu，相信很多同学会疑惑：Python不是跨平台的吗？为什么要限制测试平台呢？真实的情况呢是这样的：首先，Python跨平台这个没毛病。但问题在于DuerOS运行所需要的依赖环境确实跟平台相关的。比如DuerOS是基于Http2 ALPN的，但树莓派官方镜像的OpenSSL并不支持，而对应的">
+<meta name="twitter:description" content="由于图片外链被禁止了，图片不能显示，完整文章看这里吧：https://www.jianshu.com/p/e689d770d99d 在前一个帖子中，给大家带来了Python版本的DuerOS SDK。但DuerOS的测试环境却声明为Ubuntu，相信很多同学会疑惑：Python不是跨平台的吗？为什么要限制测试平台呢？真实的情况呢是这样的：首先，Python跨平台这个没毛病。但问题在于DuerOS运">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4905018-b8e7c555be24d4fb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -346,7 +346,8 @@
       
 
       
-        <p>在前一个帖子中，给大家带来了Python版本的DuerOS SDK。但DuerOS的测试环境却声明为Ubuntu，相信很多同学会疑惑：Python不是跨平台的吗？为什么要限制测试平台呢？真实的情况呢是这样的：<br>首先，Python跨平台这个没毛病。但问题在于DuerOS运行所需要的依赖环境确实跟平台相关的。比如DuerOS是基于Http2 ALPN的，但树莓派官方镜像的OpenSSL并不支持，而对应的Python库依赖于OpenSSL。为了在树莓派平台上支持Python的DuerOS SDK，专门交叉编译了OpenSSL和Python。<br>所以，这里限制了平台主要是方便同学能将DuerOS快速的Run起来。当然，如果想在MacOS、Windows平台运行DuerOS Python SDK也是没问题的，只是在依赖配置方面可能要多花些时间。<br>好了，废话不多说，直接上干货：</p>
+        <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://www.jianshu.com/p/e689d770d99d" target="_blank" rel="external">https://www.jianshu.com/p/e689d770d99d</a></p>
+<p>在前一个帖子中，给大家带来了Python版本的DuerOS SDK。但DuerOS的测试环境却声明为Ubuntu，相信很多同学会疑惑：Python不是跨平台的吗？为什么要限制测试平台呢？真实的情况呢是这样的：<br>首先，Python跨平台这个没毛病。但问题在于DuerOS运行所需要的依赖环境确实跟平台相关的。比如DuerOS是基于Http2 ALPN的，但树莓派官方镜像的OpenSSL并不支持，而对应的Python库依赖于OpenSSL。为了在树莓派平台上支持Python的DuerOS SDK，专门交叉编译了OpenSSL和Python。<br>所以，这里限制了平台主要是方便同学能将DuerOS快速的Run起来。当然，如果想在MacOS、Windows平台运行DuerOS Python SDK也是没问题的，只是在依赖配置方面可能要多花些时间。<br>好了，废话不多说，直接上干货：</p>
 <h1 id="树莓派DuerOS-Python-版本支持"><a href="#树莓派DuerOS-Python-版本支持" class="headerlink" title="树莓派DuerOS Python 版本支持"></a>树莓派DuerOS Python 版本支持</h1><p>##准备<br>按照个人版使用说明完成如下3步（<a href="http://open.duer.baidu.com/doc/device-devkit/intro_markdown" target="_blank" rel="external">http://open.duer.baidu.com/doc/device-devkit/intro_markdown</a>）</p>
 <ul>
 <li>镜像下载，烧录安装</li>
