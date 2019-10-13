@@ -268,6 +268,166 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/13/混合精度对模型训练和推理的影响/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liu Caiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="才权的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/10/13/混合精度对模型训练和推理的影响/" itemprop="url">
+                  混合精度对模型训练和推理的影响
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-13T11:36:42+08:00">
+                2019-10-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="单精度-双精度-半精度-混合精度"><a href="#单精度-双精度-半精度-混合精度" class="headerlink" title="单精度/双精度/半精度/混合精度"></a>单精度/双精度/半精度/混合精度</h2><p>计算机使用0/1来标识信息，每个0或每个1代表一个bit。信息一般会以下面的三种形式表示：</p>
+<p><strong>1 字符串</strong></p>
+<p>字符串的最小单元是char，每个char占8个bit，也就是1个byte。比如字符串“abc”这三个字符组成的串占用的存储空间：</p>
+<pre><code>存储空间=1x3=3(bytes)=24(bits)
+</code></pre><p><strong>2 整数</strong></p>
+<p>整数包括INT4、INT8、INT16、INT32、INT64，INT后面的数值表示该整数类型占用的byte个数。</p>
+<p><strong>3 浮点数</strong></p>
+<p>浮点数包括Float16、Float32、Float64，同样，Float后面的数字表示该浮点型占用byte的个数。而这三种浮点数又有个不同的名字：</p>
+<ul>
+<li>半精度浮点数：Float16</li>
+<li>单精度浮点数：Float32</li>
+<li>双精度浮点数：Float64</li>
+</ul>
+<p>有了上面单精度、双精度、混合精度三种形式的解释，混合精度就很好理解了。就是计算中存在不同精度的浮点数，比如：</p>
+<pre><code>Float16+Float32
+</code></pre><h2 id="混合精度的优点"><a href="#混合精度的优点" class="headerlink" title="混合精度的优点"></a>混合精度的优点</h2><p>先说结论：</p>
+<p><strong>压缩模型大小</strong></p>
+<p>我们一般模型训练使用的是Float32，那换成混合精度有什么好处呢？为了更好理解，我们将Float32的模型参数都换成Float16. 在参数数目不变的情况下，将Float32的参数都更换成Float16后，模型占用的内存就变成了之前的一半。所以，混合精度最直观的优点就是能够压缩模型的大小。</p>
+<p>前面为了好理解，将Float32全都转成了Float16，但在实际的模型训练中，Float16因为能表示的精度有限，会导致数据溢出（超出能表示的范围），所以，只能部分操作用Float16，部分操作用Float32.最终导致混合精度的提出。</p>
+<p>混合精度比较经典的论文是这篇：</p>
+<p><a href="https://arxiv.org/abs/1710.03740" target="_blank" rel="external">《Mixed Precision Training》</a></p>
+<p>论文介绍了混合精度在模型训练中的方法，并在多个训练场景中证实，混合精度相对于完全Float32的模型的参数训练，最终的算法效果影响不大。</p>
+<h2 id="混合精度对模型训练和推理速度的影响"><a href="#混合精度对模型训练和推理速度的影响" class="headerlink" title="混合精度对模型训练和推理速度的影响"></a>混合精度对模型训练和推理速度的影响</h2><p>先说结论：</p>
+<p><strong>理论上没有提升，反而会下降。但在结合计算平台特性，训练和推理速度会有提升</strong></p>
+<p>理论上混合精度只能压缩模型的大小，在训练阶段和推理阶段，都能能大大缓解CPU内存或GPU显存限制对模型训练压力。</p>
+<p>因为模型结构和参数数量没有发生显著的变化（忽略混合精度对模型训练，参数更新的影响），理论上训练和推理速度应该不会有大的改变。而且，因为不同的精度需要进行对齐再运算（计算时，先将不同的精度转变成统一的精度后，再进行计算），返回导致计算效率降低，从而会导致训练和推理的速度降低。</p>
+<p>但实际上计算平台对这种特殊的计算场景一般都有专门的硬件计算加速，比如：</p>
+<p><strong>1 具备专用的半精度计算单元</strong></p>
+<p>GPU针对Float16、Float32运算，都有专门的计算单元。</p>
+<p><strong>2 单精度支持两个半精度计算同时进行</strong></p>
+<p>比如，英伟达的GPU Tesla P100支持在一个Float32里同时进行2次Float16的半精度浮点计算，所以对于半精度的理论峰值可以达到单精度浮点数计算能力的两倍。</p>
+<p><strong>3 TensorCore</strong></p>
+<p>英伟达的瓦特（如Tesla V100）和图灵架构（如Tesla T4）都具备TensorCore单元，能完成单指令的混合精度矩阵乘加运算。</p>
+<h2 id="混合精度的实际表现"><a href="#混合精度的实际表现" class="headerlink" title="混合精度的实际表现"></a>混合精度的实际表现</h2><p>我们以英伟达开源的BERT评测对比下：</p>
+<p>模型训练：<br><img src="https://pic3.zhimg.com/80/v2-e3691b971598d9cc0df3904508b0938a_hd.jpg" alt="BERT模型训练"></p>
+<p>模型推理：<br><img src="https://pic3.zhimg.com/80/v2-7981642c61dba53d1f29731995b69242_hd.jpg" alt="BERT模型推理"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>混合精度可以明显的对模型的大小进行压缩（内存占用），同时，针对优化的计算平台，在模型训练和推理的速度方面也都有提升。</p>
+<p>参考文档：</p>
+<p><a href="https://weibo.com/ttarticle/p/show?id=2309403987017473113077" target="_blank" rel="external">《Nvidia GPU的浮点计算能力》</a></p>
+<p><a href="https://github.com/NVIDIA/DeepLearningExamples/tree/master/TensorFlow/LanguageModeling/BERT" target="_blank" rel="external">《Nvidia BERT评测》</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/29/TensorFlow-GPU开发环境搭建/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1873,176 +2033,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/21/TensorFlow-Serving入门/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liu Caiquan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="才权的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/09/21/TensorFlow-Serving入门/" itemprop="url">
-                  TensorFlow Serving入门
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-21T17:21:28+08:00">
-                2018-09-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://zhuanlan.zhihu.com/p/45109194" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/45109194</a></p>
-<p>大家习惯使用TensorFlow进行模型的训练、验证和预测，但模型完善之后的生产上线流程，就变得五花八门了。针对这种情况Google提供了TensorFlow Servering，可以将训练好的模型直接上线并提供服务。在2017年的TensorFlow开发者Summit上便提出了TensorFlow Serving。<br>传送门：<a href="https://www.youtube.com/watch?v=q_IkJcPyNl0&amp;list=PLOU2XLYxmsIKGc_NBoIhTn2Qhraji53cv&amp;index=13" target="_blank" rel="external">https://www.youtube.com/watch?v=q_IkJcPyNl0&amp;list=PLOU2XLYxmsIKGc_NBoIhTn2Qhraji53cv&amp;index=13</a><br>但那时候客户端和服务端的通信只支持gRPC。在实际的生产环境中比较广泛使用的C/S通信手段是基于RESTfull API的，幸运的是从TF1.8以后，TF Serving也正式支持RESTfull API通信方式了。</p>
-<h2 id="服务框架"><a href="#服务框架" class="headerlink" title="服务框架"></a>服务框架</h2><p><img src="https://upload-images.jianshu.io/upload_images/4905018-913e07a93c4821ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="TF Serving服务框架"><br>基于TF Serving的持续集成框架还是挺简明的，基本分三个步骤：</p>
-<ul>
-<li>模型训练<br>这是大家最熟悉的部分，主要包括数据的收集和清洗、模型的训练、评测和优化；</li>
-<li>模型上线<br>前一个步骤训练好的模型在TF Server中上线；</li>
-<li>服务使用</li>
-</ul>
-<p>客户端通过gRPC和RESTfull API两种方式同TF Servering端进行通信，并获取服务；</p>
-<h1 id="TF-Serving工作流程"><a href="#TF-Serving工作流程" class="headerlink" title="TF Serving工作流程"></a>TF Serving工作流程</h1><p><img src="https://upload-images.jianshu.io/upload_images/4905018-560bf34c3a9e5aca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="TF Serving工作流程"><br>TF Serving的工作流程主要分为以下几个步骤：</p>
-<ul>
-<li>Source会针对需要进行加载的模型创建一个Loader，Loader中会包含要加载模型的全部信息；</li>
-<li>Source通知Manager有新的模型需要进行加载；</li>
-<li>Manager通过版本管理策略（Version Policy）来确定哪些模型需要被下架，哪些模型需要被加载；</li>
-<li>Manger在确认需要加载的模型符合加载策略，便通知Loader来加载最新的模型；</li>
-<li>客户端像服务端请求模型结果时，可以指定模型的版本，也可以使用最新模型的结果；</li>
-</ul>
-<h1 id="简单示例"><a href="#简单示例" class="headerlink" title="简单示例"></a>简单示例</h1><p>TF Serving客户端和服务端的通信方式有两种（gRPC和RESTfull API）</p>
-<h2 id="示例（一）：RESTfull-API形式"><a href="#示例（一）：RESTfull-API形式" class="headerlink" title="示例（一）：RESTfull API形式"></a>示例（一）：RESTfull API形式</h2><h3 id="1-准备TF-Serving的Docker环境"><a href="#1-准备TF-Serving的Docker环境" class="headerlink" title="1. 准备TF Serving的Docker环境"></a>1. 准备TF Serving的Docker环境</h3><p>目前TF Serving有Docker、APT（二级制安装）和源码编译三种方式，但考虑实际的生产环境项目部署和简单性，推荐使用Docker方式。</p>
-<pre><code># docker pull tensorflow/serving
-</code></pre><h3 id="2-下载官方示例代码"><a href="#2-下载官方示例代码" class="headerlink" title="2. 下载官方示例代码"></a>2. 下载官方示例代码</h3><p>示例代码中包含已训练好的模型和与服务端进行通信的客户端（RESTfull API形式不需要专门的客户端）</p>
-<pre><code># mkdir -p /tmp/tfserving
-# cd /tmp/tfserving
-# git clone https://github.com/tensorflow/serving
-</code></pre><h3 id="3-运行TF-Serving"><a href="#3-运行TF-Serving" class="headerlink" title="3. 运行TF Serving"></a>3. 运行TF Serving</h3><pre><code># docker run -p 8501:8501 \
-  --mount type=bind,\
-   source=/tmp/tfserving/serving/tensorflow_serving/servables/tensorflow/testdata/saved_model_half_plus_two_cpu,\
-target=/models/half_plus_two \
--e MODEL_NAME=half_plus_two -t tensorflow/serving &amp;
-</code></pre><p>这里需要注意的是，较早的docker版本没有“–mount”选项，比如Ubuntu16.04默认安装的docker就没有（我的环境是Ubuntu 18.04）。</p>
-<h3 id="4-客户端验证"><a href="#4-客户端验证" class="headerlink" title="4.客户端验证"></a>4.客户端验证</h3><pre><code># curl -d &apos;{&quot;instances&quot;: [1.0, 2.0, 5.0]}&apos; \
-  -X POST http://localhost:8501/v1/models/half_plus_two:predict 
-</code></pre><p>返回结果，</p>
-<pre><code># { &quot;predictions&quot;: [2.5, 3.0, 4.5] }
-</code></pre><h2 id="示例（二）：gRPC形式"><a href="#示例（二）：gRPC形式" class="headerlink" title="示例（二）：gRPC形式"></a>示例（二）：gRPC形式</h2><h3 id="1-准备TF-Serving的Docker环境-1"><a href="#1-准备TF-Serving的Docker环境-1" class="headerlink" title="1. 准备TF Serving的Docker环境"></a>1. 准备TF Serving的Docker环境</h3><p>目前TF Serving有Docker、APT（二级制安装）和源码编译三种方式，但考虑实际的生产环境项目部署和简单性，推荐使用Docker方式。</p>
-<pre><code>#  docker pull tensorflow/serving
-</code></pre><h3 id="2-下载官方示例代码-1"><a href="#2-下载官方示例代码-1" class="headerlink" title="2. 下载官方示例代码"></a>2. 下载官方示例代码</h3><pre><code># mkdir -p /tmp/tfserving
-# cd /tmp/tfserving
-# git clone https://github.com/tensorflow/serving
-</code></pre><h3 id="3-模型编译"><a href="#3-模型编译" class="headerlink" title="3. 模型编译"></a>3. 模型编译</h3><pre><code># python tensorflow_serving/example/mnist_saved_model.py models/mnist
-</code></pre><h3 id="4-运行TF-Serving"><a href="#4-运行TF-Serving" class="headerlink" title="4. 运行TF Serving"></a>4. 运行TF Serving</h3><pre><code># docker run -p 8500:8500 \
---mount type=bind,source=$(pwd)/models/mnist,target=/models/mnist \
--e MODEL_NAME=mnist -t tensorflow/serving
-</code></pre><p>这里需要注意的是，较早的docker版本没有“–mount”选项，比如Ubuntu16.04默认安装的docker就没有（我的环境是Ubuntu 18.04）。</p>
-<h3 id="4-客户端验证-1"><a href="#4-客户端验证-1" class="headerlink" title="4.客户端验证"></a>4.客户端验证</h3><pre><code># python tensorflow_serving/example/mnist_client.py --num_tests=1000 --server=127.0.0.1:8500
-</code></pre><p>返回结果，</p>
-<pre><code>#  Inference error rate: 11.13%
-</code></pre><p>这里需要注意的是，直接运行mnist_client.py会出现找不到“tensorflow_serving”的问题，需要手动安装，</p>
-<pre><code># pip install tensorflow-serving-api
-</code></pre><h1 id="资料参考"><a href="#资料参考" class="headerlink" title="资料参考"></a>资料参考</h1><p>TF Serving官方文档：<a href="https://www.tensorflow.org/serving/" target="_blank" rel="external">https://www.tensorflow.org/serving/</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2092,7 +2082,7 @@ target=/models/half_plus_two \
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-count">69</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

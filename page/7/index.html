@@ -268,6 +268,158 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/07/Eddy的AI小助手-系统组成-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liu Caiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="才权的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/07/Eddy的AI小助手-系统组成-2/" itemprop="url">
+                  Eddy的AI小助手-系统组成(2)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-07T12:57:38+08:00">
+                2017-07-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="（一）功能描述"><a href="#（一）功能描述" class="headerlink" title="（一）功能描述"></a>（一）功能描述</h1><p>Eddy的AI小助手是一个个人微信公众号，这个个人的公众号主要是作为AI系统信息输入的入口，通过公众号微信页面就可以把请求的文本和语音请求发送到自己配置的后台服务器。后台服务器接收到文本和语音请求后，处理生成回复内容，并将结果以文本、页面或语音的形式返回给微信客户端。</p>
+<p><img src="/2017/07/07/Eddy的AI小助手-系统组成-2/Eddy的AI小助手公众号.png" alt="Eddy的AI小助手公众号"></p>
+<h1 id="（二）-系统组成"><a href="#（二）-系统组成" class="headerlink" title="（二） 系统组成"></a>（二） 系统组成</h1><p>AI小助手由输入端、后台端两个基本部分组成。</p>
+<h2 id="1-输入端"><a href="#1-输入端" class="headerlink" title="1. 输入端"></a>1. 输入端</h2><p>输入端直接采用微信公众号，这样不仅稳定、可靠，同时，很好的解决了Android和iOS的跨平台问题。</p>
+<p>微信公众号与后台以XML形式进行通信，具体的规范参考微信公众平台技术文档：<a href="mp.weixin.qq.com">mp.weixin.qq.com</a></p>
+<h2 id="2-后台端"><a href="#2-后台端" class="headerlink" title="2. 后台端"></a>2. 后台端</h2><p>后台端由Java后台服务和Python后台服务两个部分组成，Java后台服务主要响应微信客户端的请求，Python后台服务主要用于机器学习，并响应Java后台服务的请求：</p>
+<p><img src="/2017/07/07/Eddy的AI小助手-系统组成-2/后台端组成.png" alt="后台端组成"></p>
+<p><strong>后台配置：</strong></p>
+<p>主机：阿里云ECS</p>
+<p>系统：Ubuntu 14.04</p>
+<p><strong>Java Web引擎：</strong></p>
+<p>WebServer：Tomcat 9</p>
+<p>框架选择：只使用最基本的Servlet</p>
+<p><strong>Pyton Web引擎：</strong></p>
+<p>WebServer：Tornado</p>
+<p><strong>Java第三方组件：</strong></p>
+<p>Log组件：Log4j</p>
+<p>XML解析组件：XStream</p>
+<p>网络爬虫（Html解析）：HtmlParser</p>
+<p><strong>Pathon第三方组件：</strong></p>
+<p>Http请求：Requests</p>
+<p><strong>第三方服务：</strong></p>
+<p>语音识别：百度语音（yuyin.baidu.com/）</p>
+<p>语音合成：百度语音（yuyin.baidu.com/）</p>
+<p>NLP处理：图灵机器人（www.tuling123.com/），后期可能会使用自己编写的处理模</p>
+<h1 id="（三）开发环境"><a href="#（三）开发环境" class="headerlink" title="（三）开发环境"></a>（三）开发环境</h1><p>JavaIDE：Eclipse JavaEE</p>
+<p><img src="/2017/07/07/Eddy的AI小助手-系统组成-2/Eclipse JaveEE.png" alt="Eclipse JaveEE"></p>
+<p>Python IDE：PyDeb+Eclipse</p>
+<p>文件传输：WinSCP</p>
+<p>控制台：Putty</p>
+<h1 id="（四）项目代码"><a href="#（四）项目代码" class="headerlink" title="（四）项目代码"></a>（四）项目代码</h1><p>Java代码：<a href="github.com/CaiquanLiu/MyWeChatService.git">github.com/CaiquanLiu/MyWeChatService.git</a></p>
+<p>Python代码：<a href="github.com/CaiquanLiu/MyTuringService">github.com/CaiquanLiu/MyTuringService</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/07/Eddy的AI小助手-写在最前面-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1543,7 +1695,7 @@ dtparam=audio=on
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-count">69</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

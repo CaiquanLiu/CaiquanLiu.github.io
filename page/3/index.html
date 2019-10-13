@@ -268,6 +268,150 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/03/《机器学习》笔记-贝叶斯分类器（7）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liu Caiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="才权的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/02/03/《机器学习》笔记-贝叶斯分类器（7）/" itemprop="url">
+                  《机器学习》笔记-贝叶斯分类器（7）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-03T09:29:34+08:00">
+                2018-02-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://zhuanlan.zhihu.com/p/33550090" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/33550090</a></p>
+<h1 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h1><p>如今机器学习和深度学习如此火热，相信很多像我一样的普通程序猿或者还在大学校园中的同学，一定也想参与其中。不管是出于好奇，还是自身充电，跟上潮流，我觉得都值得试一试。对于自己，经历了一段时间的系统学习（参考<a href="https://zhuanlan.zhihu.com/p/30980999" target="_blank" rel="external">《机器学习/深度学习入门资料汇总》</a>），现在计划重新阅读《机器学习》[周志华]和《深度学习》[Goodfellow et al]这两本书，并在阅读的过程中进行记录和总结。这两本是机器学习和深度学习的入门经典。笔记中除了会对书中核心及重点内容进行记录，同时，也会增加自己的理解，包括过程中的疑问，并尽量的和实际的工程应用和现实场景进行结合，使得知识不只是停留在理论层面，而是能够更好的指导实践。记录笔记，一方面，是对自己先前学习过程的总结和补充。 另一方面，相信这个系列学习过程的记录，也能为像我一样入门机器学习和深度学习同学作为学习参考。</p>
+<h1 id="章节目录"><a href="#章节目录" class="headerlink" title="章节目录"></a>章节目录</h1><ul>
+<li>贝叶斯决策论</li>
+<li>极大似然估计</li>
+<li>朴素贝叶斯分类器</li>
+<li>半朴素贝叶斯分类器</li>
+<li>贝叶斯网</li>
+<li>EM算法</li>
+</ul>
+<h2 id="（一）贝叶斯决策论"><a href="#（一）贝叶斯决策论" class="headerlink" title="（一）贝叶斯决策论"></a>（一）贝叶斯决策论</h2><p>贝叶斯决策论（Bayesian decision theory）是概率框架下的基本方法。<br>假设有N种可能的类别标记，即y={c1，c2，…，cN}，λij是一个将真实标记为cj的样本误分类为ci产生的期望损失（expected loss），即在样本x上的“条件风险”（conditional rsik），<br><img src="http://upload-images.jianshu.io/upload_images/4905018-e079987c76ecc874.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="7.1"><br>我们的任务是寻找一个判断准则，以最小化总体风险。<br>欲使用贝叶斯判定准则来最小化决策风险，首先要获得后验概率P(c|x)。然而，在现实任务中这通常难以直接获得。从这个角度来看，机器学习所要实现的是基于有限的训练样本尽可能准确的估计出后验证概率P(c|x)。大体来说主要有两种策略：</p>
+<ul>
+<li>给定x，可通过直接建模P(c|x)来预测c，这样得到的是“判别式模型”（discriminative models）</li>
+<li>先对联合概率分布P（x，c）建模，然后再由此获得P（c|x），这样得到的是“生成式模型”（generative models）。<br>显然，前面介绍的决策树、BP神经网络、支持向量机等，都可归入判别式模型的范畴。对于生成式模型来说，必然考虑，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-ee918bcf7cea6371.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="7.7"><br>基于贝叶斯定理可写成，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-8c2c457ff70256fb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="7.8"><br>对给定样本x，证据因子P(x)与类标记无关。根据大数定理，先验概率P(c)可通过各类样本出现的频率来进行估计。因此，估计P(x|c)的问题就主要转换为如何基于训练样本D来估计似然P(x|c)。</li>
+</ul>
+<h2 id="（二）极大似然估计"><a href="#（二）极大似然估计" class="headerlink" title="（二）极大似然估计"></a>（二）极大似然估计</h2><p>估计类条件概率的一种常见策略是先假定其具有某种确定的概率分布形式，再基于训练样本对概率分布的参数进行估计。<br>概率模型的训练过程就是参数估计（parameter estimation）过程。对于参数估计，统计学界的两个学派分别提供了不同的解决方案：</p>
+<ul>
+<li>频率主义学派（Frequentist）认为参数虽然未知，但确实客观存在的固定值，因此，可通过优化似然函数等准则来确定参数值。</li>
+<li>贝叶斯学派（Bayesian）则认为参数是未观察到的随机变量，其本身也有分布，因此，可假设参数服从一个先验分布，然后基于观测到的数据来计算参数的后验分布。<br>书中的介绍来自频率主义学派的极大似然估计（Maximum Likelihood Estimation，简称MLE），这是根据数据采样来估计概率分布参数的经典方法。</li>
+</ul>
+<h2 id="（三）朴素贝叶斯分类器"><a href="#（三）朴素贝叶斯分类器" class="headerlink" title="（三）朴素贝叶斯分类器"></a>（三）朴素贝叶斯分类器</h2><p>基于贝叶斯公式来估计后验概率P(c|x)的主要困难在于，类条件概率P(x|c)是所有属性上的联合概率，难以从有限的训练样本直接估计而得。为了避开这个障碍，朴素贝叶斯分类器（naive Bayes classifier）采用了“属性条件独立性假设”（attribute conditional independence assumption）。即对已知类别，假设所有属性相互独立。换言之，假设每个属性独立地对分类结果发生影响。<br>基于属性条件独立性假设，条件概率P(c|x)可重写为，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-1286bdbbc17482f0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="7.14"><br>其中d为属性数目，xi为x在第i个属性上的取值。<br>由于对所有类别来说P(x)相同，因此贝叶斯判定准则可写为，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-6a7f3ba5c5f7ac3a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="7.15"><br>这就是朴素贝叶斯分类器的表达式。</p>
+<h2 id="（四）半朴素贝叶斯分类器"><a href="#（四）半朴素贝叶斯分类器" class="headerlink" title="（四）半朴素贝叶斯分类器"></a>（四）半朴素贝叶斯分类器</h2><p>为了降低贝叶斯公式中估计后验概率P(c|x)的困难，朴素贝叶斯分类器采用了属性条件独立性假设，但在现实任务中这个假设往往很难成立。于是，人们尝试对属性条件独立性假设进行一定程度的放松，因此产生了一类称为“半朴素贝叶斯分类器”（semi-naive Bayes classifiers）的学习方法。</p>
+<h2 id="（五）贝叶斯网"><a href="#（五）贝叶斯网" class="headerlink" title="（五）贝叶斯网"></a>（五）贝叶斯网</h2><p>贝叶斯网（Bayesian network）亦称“信念网”（belief network），它借助有向无环图（Directed Acyclic Graph，简称DAG）来刻画属性之间的依赖关系，并使用条件概率表（Conditional Probability Table，简称CPT）来描述属性的联合概率分布。</p>
+<h2 id="（六）EM算法"><a href="#（六）EM算法" class="headerlink" title="（六）EM算法"></a>（六）EM算法</h2><p>在前面的讨论中，我们一直假设训练样本所有属性变量的值都已被观测到，即训练样本是“完整”的。但现实应用中往往遇到“不完整”的训练样本。在存在“未观测”变量的情况下，是否仍能对模型参数进行估计呢？<br>EM（Expectation-Maximization）算法就是常用的估计参数隐变量的利器。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/01/《机器学习》笔记-支持向量机（6）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1666,177 +1810,6 @@ print(sess.run(hello))
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/11/Step-by-Step带你玩转DuerOS-DuerOS客户端架构设计-6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liu Caiquan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="才权的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/11/11/Step-by-Step带你玩转DuerOS-DuerOS客户端架构设计-6/" itemprop="url">
-                  Step by Step带你玩转DuerOS - DuerOS客户端架构设计(6)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-11T21:44:23+08:00">
-                2017-11-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://www.jianshu.com/p/ab3ae8067bb8" target="_blank" rel="external">https://www.jianshu.com/p/ab3ae8067bb8</a></p>
-<p>在前面的系列文章中，我们完整的分析了智能语音系统的系统组成，然后，我们提供了一个基于Python的DuerOS客户端供大家实际体验。这时候很多同学可能想：我能不能从零开始，完全的基于DuerOS提供的后台能力接口，用自己喜欢的语言（如C/C++、Java、ObjectC、Python、NodeJS），在自己熟悉的平台上（如Android、iOS、Linux、Windows、树莓派、单片机），自己独立完成DurOS的客户端开发呢？特别是对有产品化想法的同学，把DurOS的能力集成到自己的项目平台中。<br>这篇文章就跟大家一起来熟悉下DuerOS客户端实现的架构设计，主要是侧重对DuerOS客户端协议的解析（对于设备端开发过程中涉及到的更多细节，如AEC、采样率转换、音频焦点管理、混音处理），会在后面的文章中一一作出介绍和解析），希望这篇文章能对你的开发和工作有帮助。</p>
-<h2 id="DuerOS客户端核心任务"><a href="#DuerOS客户端核心任务" class="headerlink" title="DuerOS客户端核心任务"></a>DuerOS客户端核心任务</h2><p>简单的说，客户端的主要任务就是，将用户的语音数据通过网络传给DuerOS后台，然后，执行DuerOS后台经过语音处理后的结果。<br>当然了如果，真是这么简单就好了~<br>具体的说，客户端需要完成的工作主要有，</p>
-<ul>
-<li>同DuerOS后台建立长链接，接收并处理DuerOS后台的推送命令（Directive）</li>
-<li>上传用户录音数据到DuerOS后台服务器</li>
-<li>执行上传录音后，DuerOS后台返回的控制命令（Directive）</li>
-<li>上传设备事件[Event]到DuerOS后台服务端</li>
-<li>通过Ping的方式保持链接<br>其中，<br>Directive：指DurOS服务端对客户端的控制命令，如播放一个语音，设置一个闹钟，播放一个音乐等等。<br>Event：指客户端上报当前发生的事件到DuerOS服务端，如音乐播放开始了，音乐播放结束了，闹铃开始响了，设备被唤醒并开始接受用户语音请求等等。在上传Event时，会附带设备当前的状态信息（ClientContext，如当前是否有音乐正在播放，播放到哪里了，设备端是否有设置闹铃，闹铃状态等等）。<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2>下面我们就结合具体场景和代码，逐个的来看各个部分是如何实现的。<br>分析场景:</li>
-<li>用户语音输入“播放周杰伦的歌”</li>
-<li>客户端上传用户的语音数据到DurOS后台服务器</li>
-<li>DuerOS后台服务判断用户输入结束，下发停止录音Directive</li>
-<li>客户端响应停止录音的Directive</li>
-<li>客户端响应录音通道，服务端返回的需要播放歌曲的Directive</li>
-<li>客户端上报开始音乐播放的状态到DuerOS后台服务器<h3 id="1-同DuerOS后台建立长链接，接收并处理DuerOS后台的推送命令（Directive）"><a href="#1-同DuerOS后台建立长链接，接收并处理DuerOS后台的推送命令（Directive）" class="headerlink" title="1. 同DuerOS后台建立长链接，接收并处理DuerOS后台的推送命令（Directive）"></a>1. 同DuerOS后台建立长链接，接收并处理DuerOS后台的推送命令（Directive）</h3>长链接主要实现DuerOS后台主动向客户端发送命令。比如，客户端一直向DuerOS后台发送数据，当DuerOS后台检测到用户输入结束时（VAD检测），DuerOS后台会主动通知客户端停止录音，并上传录音数据。<br>DuerOS的所有能力都是基于Http的（没有使用TCP/IP），为了实现长链接DuerOS的做法是：</li>
-<li>客户端向DuerOS服务端发送get请求（设置较长的超时时间）</li>
-<li>DuerOS服务端收到get请求后，并不立即回复</li>
-<li>DuerOS服务端需要主动下发命令给客户端时，返回get结果</li>
-<li>客户端通过接收get的返回内容，完成DuerOS服务端主动推动内容的接收<br>Python DuerOS客户端对应的代码实现(sdk/dueros_core.py)，<br><em>长链接建立：</em><br><img src="http://upload-images.jianshu.io/upload_images/4905018-4d9a1721507bebef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="长链接建立"></li>
-</ul>
-<p><em>DuerOS 下发Directive接收</em></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/4905018-536eeee3e75eb23c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="DuerOS 下发Directive接收"></p>
-<h3 id="2-上传用户录音数据到DuerOS后台服务器"><a href="#2-上传用户录音数据到DuerOS后台服务器" class="headerlink" title="2. 上传用户录音数据到DuerOS后台服务器"></a>2. 上传用户录音数据到DuerOS后台服务器</h3><p>上传用户录音数据不单单是用户说话的音频流PCM数据，同时包括设备的状态信息（ClientContext），和开始录音的Event（ListenStarted）。状态和数据发送通过Post完成，Http的Body内容如下所示，</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/4905018-a353f89c6f568c45.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="用户录音数据上传报文格式"></p>
-<p>其中，ClientContext、Event、和音频流PCM通过multipart+chunk的Http Post方式进行上传（后面可能会添加一个帖子，专门介绍下Http 1.0、1.1、 2.0、multipart、chunk传输等内容）。<br>Python DuerOS客户端对应实现（sdk/dueros_core.py），<br><img src="http://upload-images.jianshu.io/upload_images/4905018-b12be3fba76cf350.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="用户录音数据上传"></p>
-<p>###3. 执行上传录音后，DuerOS后台返回的控制命令（Directive）<br>用户语音输入“播放周杰伦的音乐”后，语音上传通道会收到DuerOS后台服务器返回需要播放的音乐的Directive。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/4905018-3a61465f85971cfb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="录音上传后返回的Directive"></p>
-<h3 id="4-客户端上传音乐开始播放的Event"><a href="#4-客户端上传音乐开始播放的Event" class="headerlink" title="4. 客户端上传音乐开始播放的Event"></a>4. 客户端上传音乐开始播放的Event</h3><p>音乐开始播放后，客户端上传音乐开始播放的Event到DuerOS服务端（sdk/interface/audio_player.py）<br><img src="http://upload-images.jianshu.io/upload_images/4905018-8fc5e96cec3343b6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="上传音乐开始播放的Event"></p>
-<h3 id="5-Ping"><a href="#5-Ping" class="headerlink" title="5. Ping"></a>5. Ping</h3><p>Ping主要为了链接的维护。Http 1.0中每次Http 请求都需要进行TCP/IP的3次握手和4次挥手，Http1.1后支持连接复用，一次TCP/IP连接可以完成多次Http请求和回复。DuerOS使用Http2.0，为了避免链路上长时间没有数据传输而断开，使用Ping维持链接。<br>sdk/dureos_core.py<br><img src="http://upload-images.jianshu.io/upload_images/4905018-bff62564fccc0d81.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Ping"></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="通路总结"><a href="#通路总结" class="headerlink" title="通路总结"></a>通路总结</h3><p>客户端同DuerOS服务端的通路一共有3个：</p>
-<ul>
-<li>长链接通路</li>
-</ul>
-<p><img src="http://upload-images.jianshu.io/upload_images/4905018-d7be5cba60305187.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="长链接"></p>
-<p>双向<br>客户端发送get请求<br>服务端通过get response的形式推送消息（如停止录音Directive）</p>
-<ul>
-<li>事件上报通路</li>
-</ul>
-<p><img src="http://upload-images.jianshu.io/upload_images/4905018-a8b2d06e62454112.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="事件上报"></p>
-<p>双向<br>客户端发送post请求（包含开始录音的Event、当前设备状态ClientContext、录音数据PCM）<br>服务端返回语音请求的结果（如播放歌曲的Directive）<br>客户端单独上传事件到DurOS服务端（如开始播放音乐）</p>
-<ul>
-<li>Ping通路</li>
-</ul>
-<p><img src="http://upload-images.jianshu.io/upload_images/4905018-4ce59769a9bd22dc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Ping"></p>
-<p>单向<br>客户端通过get形式在链路没数据时发送Ping数据包</p>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
-<li>事件（Event）和设备当前状态（ClientContext）一定是一起发送的</li>
-<li>Directive下发通道<br>长链接通道和事件上报通路（录音数据上传）都会下发Directive（如，长链接会下发停止录音的Directive，录音上传通道会下发包含音乐播放内容的音乐播放Directive）</li>
-<li>Event上传通道<br>录音数据上传（包括开始录音Event、当前设备状态ClientContext和录音数据PCM）和单独的事件上报（如音乐开始播放）共用同一通道</li>
-<li>Http技术细节<br>Http2.0特性<br>链接复用<br>MultiPart<br>Chunk<br>Ping连接维护<br>关于Http相关的技术细节后面专门写篇帖子吧</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1886,7 +1859,7 @@ print(sess.run(hello))
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-count">69</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
