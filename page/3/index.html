@@ -268,6 +268,172 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/06/《机器学习》笔记-集成学习（8）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liu Caiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="才权的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/02/06/《机器学习》笔记-集成学习（8）/" itemprop="url">
+                  《机器学习》笔记-集成学习（8）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-06T09:06:08+08:00">
+                2018-02-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://zhuanlan.zhihu.com/p/33621750" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/33621750</a></p>
+<h1 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h1><p>如今机器学习和深度学习如此火热，相信很多像我一样的普通程序猿或者还在大学校园中的同学，一定也想参与其中。不管是出于好奇，还是自身充电，跟上潮流，我觉得都值得试一试。对于自己，经历了一段时间的系统学习（参考<a href="https://zhuanlan.zhihu.com/p/30980999" target="_blank" rel="external">《机器学习/深度学习入门资料汇总》</a>），现在计划重新阅读《机器学习》[周志华]和《深度学习》[Goodfellow et al]这两本书，并在阅读的过程中进行记录和总结。这两本是机器学习和深度学习的入门经典。笔记中除了会对书中核心及重点内容进行记录，同时，也会增加自己的理解，包括过程中的疑问，并尽量的和实际的工程应用和现实场景进行结合，使得知识不只是停留在理论层面，而是能够更好的指导实践。记录笔记，一方面，是对自己先前学习过程的总结和补充。 另一方面，相信这个系列学习过程的记录，也能为像我一样入门机器学习和深度学习同学作为学习参考。</p>
+<h1 id="章节目录"><a href="#章节目录" class="headerlink" title="章节目录"></a>章节目录</h1><ul>
+<li>个体与集成</li>
+<li>Boosting</li>
+<li>Bagging与随机森林</li>
+<li>集合策略</li>
+<li>多样性</li>
+</ul>
+<h2 id="（一）个体与集成"><a href="#（一）个体与集成" class="headerlink" title="（一）个体与集成"></a>（一）个体与集成</h2><p>集成学习（ensemble learning）的一般结构：先产生一组“个体学习器”（individual learner），再用某种策略将他们结合起来，如下图所示，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-945d7aca6c56b4ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图8.1"><br>个体学习器通常由一个现有的学习算法从训练数据产生：</p>
+<ul>
+<li>只包含同种类型的个体学习器，这样的集成是“同质”的（homogeneous）。同质集成中的个体学习器亦称为”基学习器“（base learning），相应的学习算法称为”基学习算法“（base learning algorithm）。</li>
+<li><p>集成也可包含不同类型的个体学习器，这样集成是”异质“的（heterogeneous）。相应的个体学习器，常称为”组件学习器“（component learning）或直接称为个体学习器。<br>在一般的经验中，如果把好坏不等的东西掺到一起，那么通常结果会是比坏的好一些，比好的要坏一些。集成学习把多个学习器结合起来，如何能获得比最好的单一学习器更好的性能呢？<br>考虑一个简单的例子：在二分类任务中，假定三个分类器在三个测试样本的表现如下图所示，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-1df57820f98630cf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图8.2"><br>其中，√表示分类正确，x表示分类错误，集成学习的结果通过投票法（voting）产生，即“少数服从多数”。这个简单的例子显示出：要获得好的集成，个体学习器应“好而不同”。个体学习器要有一定的“准确性”，即学习器不能太坏，而且要有“多样性”（diversity），即学习器之间有差异。事实上，如何产生并结合“好而不同”的个体学习器，恰是集成学习研究的核心。<br>根据个体学习器的生成方式，目前集成学习的方法大致可分为两大类：</p>
+</li>
+<li><p>个体学习器间存在强依赖关系、必须串行生成的序列化方法，代表是Boosting；</p>
+</li>
+<li>个体学习器间不存在强依赖关系、可同时生成的并行化方法，代表是Baggig和“随机森林”（Random Forest）；</li>
+</ul>
+<h2 id="（二）Boosting"><a href="#（二）Boosting" class="headerlink" title="（二）Boosting"></a>（二）Boosting</h2><p>Boosting是一族可将弱学习器提升为强学习器的算法。这族算法的工作机制类似：先从初始训练集训练出一个基学习器，再根据基学习器的表现对训练样本分布进行调整，使得先前基学习器做错的训练样本在后续收到更多的关注，然后基于调整后的样本分布来训练下一个基学习器；如此重复进行，直到基学习器数目达到事先指定的值T，最终将这T个学习器进行加权结合。<br>Boosting族算法最著名的代表是AdaBoost。AdaBoost有多种推导方式，比较容易理解的是基于“加性模型”（additive model）即基学习器线性组合，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-8dbf74c811802eff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="8.4"><br>来最小化指数损失函数（exponential loss function），<br><img src="http://upload-images.jianshu.io/upload_images/4905018-c6d176a094ead7d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="8.5"></p>
+<h2 id="（三）Bagging与随机森林"><a href="#（三）Bagging与随机森林" class="headerlink" title="（三）Bagging与随机森林"></a>（三）Bagging与随机森林</h2><p>欲得到泛化性能强的集成，集成中的个体学习器应尽可能独立。虽然“独立”在显示任务中无法做到，但可以设法使基学习器尽可能具有较大差异。给定一个训练数据集，一种可能的做法是对训练样本进行采样，产生若干个不同的子集，再从每个数据子集中训练出一个基学习器。这样，由于训练数据不同，我们获得的基学习器可望具有比较大的差异。然而，为获得更好的集成，我们还同时希望个体学习器不能太差。如果采样出的每个子集都完全不同，则每个基学习器只用到了一小部分训练数据，甚至不足进行有效学习，这显然无法确保产生出比较好的基学习器。为考虑这个问题，我们可考虑使用相互有交叠的采样子集。</p>
+<h3 id="1-Bagging"><a href="#1-Bagging" class="headerlink" title="1. Bagging"></a>1. Bagging</h3><p>Bagging是并行式集成学习方法最著名的代表，从名字即可看出，它直接基于前面介绍过的自助采样法（bootstrap sampling）。从偏差-方差分解角度看，Bagging主要关注降低方差。</p>
+<h3 id="2-随机森林"><a href="#2-随机森林" class="headerlink" title="2. 随机森林"></a>2. 随机森林</h3><p>随机森林（Random Forest，简称RF）是Bagging的一个扩展变体。RF在以决策树为基学习器构建Bagging集成的基础上，进一步在决策树的训练过程中引入了随机属性选择。<br>随机森林对Bagging只做了小改动，但是与Bagging中基学习器的“多样性”仅通过样本扰动（通过对初始训练集采样）而来不同，随机森林中基学习器多样性不仅来自样本扰动，还来自属性扰动，这就使得最终集成的泛化性能可通过个体学习器之间的差异度的增加而进一步提升。</p>
+<h2 id="（四）组合策略"><a href="#（四）组合策略" class="headerlink" title="（四）组合策略"></a>（四）组合策略</h2><p>学期器结合可能从三个方面带来好处：</p>
+<ul>
+<li>从统计的方面看，由于学习任务的假设空间往往很大，可能有多个假设在训练集上达到同等性能，此时若使用单学习器可能因误选而导致泛化性能不佳，结合多个学习器减小这一风险；</li>
+<li>从计算的方面来看，学习算法往往会陷入局部极小，有的局部极小点所对应的泛化性能可能很糟，而通过多次运行之后进行结合，可降低陷入糟糕局部极小点的风险；</li>
+<li>从表示的方面来看，某些但学习器则肯定无效，而通过结合多个学习器，由于响应的假设空间有所扩大，有可能学得更好的近似。<br>直观的示意图如下所示，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-c5c53a1182e7e3e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图8.8"><br>集成学习常见策略有：</li>
+<li>平均法</li>
+<li>投票法</li>
+<li>学习法</li>
+</ul>
+<h2 id="（五）多样性"><a href="#（五）多样性" class="headerlink" title="（五）多样性"></a>（五）多样性</h2><h3 id="误差-分歧分解"><a href="#误差-分歧分解" class="headerlink" title="误差-分歧分解"></a>误差-分歧分解</h3><p>欲构建泛化能力强的集成，个体学习器应“好而不同”，其中，“误差-分歧分解”（error-ambiguity decomposition）是一个简单的理论分析方法。但该推到过程只适用于回归学习，难以直接推广到分类学习任务中。</p>
+<h3 id="多样性度量"><a href="#多样性度量" class="headerlink" title="多样性度量"></a>多样性度量</h3><p>多样性度量（diversity measure）是用于度量集成中个体分类器的多样性，即估算个体学习器的多样化程度。常用的多样性度量包括：</p>
+<ul>
+<li>不合度量（disagreement measure）</li>
+<li>相关系数（correlation coefficient）</li>
+<li>Q-统计量（Q-statistics）</li>
+<li>k-统计量（k-statistics）</li>
+</ul>
+<h3 id="多样性增强"><a href="#多样性增强" class="headerlink" title="多样性增强"></a>多样性增强</h3><p>在集成学习中需有效地生成多样性大的个体学习器。与简单地直接用初始数据训练出个体学习器相比，一般思路是在学习过程中引入随机性，常见的做法主要有，</p>
+<ul>
+<li>数据样本扰动</li>
+<li>输入属性扰动</li>
+<li>输出表示扰动</li>
+<li>算法参数扰动</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/03/《机器学习》笔记-贝叶斯分类器（7）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1662,154 +1828,6 @@ print(sess.run(hello))
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/12/机器学习-深度学习入门资料汇总/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liu Caiquan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="才权的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/11/12/机器学习-深度学习入门资料汇总/" itemprop="url">
-                  机器学习/深度学习入门资料汇总
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-12T04:18:36+08:00">
-                2017-11-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://zhuanlan.zhihu.com/p/30980999" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/30980999</a></p>
-<p>经常被同学和朋友询问机器学习或深度学习入门，有哪些不错的参考资料。老实讲，这个问题在网上随便一搜就是一大把的答案。我自己在最开始的时候也有同样的困惑，同样在搜索引擎和论坛里翻找答案。但大多数答案并不怎么让人满意：搜索结果要么星稀零散，只见树木不见森林；要么过于详尽，让人无从下手（很多资料作者自己都没看过）。<br>在这篇文章里，我把自己在学习过程中的参考资料进行了梳理。一方面，希望能给你一个相对系统的学习路线参考；另一方面，自己真实的实践经历，遇过坎，掉过坑，希望能给正准备入门的同学更多真实的借鉴。</p>
-<h2 id="入门视频"><a href="#入门视频" class="headerlink" title="入门视频"></a>入门视频</h2><h3 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h3><p>很多人会推荐吴恩达在斯坦福的公开课CS229，但对于初学的同学来说，我觉得并不适合。虽然Andrew在课的最开始就说了，他的这门看更侧重于实践。但真实情况是，里面有太多的数学推导和证明。直接使用这门课来入门，对初学的同学来说，在信心上会是不小的打击。特别是很多从应用开发转到机器学习的同学，毕竟在平常的工作中，大学的数学知识在实际的开发中应用的并不多，估计很多现在都已经生疏了。<br>对于机器学习，我推荐吴恩达在Coursera开设的机器学习课程，课程免费，侧重于基本的原理和工程实现，对初学者相对友好。字幕中英可选。<br>课程链接：<a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">https://www.coursera.org/learn/machine-learning</a></p>
-<h3 id="深度学习"><a href="#深度学习" class="headerlink" title="深度学习"></a>深度学习</h3><p>大家可能看过《一天搞懂深度学习》的PPT，作者是台湾大学的李宏毅老师。其实，李宏毅老师还有门深度学习的课程，视频也挂在网上。这门课主要针对初学者，而且，不需要有经典的机器学习基础（其实，深度学习入门，比经典的机器学习更容易）。课程的内容深入浅出，训练和预测样本都是各种数码宝贝和二次元卡通人物，绝对让你耳目一新。好像没有字幕，中文授课（台湾腔）。<br>课程链接：<a href="http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML17.html" target="_blank" rel="external">http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML17.html</a></p>
-<p>在看李宏毅老师的视频时，Andrew的《深度学习工程师》项目还没开始。后来把Andrew的课程看完（一共五部分，目前只出了前四部分），觉得Andrew的课程同样很棒。两者对比，李宏毅老师的课，课时相对较短，内容相对全面（对无监督学习、对抗学习、强化学习都有介绍），课程偏重概念介绍，但涉及到数学的部分跳跃性较大，不容易跟上。Andrew的课学时相对较长（一共五个大的部分），内容相对集中（主要讲解监督学习，集中在DNN、CNN和RNN），但讲解和分析更加细致，学习曲线相对平坦。针对于初学者可以先看李宏毅老师的课程对深度学习有个整体的框架认识，然后看Andrew的课程把握更多的细节知识。Andrew的课程本来是Coursera的付费课程，目前跟网易云课堂合作，不用翻墙就可以看了。<br>课程链接：<a href="https://mooc.study.163.com/smartSpec/detail/1001319001.htm" target="_blank" rel="external">https://mooc.study.163.com/smartSpec/detail/1001319001.htm</a></p>
-<h2 id="入门书籍"><a href="#入门书籍" class="headerlink" title="入门书籍"></a>入门书籍</h2><h3 id="机器学习-1"><a href="#机器学习-1" class="headerlink" title="机器学习"></a>机器学习</h3><p><img src="http://upload-images.jianshu.io/upload_images/4905018-87dd57bb4f2c2fd9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="《机器学习》"></p>
-<p>机器学习的入门书籍，当仁不让的就是周志华老师的西瓜书《机器学习》了。这本书基本囊括了绝大多数经典的机器学习方法。但坦白的讲，这本书入门也不是那么轻松，大量篇幅的数学推导和证明。建议初学者可以在第一遍的时候跳过具体的数学推导，更侧重在知识框架和原理的学习和提炼，后面可以通过第二遍或第三遍来深入其中的数学原理。</p>
-<h3 id="深度学习-1"><a href="#深度学习-1" class="headerlink" title="深度学习"></a>深度学习</h3><p><img src="http://upload-images.jianshu.io/upload_images/4905018-9f5ed279f267584c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="《深度学习》"><br>这一本称为目前深度学习领域的圣经，而作者们也确实做到了深入浅出，循序渐进。不是单纯的抛一个结论，而是逐步的深入，最终阐明原理。建议像《机器学习》一样使用：不要求第一遍就能全部吸收，可以先从框架和基本原理入手，跳过部分细节，后面再逐步深入。</p>
-<h2 id="数学基础"><a href="#数学基础" class="headerlink" title="数学基础"></a>数学基础</h2><p>看前面的视频和书籍，对于很多从事应用开发的同学来说，可能最大的障碍就是对数学的恐惧。这种感觉大概就像没经历过算法训练的同学面对算法面试一样。其实，恐惧只要能直面它，那就一定能够克服掉。就好比在LeetCode这样的OJ平台刷完200道左右的题目，再去面试算法一样。以前觉得是天大的障碍，现在回过头来，也不觉得有什么了不起。<br>我个人的经验是，通过前面的视频和书籍已经对机器学习和深度学习有了基本的系统框架和原理认识，同时，也积累了对数学知识进行系统复习的强烈欲望。这时候就可以有的放矢的复习大学知识了。数学知识的复习，我都是通过看网易公开课来完成的。</p>
-<h3 id="微积分"><a href="#微积分" class="headerlink" title="微积分"></a>微积分</h3><p>MIT《单变量微积分》：<a href="http://open.163.com/special/sp/singlevariablecalculus.html" target="_blank" rel="external">http://open.163.com/special/sp/singlevariablecalculus.html</a><br>虽说是MIT的课程，但坦白的讲，老师的节奏真是比国内的课程还要慢，真正做到了通俗易懂。<br>网易公开课还有MIT的《多变量微积分》，但我没有看，我觉得复习完单变量微积分，也就基本够用了。</p>
-<h3 id="线性代数"><a href="#线性代数" class="headerlink" title="线性代数"></a>线性代数</h3><p>MIT《线性代数》<br><a href="http://open.163.com/special/opencourse/daishu.html" target="_blank" rel="external">http://open.163.com/special/opencourse/daishu.html</a><br>这门课就没有上面的《单变量微积分》那么Nice了，老师思路跳跃性很强，稍一走神就不知道讲到什么地方了 。但这门课有个很大的优点，就是从一开始就引入了向量空间的概念，而且贯穿始终。不像国内的课程，直到课程结束都以为线性代数只是求解方程组的另一种表达形式。</p>
-<h3 id="概率-统计"><a href="#概率-统计" class="headerlink" title="概率 / 统计"></a>概率 / 统计</h3><p>可汗学院《概率》<br><a href="http://open.163.com/special/Khan/probability.html" target="_blank" rel="external">http://open.163.com/special/Khan/probability.html</a><br>可汗学院《统计学》<br><a href="http://open.163.com/special/Khan/khstatistics.html" target="_blank" rel="external">http://open.163.com/special/Khan/khstatistics.html</a><br>老实讲，可汗的公开课真是太细致了，细致到觉得拖沓（可能是复习，而不是初学者的缘故）。建议根据自己的需要做适当的跳跃。同时，两门课有部分内容是完全重合的，可以直接跳过。</p>
-<h2 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h2><p>有了前面的基础相信你已经跃跃欲试了，但别急，工欲善其事必先利其器。可能你已经有MATLAB、C/C++、Java的编程经验，但建议再入手一款新武器-Python。虽然前面的语言也可以用于机器学习和深度学习相关的研究和开发，但Python的使用范围更广，参考资料也更加丰富。<br>我的自己经验是，</p>
-<ul>
-<li>1-在网上找一篇Python入门的帖子，搭建环境，运行简单的例子（半天）</li>
-<li>2-找一本基础书籍，系统的熟悉下语言的基本特性和完整框架（1~2天）<br>ps：我之前有C/C++和Java的语音基础</li>
-<li>3-开始正常使用Python进行开发，遇到问题，求助搜索引擎（2个月以上）</li>
-<li>4-觉得自己对语言就基本的掌握后，可以根据选择进行进阶学习了<br>上面1~2天时间来系统的熟悉Python语言特性和语言框架的书籍我推荐，<br><strong>《Python基础教程》</strong><br>（这本书很厚，初期把目录扫完就可以了，后面当做字典来使用）</li>
-</ul>
-<p><img src="http://upload-images.jianshu.io/upload_images/4905018-25ab68388a811102.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Python基础教程"></p>
-<p>进阶阶段，推荐，<br><strong>《流畅的Python》</strong><br><img src="http://upload-images.jianshu.io/upload_images/4905018-80bedd75a383075d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="流畅的Python"></p>
-<h2 id="动手实践"><a href="#动手实践" class="headerlink" title="动手实践"></a>动手实践</h2><h3 id="初级"><a href="#初级" class="headerlink" title="初级"></a>初级</h3><p>好了现在我们终于可以动手实践了，<br><strong>《Python机器学习及实践：从零开始通往Kaggle竞赛之路》</strong><br><img src="http://upload-images.jianshu.io/upload_images/4905018-56c0528a6f9e195c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Python机器学习及实践：从零开始通往Kaggle竞赛之路"><br>这是很薄的一本书，但对于初学者实践来说却是非常棒的一本书。书中的大多数算法都是基于sk-learn来实现的。使用现成的Python库，而不用关心具体算法实现过程，可以快速体验机器学习算法的效果。同时，书的最后比较细致的介绍了Kaggle竞赛平台的使用，实战性更强。</p>
-<h3 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h3><p>《Python机器学习及实践：从零开始通往Kaggle竞赛之路》使用现成的Python库（工程中也大多是这样的）。但很多同学还是更希望能手工实现具体的算法，觉得这样基本功才扎实，那下面的这两本书就能很好的满足有这样想法的同学了。<br><strong>《机器学习实战》</strong><br><img src="http://upload-images.jianshu.io/upload_images/4905018-bfcf83388e932f2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="机器学习实战"><br>经典的机器学习算法手工实现，书中包含大量的代码实例。但这本书出本的比较早，深度学习内容基本没有涉猎。针对这种情况，就有了下面这本的推荐，</p>
-<p><strong>《TensorFlow Machine Learning Cookbook》</strong><br><img src="http://upload-images.jianshu.io/upload_images/4905018-8ecb1c36d881acfb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="TensorFlow Machine Learning Cookbook"><br>这本书主要是基于TensorFlow的，手工编织网络。而且，书的内容就像它的名字一样，结构编排跟类似菜谱：开始前需要准备什么，开始后需要遵从哪些步骤，最后又会得到怎样的结果，条理非常清晰。目前这本书已经有了中文版。</p>
-<h2 id="领域应用"><a href="#领域应用" class="headerlink" title="领域应用"></a>领域应用</h2><p>虽然我们花费了很长的时间，投入了很多精力，但我们目前的阶段仍然像做大学作业，跟真实的工业场景相差很远。那机器学习和深度学习在实际的AI场景是如何应用的呢？带着这样的问题，我推荐两本书，<br><strong>《数学之美》</strong><br><img src="http://upload-images.jianshu.io/upload_images/4905018-fe21d68dd379dfe2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="数学之美"><br>吴军老师的经典之作。虽然这本书火的时候，AI都还没有现在这么火，但书中介绍的很多场景，使用的很多技术，基本都是来自我们学习的机器学习。</p>
-<p><strong>《统计自然语言处理》</strong><br><img src="http://upload-images.jianshu.io/upload_images/4905018-02feed30f620107b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="统计自然语言处理"><br>选择这边书是因为自己当前的工作跟自然语言处理相关。当然了，这也是自然语言处理领域非常经典的一本书，内容全面丰富。但学术的气息比较重，读起来又找到了当初读研看Paper的感觉。</p>
-<h2 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h2><p>比较正统的学习基本就算介绍完毕了。其实，除了上面的主线内容外，很多比较零散的资料，对于学习来说也还是很有裨益的。<br><strong>《莫烦视频》</strong><br>莫烦的个人主页有很多机器学习和深度学习相关的个人录制视频。以非常简洁的方式介绍了机器学习和深度学习相关的概念和框架，对初学者快速建立概念很有帮助(PS:92年的小鲜肉，真是不得了)。<br>地址：<a href="https://morvanzhou.github.io/about/" target="_blank" rel="external">https://morvanzhou.github.io/about/</a><br><strong>《深度学习简化版》</strong><br>形式跟莫凡的视频类似，是老外录制的。相比于莫烦的视频，内容更丰富多样，形式更新颖。通过YouTube播放，需要翻墙。<br>地址：<a href="https://www.youtube.com/watch?list=PLjJh1vlSEYgvGod9wWiydumYl8hOXixNu&amp;v=b99UVkWzYTQ" target="_blank" rel="external">https://www.youtube.com/watch?list=PLjJh1vlSEYgvGod9wWiydumYl8hOXixNu&amp;v=b99UVkWzYTQ</a><br><strong>《AI技术内参》</strong><br>这是《极客时间》的一个付费专栏。主要推送AI相关的技术历史、当前行业信息和科研成果，从目前的使用情况来说，在品质上还是有保障的。</p>
-<p>好啦，暂时就先这样吧，后面有更好的内容再更新，也欢迎大家分享自己的学习经验。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1859,7 +1877,7 @@ print(sess.run(hello))
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">69</span>
+                <span class="site-state-item-count">70</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

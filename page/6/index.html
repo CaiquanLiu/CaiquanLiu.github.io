@@ -268,6 +268,153 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/12/Eddy的AI小助手-Tornado-Web模块-13/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liu Caiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="才权的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/12/Eddy的AI小助手-Tornado-Web模块-13/" itemprop="url">
+                  Eddy的AI小助手-Tornado Web模块(13)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-12T16:48:20+08:00">
+                2017-07-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Python后台采用Tornado作为Web Server。Tornado的部署和使用非常简单。</p>
+<h1 id="Tornado安装"><a href="#Tornado安装" class="headerlink" title="Tornado安装"></a>Tornado安装</h1><pre><code>pip install tornado
+</code></pre><h1 id="Hello-World示例"><a href="#Hello-World示例" class="headerlink" title="Hello World示例"></a>Hello World示例</h1><pre><code>import tornado.ioloop
+import tornado.web
+
+class MainHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.write(&quot;Hello, world&quot;)
+
+def make_app():
+    return tornado.web.Application([
+        (r&quot;/&quot;, MainHandler),
+    ])
+
+if __name__ == &quot;__main__&quot;:
+    app = make_app()
+    app.listen(8888)
+    tornado.ioloop.IOLoop.current().start()
+</code></pre><h1 id="Tornado官方网址："><a href="#Tornado官方网址：" class="headerlink" title="Tornado官方网址："></a>Tornado官方网址：</h1><p><a href="http://www.tornadoweb.org/en/stable/" target="_blank" rel="external">http://www.tornadoweb.org/en/stable/</a></p>
+<h1 id="微信信息处理服务入口"><a href="#微信信息处理服务入口" class="headerlink" title="微信信息处理服务入口"></a>微信信息处理服务入口</h1><p>MyTuringService接收并处理来自MyWeChatService的http请求。</p>
+<p><img src="/2017/07/12/Eddy的AI小助手-Tornado-Web模块-13/微信信息处理服务入口.png" alt="微信信息处理服务入口"></p>
+<p>其中，</p>
+<ul>
+<li>wechat_server.py：web Server入口；</li>
+<li>http_client.py：模拟微信请求（测试使用）；</li>
+</ul>
+<h1 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h1><p>Java代码：<a href="http://github.com/CaiquanLiu/MyWeChatService.git" target="_blank" rel="external">http://github.com/CaiquanLiu/MyWeChatService.git</a><br>Python代码：<a href="https://github.com/CaiquanLiu/MyTuringService" target="_blank" rel="external">https://github.com/CaiquanLiu/MyTuringService</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/07/Eddy的AI小助手-添加基于Jenkins的自动化构建系统-12/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1489,143 +1636,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/07/Eddy的AI小助手-微信公众平台设置-3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liu Caiquan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="才权的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/07/07/Eddy的AI小助手-微信公众平台设置-3/" itemprop="url">
-                  Eddy的AI小助手-微信公众平台设置(3)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-07T13:38:18+08:00">
-                2017-07-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="申请微信公众号"><a href="#申请微信公众号" class="headerlink" title="申请微信公众号"></a>申请微信公众号</h1><p>在微信公众平台申请个人的微信公众号：<a href="mp.weixin.qq.com">mp.weixin.qq.com</a></p>
-<h1 id="公众号设置"><a href="#公众号设置" class="headerlink" title="公众号设置"></a>公众号设置</h1><p>公众号设置只需关注“URL”即可，格式为:</p>
-<pre><code>http://ip/
-</code></pre><p>或</p>
-<pre><code>https://ip/
-</code></pre><p>“Token”和“EncodingAESKey”主要用于服务端对客户信息来源的检查，测试时，可以不用关心。</p>
-<p>微信客户端发送到个人服务器的流程：微信客户端-&gt;微信后台服务器-&gt;个人后台服务器，Token和EncodingAESKey主要用来确保数据来源于微信的后台服务器。</p>
-<p><img src="/2017/07/07/Eddy的AI小助手-微信公众平台设置-3/基本配置页面.png" alt="基本配置页面"></p>
-<h1 id="服务器端口修改"><a href="#服务器端口修改" class="headerlink" title="服务器端口修改"></a>服务器端口修改</h1><p>微信的服务http请求端口为80（https请求为443），而Tomcat的http默认端口为8080，为了正确响应微信服务器的请求，需要修改Tomcat的http默认端口。修改Tomcat_Home/conf/server.xml，</p>
-<p><img src="/2017/07/07/Eddy的AI小助手-微信公众平台设置-3/server.xml修改.png" alt="server.xml修改"></p>
-<h1 id="服务器响应设置"><a href="#服务器响应设置" class="headerlink" title="服务器响应设置"></a>服务器响应设置</h1><p>微信开放平台设置URL时，微信服务器会向个人的URL服务器发送get请求。服务器端需要正确响应微信服务器发来的验证请求，否则URL设置会失败，</p>
-<p><img src="/2017/07/07/Eddy的AI小助手-微信公众平台设置-3/微信公众平台-右侧边栏.png" alt="微信公众平台-右侧边栏"></p>
-<p><img src="/2017/07/07/Eddy的AI小助手-微信公众平台设置-3/微信公众平台-URL验证.png" alt="微信公众平台-URL验证"></p>
-<p>服务端代码，</p>
-<p><img src="/2017/07/07/Eddy的AI小助手-微信公众平台设置-3/个人服务器端代码.png" alt="个人服务器端代码"></p>
-<h1 id="项目代码"><a href="#项目代码" class="headerlink" title="项目代码"></a>项目代码</h1><p>Java代码：<a href="github.com/CaiquanLiu/MyWeChatService.git">github.com/CaiquanLiu/MyWeChatService.git</a></p>
-<p>Python代码：<a href="github.com/CaiquanLiu/MyTuringService">github.com/CaiquanLiu/MyTuringService</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1675,7 +1685,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">69</span>
+                <span class="site-state-item-count">70</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
