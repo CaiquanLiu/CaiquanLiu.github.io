@@ -268,6 +268,160 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/08/《机器学习》笔记-聚类（9）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liu Caiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="才权的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/02/08/《机器学习》笔记-聚类（9）/" itemprop="url">
+                  《机器学习》笔记-聚类（9）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T09:00:32+08:00">
+                2018-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://zhuanlan.zhihu.com/p/33682166" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/33682166</a></p>
+<h1 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h1><p>如今机器学习和深度学习如此火热，相信很多像我一样的普通程序猿或者还在大学校园中的同学，一定也想参与其中。不管是出于好奇，还是自身充电，跟上潮流，我觉得都值得试一试。对于自己，经历了一段时间的系统学习（参考<a href="https://zhuanlan.zhihu.com/p/30980999" target="_blank" rel="external">《机器学习/深度学习入门资料汇总》</a>），现在计划重新阅读《机器学习》[周志华]和《深度学习》[Goodfellow et al]这两本书，并在阅读的过程中进行记录和总结。这两本是机器学习和深度学习的入门经典。笔记中除了会对书中核心及重点内容进行记录，同时，也会增加自己的理解，包括过程中的疑问，并尽量的和实际的工程应用和现实场景进行结合，使得知识不只是停留在理论层面，而是能够更好的指导实践。记录笔记，一方面，是对自己先前学习过程的总结和补充。 另一方面，相信这个系列学习过程的记录，也能为像我一样入门机器学习和深度学习同学作为学习参考。</p>
+<h1 id="章节目录"><a href="#章节目录" class="headerlink" title="章节目录"></a>章节目录</h1><ul>
+<li>聚类任务</li>
+<li>性能度量</li>
+<li>距离计算</li>
+<li>原型聚类</li>
+<li>密度聚类</li>
+<li>层次聚类</li>
+</ul>
+<h2 id="（一）聚类任务"><a href="#（一）聚类任务" class="headerlink" title="（一）聚类任务"></a>（一）聚类任务</h2><p>在无监督学习中（unsupervised learning）中，训练样本的标记信息是未知的，目标是通过对无标记的训练样本的学习来揭示数据的内在性质及规律，为进一步的数据分析提供基础。此类学习任务中研究最多、应用最广的是“聚类”（clustering）。<br>聚类试图将数据集中的样本划分为若干通常是不相交的子集，每个子集称为一个“簇”（cluster）。<br>聚类既能作为一个单独的过程，用于找寻数据内的分布结构，也可作为分类等其他学习任务的前驱过程。</p>
+<h2 id="（二）性能度量"><a href="#（二）性能度量" class="headerlink" title="（二）性能度量"></a>（二）性能度量</h2><p>聚类性能度量亦称聚类“有效性指标”（validity index）。与监督学习中的性能度量作用相似。对聚类结果，我们需通过某种性能度量来评估其好坏；另一方面，若明确了最终将要使用的性能度量，则可直接将其作为聚类过程的优化目标，从而更好地得到符合要求的聚类结果。<br>聚类是将样本集D划分为若干不相交的子集，即样本簇。直观上看，我们希望“物以类聚”，即同一簇的样本尽可能彼此相似，不同簇的样本尽可能不同。换言之，聚类结果的“簇内相似度”（intra-cluster similarity）高且“簇间相似度”（inter-cluster similarity）低。<br>聚类性能度量大致有两类：</p>
+<ul>
+<li>“外部指标”（external index）<br>将聚类结果与某个“参考模型”（reference model）进行比较；</li>
+<li>“内部指标”（internal index）<br>直接考察聚类结果而不利用任何参考模型；</li>
+</ul>
+<p>常用的聚类性能度量外部指标有：</p>
+<ul>
+<li>Jaccard系数（Jaccard Coefficient，简称 JC）</li>
+<li>FM指数（Fowlkes and Mallows Index，简称FMI）</li>
+<li>Rand指数（Rand Index，简称RI）</li>
+</ul>
+<p>常用的聚类性能度量内部指标有：</p>
+<ul>
+<li>DB指数（Davies-Bouldin Index，简称DBI）</li>
+<li>Dunn指数（Dunn Index，简称DI）</li>
+</ul>
+<h2 id="（三）距离计算"><a href="#（三）距离计算" class="headerlink" title="（三）距离计算"></a>（三）距离计算</h2><p>给定样本xi=（xi1，xi2；…；xin），与xj=（xj1；xj2；…；xjn），最常用的是”闵可夫斯基距离“（Minkowski distance），<br><img src="http://upload-images.jianshu.io/upload_images/4905018-d08a5c6b691af278.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="9.18"><br>p=2时，闵可夫斯基距离即欧氏距离（Euclidean distance），<br><img src="http://upload-images.jianshu.io/upload_images/4905018-19f97beea58a9344.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="9.19"><br>p=1时，闵可夫斯基距离即曼哈顿距离（Manhattan distance），<br><img src="http://upload-images.jianshu.io/upload_images/4905018-5834c54b0862cbe8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="9.20"><br>上面的距离计算式都是事先定义好的，但在不少现实任务中，有必要基于数据样本来确定合适的距离计算式，这可通过”距离度量学习“（distance metric learning）来实现。</p>
+<h2 id="（四）原型聚类"><a href="#（四）原型聚类" class="headerlink" title="（四）原型聚类"></a>（四）原型聚类</h2><p>原型聚类亦称”基于原型的聚类“（prototype-based clustering），此类算法假设聚类结构能通过一组原型刻画，在现实聚类任务中极为常用。通常情形下，算法先对原型进行初始化，然后对原型进行迭代更新求解。采用不同的原型表示、不同的求解方式，将产生不同的算法。</p>
+<h3 id="1-k均值算法"><a href="#1-k均值算法" class="headerlink" title="1. k均值算法"></a>1. k均值算法</h3><p>给定样本集D={x1，x2，…，xm}，”k均值“（k-means）算法针对聚类所得簇划分C={C1，C2，…，Ck}最小化平方误差，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-4c4a5758b7580f82.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="9.24"><br>其中，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-f7a306463c42cd08.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="公式"><br>x是簇Ci的均值向量。直观来看，上面式子在一定程度上刻画了簇内样本围绕簇均值向量的紧密程度，E值越小则簇内样本相似度越高。</p>
+<h3 id="2-学习向量量化"><a href="#2-学习向量量化" class="headerlink" title="2. 学习向量量化"></a>2. 学习向量量化</h3><p>与k均值算法类似，“学习向量量化”（Learning Vector Quantization，简称LVQ）也是试图找到一组原型向量来刻画聚类结构，但与一般的聚类算法不同的是，LVQ假设数据样本带有类别标记，学习过程用样本的这些监督信息来辅助聚类。</p>
+<h3 id="3-高斯混合聚类"><a href="#3-高斯混合聚类" class="headerlink" title="3. 高斯混合聚类"></a>3. 高斯混合聚类</h3><p>与k均值、LVQ用原型向量来刻画聚类结构不同，高斯混合（Mixture-of-Gaussian）聚类采用概率模型来表达聚类原型。</p>
+<h2 id="（五）密度聚类"><a href="#（五）密度聚类" class="headerlink" title="（五）密度聚类"></a>（五）密度聚类</h2><p>密度聚类亦称“基于密度的聚类”（density-based clustering），此类算法假设聚类结构能通过样本分布的紧密程度确定。通常情况下，密度聚类算法从样本密度的角度来考察样本之间的可连接性，并基于可连接样本不断扩展聚类簇以获得最终的聚类结果。<br>DBSCAN是一种著名的密度聚类算法。</p>
+<h2 id="（六）层次聚类"><a href="#（六）层次聚类" class="headerlink" title="（六）层次聚类"></a>（六）层次聚类</h2><p>层次聚类（hierarchical clustering）试图在不同层次对数据集进行划分，从而形成树形的聚类结构。数据集的划分可采用“自底向上”的聚合策略，也可采用“自顶向下”的分拆策略。<br>AGNES是一种采用自底向上聚合策略的层次聚类算法。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/06/《机器学习》笔记-集成学习（8）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1616,223 +1770,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/11/TensorFlow开发环境搭建（Ubuntu16-04-GPU-TensorFlow源码编译）/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liu Caiquan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="才权的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/01/11/TensorFlow开发环境搭建（Ubuntu16-04-GPU-TensorFlow源码编译）/" itemprop="url">
-                  TensorFlow开发环境搭建（Ubuntu16.04+GPU+TensorFlow源码编译）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-11T20:47:36+08:00">
-                2018-01-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>由于图片外链被禁止了，图片不能显示，完整文章看这里吧：<a href="https://zhuanlan.zhihu.com/p/33089119" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/33089119</a></p>
-<h1 id="1-安装选择"><a href="#1-安装选择" class="headerlink" title="1 安装选择"></a>1 安装选择</h1><h2 id="1-1-平台"><a href="#1-1-平台" class="headerlink" title="1.1 平台"></a>1.1 平台</h2><p>目前TensorFlow已支持Mac、Ubuntu和Windows三个主流平台（64位平台），<br><img src="http://upload-images.jianshu.io/upload_images/4905018-d562d05d81808e9b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="https://www.tensorflow.org/install/"></p>
-<h2 id="1-2-GPU-vs-CPU"><a href="#1-2-GPU-vs-CPU" class="headerlink" title="1.2 GPU vs CPU"></a>1.2 GPU vs CPU</h2><p>在安装时可以选择安装版本是否支持GPU，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-63dce636960a5e42.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="https://www.tensorflow.org/install/install_linux"></p>
-<h2 id="1-3-二进制安装-vs-源码安装"><a href="#1-3-二进制安装-vs-源码安装" class="headerlink" title="1.3 二进制安装 vs 源码安装"></a>1.3 二进制安装 vs 源码安装</h2><p>同时，安装时可以考虑采用二进制安装，还是源码安装，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-caff1336d1dd1238.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="https://www.tensorflow.org/install/"></p>
-<h2 id="1-4-二进制安装选择"><a href="#1-4-二进制安装选择" class="headerlink" title="1.4 二进制安装选择"></a>1.4 二进制安装选择</h2><p>二进制安装可以有多种选择，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-6d617b3d2e736011.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="https://www.tensorflow.org/install/install_linux"></p>
-<h2 id="1-5-实际使用选择"><a href="#1-5-实际使用选择" class="headerlink" title="1.5 实际使用选择"></a>1.5 实际使用选择</h2><p>手头上有两台电脑，</p>
-<ul>
-<li>MacBook Pro (Retina, 13-inch, Early 2015)<br>处理器：2.7 GHz Intel Core i5<br>内存：8GB 1867MHz DDR3<br>显卡：Intel Iris Graphics 6100 1536MB</li>
-<li>攀升兄弟组装台式机<br>处理器：英特尔 Core i7-6700 @3.40GHz 四核<br>主板：华硕 B150M-ET M2 SERIES<br>内存：8G（威刚DDR4 2801MHz）<br>硬盘：三星 MZ7TE256HMHP-00000（256GB/固态硬盘）<br>显卡：Nvidia GeForce GTX 950(2GB)</li>
-</ul>
-<p>其中，<br>MacBook Pro采用基于Anaconda的二进制安装方式（仅支持CPU）。Anaconda是一个集成平台，包含大多数机器学习的常用工具，</p>
-<ul>
-<li>NumPy：科学运算包</li>
-<li>SciPy：在NumPy的基础上构建，功能更加强大的科学计算包</li>
-<li>Matplotlib：类似Matlab的绘图工具包</li>
-<li>Scikit-learn：经典机器学习工具包</li>
-<li>Pandas：数据处理和分析工具包（可用于数据读写、清洗、填充和分析等场景）<br>采用Anaconda安装方案，一方面MacBook Pro的开发环境很容易搭建（几句命令即可完成），另一方面，基于Anaconda的环境，也可以方便验证简单的机器学习算法。</li>
-</ul>
-<p>对于台式机则采用了Ubuntu+GPU+TensorFlow源码编译的方式，进行TensorFlow环境搭建，下面我们着重介绍下这种安装方式。</p>
-<h1 id="2-Ubuntu16-04-TensorFlow-GPU-源码编译"><a href="#2-Ubuntu16-04-TensorFlow-GPU-源码编译" class="headerlink" title="2 Ubuntu16.04+TensorFlow(GPU)源码编译"></a>2 Ubuntu16.04+TensorFlow(GPU)源码编译</h1><h2 id="2-1-Ubuntu系统安装"><a href="#2-1-Ubuntu系统安装" class="headerlink" title="2.1 Ubuntu系统安装"></a>2.1 Ubuntu系统安装</h2><p>目前，大多数计算机，包括台式机已没有了光驱，同时，Ubuntu的系统安装盘也不易获得。针对这种情况，我们可以采用U盘来进行安装。具体步骤可以参考：<a href="http://www.linuxidc.com/Linux/2016-04/130520.htm" target="_blank" rel="external">《Ubuntu 16.04 U盘安装图文教程》</a></p>
-<h2 id="2-2-禁用UEFI安全启动"><a href="#2-2-禁用UEFI安全启动" class="headerlink" title="2.2 禁用UEFI安全启动"></a>2.2 禁用UEFI安全启动</h2><p>对于华硕 B150M-ET主板，UEFI默认是开启的。而UEFI开启会导致第三方驱动安装失败（如显卡驱动，这是源码编译安装GPU支持的TensorFlow，遇到的第一个坑）。具体步骤可以参考：<a href="https://www.cnblogs.com/zhaofenqiang/p/6071385.html?utm_source=itdadao&amp;utm_medium=referral" target="_blank" rel="external">《华硕主板禁用UEFI安全启动》</a></p>
-<h2 id="2-3-安装NVIDIA驱动"><a href="#2-3-安装NVIDIA驱动" class="headerlink" title="2.3 安装NVIDIA驱动"></a>2.3 安装NVIDIA驱动</h2><h3 id="2-3-1-安装方式"><a href="#2-3-1-安装方式" class="headerlink" title="2.3.1 安装方式"></a>2.3.1 安装方式</h3><p>英伟达的显卡驱动有三种方式：</p>
-<ul>
-<li>apt-get+系统设置安装</li>
-<li>安装CUDA时顺便安装</li>
-<li><p>官方下载最新驱动并安装<br>参考：<a href="http://blog.csdn.net/cosmoshua/article/details/76644029" target="_blank" rel="external">《Ubuntu 16.04安装NVIDIA驱动》</a></p>
-<h3 id="2-3-2-安装步骤"><a href="#2-3-2-安装步骤" class="headerlink" title="2.3.2 安装步骤"></a>2.3.2 安装步骤</h3><p>本文采用第一种方案：</p>
-<pre><code>sudo apt-get install nvidia-367
-</code></pre></li>
-</ul>
-<p>然后进入：System Settings-&gt;Software&amp;Updates-&gt;Additional Drivers-&gt;，选择NVIDIA Corporation[Using NVIDIA binary driver]</p>
-<h3 id="2-3-3-验证测试"><a href="#2-3-3-验证测试" class="headerlink" title="2.3.3 验证测试"></a>2.3.3 验证测试</h3><pre><code>nvidia-smi #若列出GPU的信息列表，表示驱动安装成功
-nvidia-settings #若弹出设置对话框，亦表示驱动安装成功
-</code></pre><h2 id="2-4-安装CUDA"><a href="#2-4-安装CUDA" class="headerlink" title="2.4 安装CUDA"></a>2.4 安装CUDA</h2><p>CUDA(Compute Unified Device Architecture)，是显卡厂商NVIDIA推出的运算平台。可以理解成基于GPU并行计算的应用层接口。<br><a href="https://developer.nvidia.com/cuda-80-download-archive" target="_blank" rel="external">CUDA8.0下载地址</a><br><img src="http://upload-images.jianshu.io/upload_images/4905018-d71f88879413fe85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="https://developer.nvidia.com/cuda-80-download-archive"><br>安装Cuda的时候，需要关闭X服务。</p>
-<pre><code>sudo service lightdm stop
-</code></pre><p>这时，系统会出现黑屏。此时，同时按住[CTRL + ALT + F1]三个键进入命令行模式（如果不能进入命令行模式，可以参考<a href="http://blog.csdn.net/u010733679/article/details/52022094" target="_blank" rel="external">《alt+ctrl+F1黑屏 ，解决方案》</a>），<br>然后输入[账号]，[密码]后登陆。<br>在CUDA的下载目录运行，</p>
-<pre><code>sudo sh cuda_xxx.run
-</code></pre><p>需要注意的是，在询问是否安装“NVIDIA Accelerated Graphics Driver”可以选择“是”，</p>
-<pre><code>Install NVIDIA Accelerated Graphics Driver for Linux-x86_64 361.62?
-(y)es/(n)o/(q)uit: y
-</code></pre><p>但在后续出现询问是否安装“X configuration”时，则需要选择“否”，否则之前安装的显卡驱动就白安装了。<br>CUDA安装结束后，则可以恢复到图形界面模式，</p>
-<pre><code>sudo service lightdm start
-</code></pre><p>到这里，CUDA的安装还不算结束，需要将CUDA相关的内容添加到系统环境变量中。安装过程中Summary提示，</p>
-<pre><code>Please make sure that
-– PATH includes /usr/local/cuda-8.0/bin
-– LD_LIBRARY_PATH includes /usr/local/cuda-8.0/lib64, or, add /usr/local/cuda-8.0/lib64 to /etc/ld.so.conf and run ldconfig as root
-</code></pre><p>CUDA相关的环境变量可以放在~/.bashrc中，</p>
-<pre><code>vi ~/.bash_profile
-</code></pre><p>在其中，增加如下两行，</p>
-<pre><code>export LD_LIBRARY_PATH=&quot;$LD_LIBRARY_PATH:/usr/local/cuda-  8.0/lib64:/usr/local/cuda-8.0/extras/CUPTI/lib64&quot;
-export CUDA_HOME=/usr/local/cuda-8.0
-</code></pre><h2 id="2-5-安装cuDNN"><a href="#2-5-安装cuDNN" class="headerlink" title="2.5 安装cuDNN"></a>2.5 安装cuDNN</h2><p>cuDNN（CUDA Deep Neural Network）相比标准的cuda，它在一些常用的神经网络操作上进行了性能的优化，比如卷积，pooling，归一化，以及激活层等等。<br>下载地址：<a href="https://developer.nvidia.com/rdp/cudnn-download" target="_blank" rel="external">https://developer.nvidia.com/rdp/cudnn-download</a><br><img src="http://upload-images.jianshu.io/upload_images/4905018-1c28d7c5a2928ca9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="https://developer.nvidia.com/rdp/cudnn-download"></p>
-<p>下载cuDNN后进行解压，并执行如下命令：</p>
-<pre><code>sudo cp cuda/include/cudnn.h /usr/local/cuda-8.0/include
-sudo cp -d cuda/lib64/libcudnn* /usr/local/cuda-8.0/lib64
-sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda-8.0/lib64/libcudnn*
-</code></pre><h2 id="2-6-gcc降低版本"><a href="#2-6-gcc降低版本" class="headerlink" title="2.6 gcc降低版本"></a>2.6 gcc降低版本</h2><p>网上说cuda8.0不支持5.0以上的编译器，因此需要降级，把编译器版本降到4.9，但我看了CUDA8.0的安装手册《NVIDIA CUDA INSTALLATION GUIDE FOR<br>LINUX》，并没有发现这一条，<br><img src="http://upload-images.jianshu.io/upload_images/4905018-aee83a196d31033d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="《NVIDIA CUDA INSTALLATION GUIDE FOR
-LINUX》"><br>在实际使用中，还是将GCC做了降级（PS，在安装时可以先不降级，看看是否会出问题），GCC降级方法如下，</p>
-<pre><code>sudo apt-get install g++-4.9
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 20
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 10
-sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 20
-sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 10
-sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
-sudo update-alternatives --set cc /usr/bin/gcc
-sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
-sudo update-alternatives --set c++ /usr/bin/g++
-</code></pre><h2 id="2-7-安装Bazel"><a href="#2-7-安装Bazel" class="headerlink" title="2.7 安装Bazel"></a>2.7 安装Bazel</h2><p>Bazel是一个构建工具，即一个可以运行编译和测试来组装软件的工具，跟Make、Ant、Gradle、Buck、Pants和Maven一样。TensorFlow的编译是基于Bazel完成的。<br>Bazel官方地址：<a href="https://docs.bazel.build/versions/master/install.html" target="_blank" rel="external">https://docs.bazel.build/versions/master/install.html</a><br><img src="http://upload-images.jianshu.io/upload_images/4905018-f5576ff594245afb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="https://docs.bazel.build/versions/master/install.html"></p>
-<h3 id="2-7-1-安装准备"><a href="#2-7-1-安装准备" class="headerlink" title="2.7.1 安装准备"></a>2.7.1 安装准备</h3><p><img src="http://upload-images.jianshu.io/upload_images/4905018-01725f875ea14762.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="https://docs.bazel.build/versions/master/install-ubuntu.html"></p>
-<h3 id="2-7-2-安装"><a href="#2-7-2-安装" class="headerlink" title="2.7.2 安装"></a>2.7.2 安装</h3><p>Bazel可以通过apt-get和下载安装两种方式完成，本文中，采用下载安装的方式实现，</p>
-<pre><code>chmod +x PATH_TO_INSTALL.SH 
-./PATH_TO_INSTALL.SH --user 
-</code></pre><h2 id="2-8-第三方库安装"><a href="#2-8-第三方库安装" class="headerlink" title="2.8 第三方库安装"></a>2.8 第三方库安装</h2><pre><code>sudo apt-get install python-numpy swig python-dev python-wheel
-sudo apt-get install libcupti-dev
-sudo apt-get install git
-</code></pre><h2 id="2-9-TensorFlow源码编译"><a href="#2-9-TensorFlow源码编译" class="headerlink" title="2.9 TensorFlow源码编译"></a>2.9 TensorFlow源码编译</h2><h3 id="2-9-1-下载"><a href="#2-9-1-下载" class="headerlink" title="2.9.1 下载"></a>2.9.1 下载</h3><pre><code>git clone https://github.com/tensorflow/tensorflow
-</code></pre><h3 id="2-9-2-编译配置"><a href="#2-9-2-编译配置" class="headerlink" title="2.9.2 编译配置"></a>2.9.2 编译配置</h3><pre><code>cd ~/tensorflow
-./configure
-</code></pre><h3 id="2-9-3-编译安装"><a href="#2-9-3-编译安装" class="headerlink" title="2.9.3 编译安装"></a>2.9.3 编译安装</h3><pre><code>bazel build -c opt //tensorflow/tools/pip_package:build_pip_package
-bazel build -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_package
-bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
-sudo pip install /tmp/tensorflow_pkg/tensorflow-0.10.0-cp2-none-any.whl
-</code></pre><p>至此，便完成了支持GPU的TensorFlow源码编译。</p>
-<h2 id="2-10-环境测试"><a href="#2-10-环境测试" class="headerlink" title="2.10 环境测试"></a>2.10 环境测试</h2><p>可以通过如下代码进行测试，</p>
-<pre><code># Python
-import tensorflow as tf
-hello = tf.constant(&apos;Hello, TensorFlow!&apos;)
-sess = tf.Session()
-print(sess.run(hello))
-</code></pre><p>正常测试输出，</p>
-<pre><code>Hello, TensorFlow!
-</code></pre><h1 id="3-资料参考"><a href="#3-资料参考" class="headerlink" title="3 资料参考"></a>3 资料参考</h1><p><a href="http://www.linuxidc.com/Linux/2016-04/130520.htm" target="_blank" rel="external">《Ubuntu 16.04 U盘安装图文教程》</a><br><a href="https://www.cnblogs.com/zhaofenqiang/p/6071385.html?utm_source=itdadao&amp;utm_medium=referral" target="_blank" rel="external">《华硕主板禁用UEFI安全启动》</a><br><a href="http://blog.csdn.net/cosmoshua/article/details/76644029" target="_blank" rel="external">《Ubuntu 16.04安装NVIDIA驱动》</a><br><a href="http://blog.csdn.net/u010733679/article/details/52022094" target="_blank" rel="external">《alt+ctrl+F1黑屏 ，解决方案》</a><br><a href="https://segmentfault.com/a/1190000008234390" target="_blank" rel="external">《Ubuntu16.04 下安装GPU版TensorFlow（包括Cuda和Cudnn）》</a><br><a href="http://blog.csdn.net/zhaoyu106/article/details/52793183" target="_blank" rel="external">《ubuntu16.04下安装TensorFlow(GPU加速)》</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1877,7 +1819,7 @@ print(sess.run(hello))
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-count">71</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
